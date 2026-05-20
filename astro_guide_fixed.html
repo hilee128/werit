@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>내 차트 보는 법</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0EJTVD3H80"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-0EJTVD3H80");
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ef;
+  --ink: #181714;
+  --ink2: #2e2b27;
+  --warm: #c8a96e;
+  --red: #c8372d;
+  --muted: #9a9590;
+  --border: rgba(24,23,20,0.1);
+  --card: #ffffff;
+  --light: #ede9e2;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  line-height: 1.9;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* COVER */
+.cover {
+  background: var(--ink);
+  min-height: 100vw;
+  padding: 44px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover::after {
+  content: '★';
+  position: absolute;
+  font-size: 320px;
+  color: rgba(255,255,255,0.025);
+  right: -60px;
+  bottom: -60px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.cover-top {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  font-weight: 500;
+}
+
+.cover-mid {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 32px 0;
+}
+
+.cover-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(40px, 11vw, 56px);
+  font-weight: 900;
+  line-height: 1.5;
+  color: #fff;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 1;
+}
+
+.cover-title .warm { color: var(--warm); }
+
+.cover-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.cover-sub {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+}
+
+/* SECTION */
+.section {
+  padding: 52px 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-tag {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-tag::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--muted);
+}
+
+.section-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.body {
+  font-size: 15px;
+  line-height: 2;
+  color: var(--ink2);
+  margin-bottom: 20px;
+}
+
+/* STEP */
+.step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 28px 0;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 0 14px;
+  align-items: start;
+}
+
+.step-num {
+  width: 36px;
+  height: 36px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: monospace;
+}
+
+.step-content {}
+
+.step-title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 4px;
+  color: var(--ink);
+}
+
+.step-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.step-body a {
+  color: var(--warm);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* PLANET CARD */
+.planet-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 28px 0;
+}
+
+.planet-row {
+  display: grid;
+  grid-template-columns: 36px 80px 1fr;
+  gap: 0 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: start;
+}
+
+.planet-row:last-child { border-bottom: none; }
+
+.planet-symbol {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 1px;
+}
+
+.planet-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.planet-name-sub {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.planet-desc {
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.75;
+}
+
+/* HOUSE GRID */
+.house-section {
+  background: var(--light);
+  padding: 24px;
+  margin: 28px 0;
+}
+
+.house-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.house-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.house-item {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 0 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  align-items: center;
+}
+
+.house-item:last-child { border-bottom: none; }
+
+.house-num {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--warm);
+  font-weight: 700;
+}
+
+.house-text { color: var(--ink2); line-height: 1.6; }
+
+/* ASPECT */
+.aspect-card {
+  border-left: 3px solid var(--border);
+  padding: 6px 0 6px 18px;
+  margin: 14px 0;
+}
+
+.aspect-card.good { border-left-color: #6ab58a; }
+.aspect-card.hard { border-left-color: var(--red); }
+.aspect-card.neutral { border-left-color: var(--warm); }
+
+.aspect-name {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: var(--ink);
+}
+
+.aspect-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* CALLOUT */
+.callout {
+  background: var(--ink);
+  color: #fff;
+  padding: 28px 24px;
+  margin: 32px 0;
+}
+
+.callout-text {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+.callout-text em { color: var(--warm); font-style: normal; }
+
+/* TIP BOX */
+.tip-box {
+  background: var(--light);
+  border-left: 3px solid var(--warm);
+  padding: 18px 20px;
+  margin: 24px 0;
+}
+
+.tip-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--warm);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.tip-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink2);
+}
+
+/* CLOSING */
+.closing {
+  background: var(--ink);
+  padding: 60px 32px;
+  text-align: center;
+}
+
+.closing-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.closing-body {
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.9;
+  margin-bottom: 32px;
+}
+
+.closing-tag {
+  font-size: 11px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.15em;
+}
+
+.werit-home-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 9999;
+  background: #fff;
+  border: 1.5px solid #e5e5e5;
+  border-radius: 99px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #111;
+  text-decoration: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.werit-home-btn:hover { border-color: #111; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+.werit-home-btn .dot { color: #fb923c; font-size: 14px; font-weight: 900; }
+</style>
+</head>
+<body>
+<a href="index.html" class="werit-home-btn"><span>←</span><span>werit<span class="dot">.</span></span></a>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-top">점성술 입문 가이드 · 2026</div>
+  <div class="cover-mid">
+    <h1 class="cover-title">내 차트<br><span class="warm">보는</span> 법</h1>
+  </div>
+  <div class="cover-bottom">
+    <span class="cover-sub">Astrology Basic Guide</span>
+    <span class="cover-sub">해리쉬</span>
+  </div>
+</div>
+
+<!-- STEP 1 -->
+<div class="section">
+  <div class="section-tag">시작하기 전에</div>
+  <h2 class="section-title">차트가 뭔지부터</h2>
+  <p class="body">출생 차트는 내가 태어난 순간 하늘의 행성들이 어디에 있었는지를 기록한 지도야<br>장소, 날짜, 시간이 1분만 달라져도 차트가 바뀜</p>
+  <p class="body">태양자리만 아는 건 차트의 10%도 안 봐<br>달, 금성, 상승점(ASC)을 같이 봐야 진짜 보이기 시작해</p>
+
+  <div class="callout">
+    <div class="callout-text">태양자리는 <em>내가 되고 싶은 것.</em><br>달자리는 <em>내가 이미 느끼는 것.</em></div>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="section">
+  <div class="section-tag">Step 01</div>
+  <h2 class="section-title">차트 뽑는 법</h2>
+
+  <div class="step-list">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">astro-seek 접속 → Birth Chart</div>
+        <div class="step-body"><a href="https://horoscopes.astro-seek.com/birth-chart-horoscope-online" target="_blank">astro-seek.com</a></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">생년월일 · 시간 · 태어난 곳 입력</div>
+        <div class="step-body">일 → 월 → 연도 순서로 입력. 시간도 넣고, 태어난 곳은 영어로 입력해. 양력 기준이야. 시간을 모르면 <strong>Unknown time</strong>에 체크하고 계산해도 돼. 그 다음 Calculate 클릭.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">차트 아래 'GPT data' 클릭 → 전부 복사</div>
+        <div class="step-body">차트 이미지 밑으로 내리면 <strong>GPT data</strong> 버튼이 있어. 클릭하면 텍스트가 펼쳐지는데, 전부 선택해서 복사해.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <div class="step-title">Claude 또는 ChatGPT에 붙여넣기</div>
+        <div class="step-body">복사한 데이터 붙여넣고, 아래 프롬프트랑 같이 보내면 돼.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">시간을 모를 때</div>
+    <div class="tip-text">Unknown time 체크하면 정오(12:00) 기준으로 계산돼. 달자리 정도는 확인 가능하지만 ASC(상승점)는 부정확할 수 있어.</div>
+  </div>
+</div>
+
+<!-- STEP 3 — 행성 -->
+<div class="section">
+  <div class="section-tag">Step 02</div>
+  <h2 class="section-title">행성이 뭘 말하는지</h2>
+  <p class="body">행성마다 담당하는 삶의 영역이 있어<br>사인은 "어떤 스타일로", 하우스는 "어떤 분야에서" 라고 보면 됨</p>
+
+  <div class="planet-grid">
+    <div class="planet-row">
+      <div class="planet-symbol">☉</div>
+      <div>
+        <div class="planet-name">태양</div>
+        <div class="planet-name-sub">Sun</div>
+      </div>
+      <div class="planet-desc">내가 되고 싶은 것. 의식적인 자아. 인생의 방향.</div>
+    </div>
+    <div class="planet-row">
+      <div class="planet-symbol">☽</div>
+      <div>
+        <div class="planet-name">달</div>
+        <div class="planet-name-sub">Moon</div>
+      </div>
+      <div class="planet-desc">감정, 본능, 편안함. 마음이 열리는 조건. 무의식적인 반응.</div>
+    </div>
+    <div class="planet-row">
+      <div class="planet-symbol">☿</div>
+      <div>
+        <div class="planet-name">수성</div>
+        <div class="planet-name-sub">Mercury</div>
+      </div>
+      <div class="planet-desc">생각하고 말하는 방식. 소통 스타일. 정보 처리 방법.</div>
+    </div>
+    <div class="planet-row">
+      <div class="planet-symbol">♀</div>
+      <div>
+        <div class="planet-name">금성</div>
+        <div class="planet-name-sub">Venus</div>
+      </div>
+      <div class="planet-desc">끌리는 것들. 매력 포인트. 연애와 미적 감각.</div>
+    </div>
+    <div class="planet-row">
+      <div class="planet-symbol">♂</div>
+      <div>
+        <div class="planet-name">화성</div>
+        <div class="planet-name-sub">Mars</div>
+      </div>
+      <div class="planet-desc">욕구, 행동, 에너지. 무언가를 추진하는 힘.</div>
+    </div>
+    <div class="planet-row">
+      <div class="planet-symbol">♃</div>
+      <div>
+        <div class="planet-name">목성</div>
+        <div class="planet-name-sub">Jupiter</div>
+      </div>
+      <div class="planet-desc">확장, 성장, 행운. 어디서 커지는지.</div>
+    </div>
+    <div class="planet-row">
+      <div class="planet-symbol">♄</div>
+      <div>
+        <div class="planet-name">토성</div>
+        <div class="planet-name-sub">Saturn</div>
+      </div>
+      <div class="planet-desc">제한, 책임, 숙제. 극복하면 가장 강해지는 영역.</div>
+    </div>
+    <div class="planet-row">
+      <div class="planet-symbol">ASC</div>
+      <div>
+        <div class="planet-name">상승점</div>
+        <div class="planet-name-sub">Ascendant</div>
+      </div>
+      <div class="planet-desc">세상이 나를 처음 보는 인상. 겉으로 보이는 나.</div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 4 — 하우스 -->
+<div class="section">
+  <div class="section-tag">Step 03</div>
+  <h2 class="section-title">하우스가 뭘 말하는지</h2>
+  <p class="body">차트는 12개 구역으로 나뉘어<br>행성이 어느 하우스에 있느냐 = 그 에너지가 삶의 어떤 분야에서 터지는지</p>
+
+  <div class="house-section">
+    <div class="house-label">12 하우스 요약</div>
+    <div class="house-list">
+      <div class="house-item"><span class="house-num">1H</span><span class="house-text">나 자신, 외모, 첫인상</span></div>
+      <div class="house-item"><span class="house-num">2H</span><span class="house-text">돈, 소유, 가치관</span></div>
+      <div class="house-item"><span class="house-num">3H</span><span class="house-text">소통, 이동, 형제</span></div>
+      <div class="house-item"><span class="house-num">4H</span><span class="house-text">가정, 뿌리, 내면 기반</span></div>
+      <div class="house-item"><span class="house-num">5H</span><span class="house-text">창의, 연애, 즐거움</span></div>
+      <div class="house-item"><span class="house-num">6H</span><span class="house-text">일상, 건강, 루틴</span></div>
+      <div class="house-item"><span class="house-num">7H</span><span class="house-text">관계, 파트너십, 계약</span></div>
+      <div class="house-item"><span class="house-num">8H</span><span class="house-text">변화, 깊은 연결, 타인의 자원</span></div>
+      <div class="house-item"><span class="house-num">9H</span><span class="house-text">해외, 철학, 확장</span></div>
+      <div class="house-item"><span class="house-num">10H</span><span class="house-text">커리어, 명성, 사회적 위치</span></div>
+      <div class="house-item"><span class="house-num">11H</span><span class="house-text">커뮤니티, 목표, 친구</span></div>
+      <div class="house-item"><span class="house-num">12H</span><span class="house-text">무의식, 숨겨진 것, 영성</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- STEP 5 — 애스펙트 -->
+<div class="section">
+  <div class="section-tag">Step 04</div>
+  <h2 class="section-title">애스펙트가 뭘 말하는지</h2>
+  <p class="body">행성들이 서로 어떤 각도에 있느냐<br>협력하는 관계인지, 충돌하는 관계인지</p>
+
+  <div class="aspect-card good">
+    <div class="aspect-name">트라인 △ (120도)</div>
+    <div class="aspect-desc">자연스럽게 흘러. 노력 없이도 되는 것들. 재능에 가까움.</div>
+  </div>
+  <div class="aspect-card good">
+    <div class="aspect-name">섹스타일 ✶ (60도)</div>
+    <div class="aspect-desc">기회. 조금만 노력하면 연결되는 것들.</div>
+  </div>
+  <div class="aspect-card hard">
+    <div class="aspect-name">스퀘어 □ (90도)</div>
+    <div class="aspect-desc">긴장, 충돌. 힘들지만 극복하면 가장 강해지는 부분. 숙제.</div>
+  </div>
+  <div class="aspect-card hard">
+    <div class="aspect-name">오포지션 ☍ (180도)</div>
+    <div class="aspect-desc">두 에너지가 반대 방향에서 당김. 균형 잡는 게 숙제.</div>
+  </div>
+  <div class="aspect-card neutral">
+    <div class="aspect-name">컨정션 ☌ (0도)</div>
+    <div class="aspect-desc">두 행성이 합쳐짐. 엄청 강해지거나 충돌하거나 둘 중 하나.</div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">오브 (Orb) 숫자</div>
+    <div class="tip-text">각도 옆에 Orb 숫자가 있어. 숫자가 작을수록 영향이 강함. 3도 이하면 진짜 타이트하게 작동하는 거야.</div>
+  </div>
+</div>
+
+<!-- 분석 요청법 -->
+<div class="section">
+  <div class="section-tag">Step 05</div>
+  <h2 class="section-title">Claude · ChatGPT한테<br>분석 요청하는 법</h2>
+  <p class="body">GPT data 복사한 거 붙여넣고, 아래 프롬프트 3개를 같이 보내면 돼<br>사인이랑 하우스는 본인 차트 기준으로 바꿔서 써</p>
+
+  <div class="callout">
+    <div class="callout-text" style="font-size:14px; font-family:'Noto Sans KR', sans-serif; font-weight:300; line-height:2.1;">
+      Q1. 달의 사인 + 하우스 + 루러 상태 + 애스펙트를 교차해서 분석해줘. 이 사람이 감정적으로 마음을 여는 실제 조건이 뭔지 — 어떤 환경에서, 어떤 사람 앞에서, 어떤 상황일 때 열리는지 구체적으로<br><br>
+      Q2. 금성의 사인 + 하우스 + 애스펙트를 교차 분석해줘. 이 사람이 무의식적으로 매력을 느끼는 것들 — 겉으로 말하는 이상형이 아니라 실제로 끌리는 타입과 상황. 로맨틱 필터 없이<br><br>
+      Q3. 달과 금성이 이 차트에서 서로 어떻게 작용하는지 봐줘. 감정(달)과 욕망(금성) 사이에 충돌하는지, 아니면 서로 강화하는지<br><br>
+      말투는 친한 친구한테 설명하듯이
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">더 정확하게 받고 싶다면</div>
+    <div class="tip-text">Q1, Q2에서 괄호 안을 본인 차트 정보로 채워서 보내봐. 예) 달의 사인(전갈자리) + 하우스(1하우스) 이런 식으로. 맥락이 구체적일수록 답이 날카로워져.</div>
+  </div>
+</div>
+
+<!-- CLOSING -->
+<div class="closing">
+  <h2 class="closing-title">차트는 정답이 아니라<br>질문이야</h2>
+  <p class="closing-body">
+    "나는 왜 이럴까"를 이해하는 도구.<br>
+    맞다 틀리다가 아니라<br>
+    "아 그래서 그랬구나"가 나오면 된 거야.
+  </p>
+  <div class="closing-tag">해리쉬 · 2026</div>
+</div>
+
+</body>
+</html>

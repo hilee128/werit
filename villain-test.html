@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나는 얼마나 직장 빌런인가?</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-228XRZQG8J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-228XRZQG8J');
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden}
+  body{background:#fff;font-family:'Noto Sans KR',sans-serif;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+  #app-wrapper{width:100%;max-width:460px;height:100vh;overflow-y:auto;overflow-x:hidden;padding:40px 20px;box-sizing:border-box;display:flex;flex-direction:column;align-items:stretch}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-10px)}}
+  @keyframes popIn{0%{transform:scale(0.95);opacity:0}100%{transform:scale(1);opacity:1}}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .screen{width:100%;animation:fadeUp 0.5s ease}
+  .screen.out{animation:fadeOut 0.3s ease forwards}
+  .label{font-size:11px;letter-spacing:4px;color:#888;text-transform:uppercase;margin-bottom:10px;font-weight:700}
+  .sub{font-size:14px;color:#888;line-height:1.8;margin:0 0 20px}
+  .card{background:#f9f9f9;border:1px solid #efefef;border-radius:14px;padding:14px 18px;margin-bottom:24px}
+  .card-row{font-size:13px;color:#555;padding:3px 0;display:flex;gap:10px}
+  .card-row span{color:#ccc}
+  input[type=text]{width:100%;background:#f9f9f9;border:1.5px solid #e5e5e5;border-radius:12px;padding:13px 16px;color:#111;font-size:14px;font-family:'Noto Sans KR',sans-serif;transition:border 0.2s;outline:none}
+  input[type=text]:focus{border-color:#111}
+  input[type=text]::placeholder{color:#bbb}
+  .btn-primary{background:#111;color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:900;cursor:pointer;width:100%;letter-spacing:1px;font-family:'Noto Sans KR',sans-serif;transition:all 0.18s ease}
+  .btn-primary:hover{opacity:0.85;transform:translateY(-1px)}
+  .btn-primary.disabled{background:#e5e5e5;color:#aaa;cursor:default}
+  .btn-primary.disabled:hover{opacity:1;transform:none}
+  .btn-secondary{background:#f9f9f9;border:1px solid #e5e5e5;border-radius:12px;padding:14px;color:#888;font-size:14px;font-weight:700;cursor:pointer;width:100%;font-family:'Noto Sans KR',sans-serif;transition:all 0.18s ease}
+  .btn-secondary:hover{background:#f0f0f0}
+  /* progress */
+  .progress-wrap{margin-bottom:20px}
+  .progress-top{display:flex;justify-content:space-between;font-size:11px;color:#aaa;margin-bottom:8px;font-weight:700;letter-spacing:1px}
+  .progress-top .left{color:#888}
+  .progress-bar{height:3px;background:#e5e5e5;border-radius:99px}
+  .progress-fill{height:100%;border-radius:99px;background:#111;transition:width 0.5s ease}
+  /* question */
+  .q-card{background:#f9f9f9;border:1px solid #efefef;border-radius:16px;padding:20px;margin-bottom:8px}
+  .q-text{font-size:16px;color:#111;line-height:1.75;font-weight:500}
+  .q-sub{font-size:12px;color:#bbb;margin-top:8px;line-height:1.6;font-style:italic}
+  /* options */
+  .opt-list{display:flex;flex-direction:column;gap:10px;margin:16px 0 18px}
+  .opt-btn{background:#fff;border:1.5px solid #ddd;border-radius:14px;padding:16px 18px;color:#111;font-size:14px;cursor:pointer;text-align:left;line-height:1.65;font-family:'Noto Sans KR',sans-serif;display:flex;align-items:center;gap:14px;transition:all 0.18s ease;width:100%}
+  .opt-btn:hover:not(:disabled){border-color:#111;background:#f4f4f4;transform:translateY(-1px)}
+  .opt-btn.yes{background:#111;border-color:#111;color:#fff}
+  .opt-btn.no{opacity:0.4}
+  .opt-btn .badge{min-width:26px;height:26px;border-radius:50%;flex-shrink:0;background:#e5e5e5;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#888}
+  .opt-btn.yes .badge{background:rgba(255,255,255,0.2);color:#fff}
+  .next-wrap{animation:popIn 0.22s ease}
+  /* score bar at top of quiz */
+  .score-chip{display:inline-flex;align-items:center;gap:6px;background:#f9f9f9;border:1px solid #e5e5e5;border-radius:99px;padding:5px 12px;font-size:12px;font-weight:700;color:#888;margin-bottom:16px}
+  .score-chip .dot{width:8px;height:8px;border-radius:50%;background:#111}
+  /* result */
+  .result-card{background:#fff;border:1px solid #e5e5e5;border-radius:20px;padding:32px 24px;margin-bottom:12px;text-align:center}
+  .result-emoji{font-size:56px;margin-bottom:12px}
+  .result-who{font-size:13px;color:#888;margin-bottom:6px}
+  .result-who strong{color:#111;font-weight:900}
+  .result-score-wrap{margin-bottom:16px}
+  .result-score-num{font-size:52px;font-weight:900;color:#111;line-height:1;margin-bottom:4px}
+  .result-score-label{font-size:12px;color:#aaa;letter-spacing:2px}
+  .result-grade{display:inline-block;border-radius:99px;padding:7px 20px;font-size:14px;font-weight:900;margin-bottom:16px}
+  .result-title{font-size:20px;font-weight:900;color:#111;margin-bottom:14px}
+  .result-desc{font-size:13px;color:#666;line-height:1.85;background:#f9f9f9;border-radius:12px;padding:16px;text-align:left;margin-bottom:20px}
+  /* score bar visual */
+  .score-bar-wrap{margin-bottom:20px;text-align:left}
+  .score-bar-label{font-size:11px;color:#aaa;font-weight:700;letter-spacing:1px;margin-bottom:8px}
+  .score-bar-track{height:8px;background:#f0f0f0;border-radius:99px;overflow:hidden}
+  .score-bar-fill{height:100%;border-radius:99px;background:#111;transition:width 1s ease}
+  /* villain items */
+  .villain-list{text-align:left;margin-bottom:20px}
+  .villain-item{font-size:13px;color:#555;padding:8px 0;border-bottom:1px solid #f0f0f0;display:flex;gap:10px;align-items:flex-start;line-height:1.6}
+  .villain-item:last-child{border-bottom:none}
+  .villain-item .check{color:#111;font-size:14px;flex-shrink:0;margin-top:1px}
+  .villain-item .empty{color:#ddd;font-size:14px;flex-shrink:0;margin-top:1px}
+</style>
+</head>
+<body>
+<div id="app-wrapper"><div id="app"></div></div>
+<script>
+const questions = [
+  {
+    q: "새벽 2시에 업무 카톡을 보낸 적 있다",
+    sub: "\"급하니까 어쩔 수 없잖아요\""
+  },
+  {
+    q: "퇴근 20분 전에 \"이거 오늘까지 가능해요?\" 라고 물어본 적 있다",
+    sub: null
+  },
+  {
+    q: "회의 중에 노트북으로 딴짓 or 폰 보다 들킨 적 있다",
+    sub: "\"그래도 듣고 있었거든요\""
+  },
+  {
+    q: "내가 잘못한 일인데 다른 사람 탓으로 돌린 적 있다",
+    sub: "\"아래 분이 빨리 안 줘서...\" / \"공유가 늦게 와서...\""
+  },
+  {
+    q: "팀장·동료 험담을 하다가 단톡에 잘못 보낼 뻔 했거나 실제로 보낸 적 있다",
+    sub: null
+  },
+  {
+    q: "보고도 안 했는데 윗사람한테 먼저 들켜서 뒤늦게 보고한 척한 적 있다",
+    sub: null
+  },
+  {
+    q: "\"그건 제 업무가 아닌 것 같은데요\" 라고 말하거나, 속으론 그렇게 생각하면서 모른 척한 적 있다",
+    sub: null
+  },
+  {
+    q: "회식 1차 끝나자마자 조용히 사라진 적 있다",
+    sub: null
+  },
+  {
+    q: "보고해야 할 이슈를 \"어떻게 되겠지\" 하고 묻어뒀다가 터진 적 있다",
+    sub: null
+  },
+  {
+    q: "사무실에서 개인 통화를 공개적으로 길게 한 적 있다",
+    sub: "주변에 다 들려요. 지금 엄마랑 저녁 메뉴 고르는 거 다 들려요."
+  },
+  {
+    q: "카톡 읽고 \"나중에 답해야지\" 하다가 3일 지난 적 있다",
+    sub: null
+  },
+  {
+    q: "회의에서 내내 침묵하다가 끝날 때쯤 \"저도 비슷하게 생각했어요\" 한 적 있다",
+    sub: "그건 의견이 아니라 반응이에요"
+  },
+  {
+    q: "칼퇴 후 카톡 왔는데 못 봤다고 한 적 있다 (실제로는 봤으면서)",
+    sub: null
+  },
+  {
+    q: "점심시간에 릴스·유튜브 보다가 자리 복귀가 1시 10분이 된 적 있다",
+    sub: null
+  },
+  {
+    q: "팀원 실수를 보고 속으로 \"다행이다, 내 일 아니네\" 한 적 있다",
+    sub: null
+  },
+];
+
+const grades = [
+  { min:0,  max:3,  emoji:"🌸", label:"직장 성인",   color:"#4ade80", bg:"rgba(74,222,128,0.1)",
+    title:"당신이 빌런이라고요?",
+    desc:"이 테스트를 하러 온 게 신기할 정도예요. 솔직히 조금은 찔렸는데 점수가 안 나와서 안도하는 중이시죠? 그 안도감 자체가 당신이 정상이라는 증거예요.",
+    tip:"개선할 게 없어요. 오히려 이 테스트 링크를 팀원들한테 공유해보세요. 당신 주변 빌런이 누군지 파악하는 데 도움이 될 거예요." },
+  { min:4,  max:6,  emoji:"😏", label:"잠재 빌런",   color:"#facc15", bg:"rgba(250,204,21,0.12)",
+    title:"본인만 모르는 게 몇 개 있어요",
+    desc:"딱히 나쁜 의도는 없었을 거예요. 근데 받는 사람 입장에서는 조금 달랐을 수도 있거든요. 아직 잠재 단계니까, 지금부터 인식하면 충분히 괜찮아요.",
+    tip:"딱 한 가지만 — 뭔가 보내거나 말하기 전에 '받는 사람 입장에서 이게 어떻게 느껴질까?' 한 번만 생각해보세요. 빌런과 아닌 사람의 차이는 사실 그 1초예요." },
+  { min:7,  max:9,  emoji:"😈", label:"중급 빌런",   color:"#fb923c", bg:"rgba(251,146,60,0.1)",
+    title:"팀 단톡에서 당신 얘기 나온 적 있음",
+    desc:"레전드까지는 아닌데... 분명히 한두 명은 기억하고 있어요. 당신이 보낸 새벽 카톡이라든지, 회의 때 폰 보던 것 같은 것들을요. 완전 빌런은 아니지만, 가끔 선을 넘었던 것 같기도 하죠?",
+    tip:"퇴근 전 딱 5분만 — 오늘 내가 누군가에게 불편함을 줬는지 떠올려보세요. 생각나는 게 있으면 내일 커피 한 잔 사거나 말 한마디 건네는 것만으로도 달라져요. 인식이 절반이에요." },
+  { min:10, max:12, emoji:"🦹", label:"상급 빌런",   color:"#f43f5e", bg:"rgba(244,63,94,0.1)",
+    title:"레전드 에피소드 최소 1개 보유 중",
+    desc:"당신 이름 앞에는 이미 형용사가 붙어있을 거예요. 나쁜 사람은 아닌데... 함께 일하는 사람들 입장에서는 가끔 꽤 힘들었을 것 같아요. 그래도 이걸 테스트한다는 건 인식은 하고 있다는 거니까요.",
+    tip:"일단 팀원한테 커피 한 잔 사세요. 이유 설명 안 해도 돼요, 그냥 사세요. 그리고 업무 카톡은 다음 날 아침으로 예약 발송하는 습관을 들여보세요. 작은 것부터예요." },
+  { min:13, max:15, emoji:"👹", label:"빌런의 신",   color:"#7c3aed", bg:"rgba(124,58,237,0.1)",
+    title:"이 테스트를 만든 사람이 당신을 생각하며 만들었어요",
+    desc:"어떻게 15문항이 이렇게 다 해당될 수가 있죠? 솔직히 좀 존경스럽기까지 해요. 빌런도 이 정도면 재능이에요. 부디 주변 사람들이 건강하길 바랍니다.",
+    tip:"이미 늦었을 수도 있지만... 그래도 내일 출근하면 먼저 인사해보세요. 진짜로요. 그리고 이 테스트 결과를 팀원들한테 직접 보여줄 용기가 있다면, 그게 개선의 시작이에요." },
+];
+
+// ── state ──
+let phase = "intro";
+let nickname = "";
+let current = 0;
+let score = 0;
+let answers = []; // true = 있다, false = 없다
+let transitioning = false;
+let countedThisSession = false;
+
+// ── Supabase ──
+const SUPABASE_URL = "https://dleoheiqaardmpyoklmt.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRsZW9oZWlxYWFyZG1weW9rbG10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MzUzNzMsImV4cCI6MjA5NDIxMTM3M30.yVmdhisxmC1KB3Ku1ZapF_CtTqEacqw8BWt32n30-Lc";
+const TEST_NAME = "villain-test";
+async function incrementCount() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/test_counts?test_name=eq.${TEST_NAME}&select=count`, {
+      headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
+    });
+    const data = await res.json();
+    if (data && data.length > 0) {
+      await fetch(`${SUPABASE_URL}/rest/v1/test_counts?test_name=eq.${TEST_NAME}`, {
+        method: "PATCH",
+        headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}`, "Content-Type": "application/json", "Prefer": "return=minimal" },
+        body: JSON.stringify({ count: (data[0].count || 0) + 1 })
+      });
+    } else {
+      await fetch(`${SUPABASE_URL}/rest/v1/test_counts`, {
+        method: "POST",
+        headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}`, "Content-Type": "application/json", "Prefer": "return=minimal" },
+        body: JSON.stringify({ test_name: TEST_NAME, count: 1 })
+      });
+    }
+  } catch(e) { console.warn("Supabase error:", e); }
+}
+
+function getGrade() {
+  return grades.find(g => score >= g.min && score <= g.max);
+}
+
+function render() {
+  const app = document.getElementById("app");
+  if (phase === "intro") renderIntro(app);
+  else if (phase === "quiz") renderQuiz(app);
+  else if (phase === "result") renderResult(app);
+}
+
+function renderIntro(app) {
+  app.innerHTML = `
+  <div class="screen">
+    <div style="text-align:center;margin-bottom:8px">
+      <div style="font-size:52px;margin-bottom:16px">🦹</div>
+      <div class="label">VILLAIN TEST</div>
+      <h1 style="font-size:24px;font-weight:900;color:#111;line-height:1.35;margin:0 0 12px">나는 얼마나<br>직장 빌런인가?</h1>
+      <p class="sub">15가지 상황으로 알아보는<br>나의 직장 빌런 지수</p>
+      <div class="card">
+        <div class="card-row"><span>—</span> 총 15문항 · 있다 / 없다</div>
+        <div class="card-row"><span>—</span> 걸린 시간 1분이면 충분</div>
+        <div class="card-row"><span>—</span> 솔직하게 해야 의미 있어요 (아마도)</div>
+      </div>
+      <div style="margin-bottom:14px;text-align:left">
+        <label style="font-size:11px;color:#888;letter-spacing:2px;text-transform:uppercase;font-weight:700;display:block;margin-bottom:8px">닉네임</label>
+        <input type="text" id="nickname-input" placeholder="닉네임을 입력해줘 (최대 10자)" maxlength="10" value="${nickname}">
+      </div>
+      <button class="btn-primary ${nickname.trim() ? '' : 'disabled'}" id="start-btn">시작하기 →</button>
+    </div>
+  </div>`;
+
+  const input = document.getElementById("nickname-input");
+  const btn = document.getElementById("start-btn");
+  input.addEventListener("input", () => {
+    nickname = input.value;
+    btn.className = "btn-primary" + (nickname.trim() ? "" : " disabled");
+  });
+  input.addEventListener("keydown", e => { if (e.key === "Enter" && nickname.trim()) { phase = "quiz"; render(); } });
+  btn.addEventListener("click", () => { if (nickname.trim()) { phase = "quiz"; render(); } });
+}
+
+function renderQuiz(app) {
+  const q = questions[current];
+  const progress = (current / questions.length) * 100;
+  const selected = answers[current];
+
+  app.innerHTML = `
+  <div class="screen ${transitioning ? 'out' : ''}">
+    <div class="score-chip">
+      <span class="dot"></span>
+      <span>현재 ${score}점 / ${current}문항 완료</span>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="left">Q ${current + 1} / ${questions.length}</span>
+        <span>${Math.round(progress)}%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
+    </div>
+    <div class="q-card">
+      <div class="q-text">${q.q}</div>
+      ${q.sub ? `<div class="q-sub">${q.sub}</div>` : ''}
+    </div>
+    <div class="opt-list">
+      <button class="opt-btn ${selected === true ? 'yes' : selected === false ? 'no' : ''}" id="btn-yes" ${selected !== undefined ? 'disabled' : ''}>
+        <span class="badge">✓</span>
+        <span>있다</span>
+      </button>
+      <button class="opt-btn ${selected === false ? 'yes' : selected === true ? 'no' : ''}" id="btn-no" ${selected !== undefined ? 'disabled' : ''}>
+        <span class="badge">✗</span>
+        <span>없다</span>
+      </button>
+    </div>
+    ${selected !== undefined ? `
+    <div class="next-wrap">
+      <button class="btn-primary" id="next-btn">
+        ${current + 1 >= questions.length ? "결과 보기 →" : "다음 →"}
+      </button>
+    </div>` : ''}
+  </div>`;
+
+  document.getElementById("btn-yes").addEventListener("click", () => pick(true));
+  document.getElementById("btn-no").addEventListener("click", () => pick(false));
+  const nxt = document.getElementById("next-btn");
+  if (nxt) nxt.addEventListener("click", next);
+}
+
+function pick(val) {
+  if (transitioning || answers[current] !== undefined) return;
+  answers[current] = val;
+  if (val) score++;
+  render();
+}
+
+function next() {
+  if (transitioning) return;
+  transitioning = true;
+  setTimeout(() => {
+    if (current + 1 >= questions.length) {
+      phase = "result";
+    } else {
+      current++;
+    }
+    transitioning = false;
+    render();
+  }, 300);
+}
+
+function renderResult(app) {
+  if (!countedThisSession) { countedThisSession = true; incrementCount(); }
+  const g = getGrade();
+  const pct = Math.round((score / questions.length) * 100);
+  const villainItems = questions.map((q, i) => ({
+    text: q.q,
+    checked: answers[i] === true
+  })).filter(v => v.checked);
+
+  app.innerHTML = `
+  <div class="screen">
+    <div class="result-card">
+      <div class="result-emoji">${g.emoji}</div>
+      <div class="result-who"><strong>${nickname}</strong>의 직장 빌런 지수는</div>
+
+      <div class="result-score-wrap">
+        <div class="result-score-num">${score}<span style="font-size:22px;color:#bbb;font-weight:400"> / 15</span></div>
+        <div class="result-score-label">VILLAIN SCORE</div>
+      </div>
+
+      <div class="score-bar-wrap">
+        <div class="score-bar-label">빌런 지수</div>
+        <div class="score-bar-track">
+          <div class="score-bar-fill" id="score-fill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="result-grade" style="background:${g.bg};color:${g.color}">${g.label}</div>
+      <div class="result-title">${g.title}</div>
+      <div class="result-desc">${g.desc}</div>
+
+      <div style="background:#f9f9f9;border:1px solid #efefef;border-radius:14px;padding:16px;margin-top:16px;margin-bottom:4px;text-align:left">
+        <div style="font-size:11px;color:#aaa;font-weight:700;letter-spacing:1px;margin-bottom:8px">💡 이렇게 해보세요</div>
+        <div style="font-size:13px;color:#555;line-height:1.8">${g.tip}</div>
+      </div>
+
+      ${villainItems.length > 0 ? `
+      <div style="text-align:left;margin-bottom:20px">
+        <div style="font-size:11px;color:#aaa;font-weight:700;letter-spacing:1px;margin-bottom:10px">✓ 해당된 항목 (${villainItems.length}개)</div>
+        <div class="villain-list">
+          ${villainItems.map(v => `
+          <div class="villain-item">
+            <span class="check">✓</span>
+            <span>${v.text}</span>
+          </div>`).join('')}
+        </div>
+      </div>` : `
+      <div style="text-align:center;padding:16px 0 20px;color:#aaa;font-size:13px">해당된 항목이 없어요 👼</div>
+      `}
+
+      <button class="btn-secondary" id="restart-btn">다시 테스트하기 🔄</button>
+    </div>
+    <p style="text-align:center;font-size:11px;color:#ccc;margin-top:4px">친구한테도 해보라고 해봐 👀</p>
+  </div>`;
+
+  setTimeout(() => {
+    const fill = document.getElementById("score-fill");
+    if (fill) fill.style.width = pct + "%";
+  }, 100);
+
+  document.getElementById("restart-btn").addEventListener("click", () => {
+    phase = "intro"; nickname = ""; current = 0; score = 0; answers = [];
+    transitioning = false; countedThisSession = false;
+    render();
+  });
+}
+
+render();
+</script>
+
+  <!-- werit 홈 버튼 -->
+  <style>
+    .werit-home-btn{position:fixed;top:16px;left:16px;z-index:9999;background:#fff;border:1.5px solid #e5e5e5;border-radius:99px;padding:8px 16px;font-size:12px;font-weight:700;color:#111;text-decoration:none;font-family:'Noto Sans KR',sans-serif;box-shadow:0 2px 12px rgba(0,0,0,0.08);transition:all 0.2s ease;display:flex;align-items:center;gap:6px}
+    .werit-home-btn:hover{border-color:#111;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+    .werit-home-btn .dot{color:#fb923c;font-size:14px;font-weight:900}
+  </style>
+  <a href="index.html" class="werit-home-btn"><span>←</span><span>werit<span class="dot">.</span></span></a>
+
+</body>
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6BLYMZQJXV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6BLYMZQJXV');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>애착유형 검사 — werit</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0e0e0e;font-family:'Noto Sans KR',sans-serif;color:#f0f0f0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:60px 20px 40px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-12px)}}
+@keyframes popIn{0%{transform:scale(0.94);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes barGrow{from{width:0}to{width:var(--w)}}
+.screen{max-width:460px;width:100%;animation:fadeUp 0.5s ease}
+.screen.quiz{max-width:480px}
+.screen.out{animation:fadeOut 0.3s ease forwards}
+.label{font-size:11px;letter-spacing:4px;color:#555;text-transform:uppercase;margin-bottom:10px;font-weight:700}
+.card-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 18px;margin-bottom:24px}
+.card-row{font-size:13px;color:#999;padding:3px 0;display:flex;gap:10px}
+.card-row span{color:#444}
+/* 유형 미리보기 */
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
+.type-pill{border-radius:10px;padding:12px 14px;border:1px solid rgba(255,255,255,0.07)}
+.type-dot{width:7px;height:7px;border-radius:50%;margin-bottom:6px}
+.type-name{font-size:13px;font-weight:700;margin-bottom:2px}
+.type-sub{font-size:11px;color:#666}
+/* 버튼 */
+.btn-primary{background:#fff;color:#0e0e0e;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:900;cursor:pointer;width:100%;letter-spacing:1px;font-family:'Noto Sans KR',sans-serif;transition:all 0.2s ease}
+.btn-primary:hover{opacity:0.85;transform:translateY(-1px)}
+.btn-primary.disabled{background:rgba(255,255,255,0.1);color:#444;cursor:default}
+.btn-primary.disabled:hover{opacity:1;transform:none}
+.btn-restart{position:fixed;bottom:0;left:0;right:0;background:#fff;border:none;border-radius:0;padding:18px;color:#111;font-size:15px;font-weight:900;cursor:pointer;width:100%;font-family:'Noto Sans KR',sans-serif;transition:all 0.2s ease;z-index:999;box-shadow:0 -2px 12px rgba(0,0,0,0.3)}
+.btn-restart:hover{background:#f0f0f0}
+/* input */
+.input-label{font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;font-weight:700;display:block;margin-bottom:8px}
+input[type=text]{width:100%;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 16px;color:#fff;font-size:14px;font-family:'Noto Sans KR',sans-serif;transition:border 0.2s;outline:none}
+input[type=text]:focus{border-color:rgba(255,255,255,0.4)}
+input[type=text]::placeholder{color:#444}
+/* 진행바 */
+.progress-wrap{margin-bottom:20px}
+.progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.progress-bar{height:3px;background:rgba(255,255,255,0.07);border-radius:99px}
+.progress-fill{height:100%;border-radius:99px;transition:width 0.5s ease}
+/* 질문 */
+.q-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:20px;margin-bottom:16px;min-height:110px;display:flex;flex-direction:column;justify-content:center}
+.q-cat{font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:8px}
+.q-text{font-size:15px;color:#e8e8e8;line-height:1.75;font-weight:400}
+/* 척도 버튼 */
+.scale-wrap{margin-bottom:18px}
+.scale-row{display:flex;gap:8px;justify-content:space-between;margin-bottom:8px}
+.s-btn{flex:1;height:52px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:#888;font-size:15px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;min-width:0;transition:border-color 0.15s,color 0.15s,background 0.15s;transform:none!important;padding:0!important;margin:0!important}
+.s-btn:hover{border-color:rgba(255,255,255,0.35);background:rgba(255,255,255,0.08)}
+.s-btn.sel{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.5);color:#fff}
+.scale-foot{display:flex;justify-content:space-between;font-size:11px;color:#555;padding:0 2px}
+.warn{font-size:12px;color:#f87171;text-align:center;margin-bottom:10px;display:none;animation:popIn 0.2s ease}
+.next-wrap{animation:popIn 0.22s ease}
+/* 결과 */
+.result-wrap{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px 24px;margin-bottom:12px}
+.result-type{font-size:40px;font-weight:900;letter-spacing:2px;margin-bottom:6px}
+.result-sub-label{font-size:12px;color:#666;margin-bottom:20px}
+.result-desc{font-size:13px;color:#999;line-height:1.85;background:rgba(255,255,255,0.04);border-radius:12px;padding:14px 16px;margin-bottom:16px;text-align:left}
+.chart-wrap{margin-bottom:16px}
+.chart-title{font-size:11px;color:#555;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.bar-row{margin-bottom:10px}
+.bar-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
+.bar-track{height:6px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;width:0;transition:width 1s ease 0.3s}
+.analysis-block{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px;margin-bottom:12px;text-align:left}
+.analysis-title{font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:10px;color:#fff}
+.analysis-text{font-size:13px;color:#888;line-height:1.85}
+.compat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.compat-card{border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.07)}
+.compat-label{font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:6px}
+.compat-type{font-size:14px;font-weight:700;margin-bottom:4px}
+.compat-desc{font-size:11px;color:#666;line-height:1.5}
+/* 홈버튼 */
+.werit-home-btn{position:fixed;top:16px;left:16px;z-index:9999;background:#fff;border:1.5px solid #e5e5e5;border-radius:99px;padding:8px 16px;font-size:12px;font-weight:700;color:#111;text-decoration:none;font-family:'Noto Sans KR',sans-serif;box-shadow:0 2px 12px rgba(0,0,0,0.08);transition:all 0.2s ease;display:flex;align-items:center;gap:6px}
+.werit-home-btn:hover{border-color:#111;transform:translateY(-1px)}
+.werit-home-btn .dot{color:#fb923c;font-size:14px;font-weight:900}
+
+/* 결과 - 원본 스타일 */
+.result-wrap{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:32px 24px;margin-bottom:12px}
+.result-type-badge{display:inline-block;padding:6px 20px;border-radius:100px;font-size:11px;letter-spacing:2px;margin-bottom:14px;font-weight:700}
+.result-main-type{font-family:'Noto Sans KR',sans-serif;font-size:36px;font-weight:900;margin-bottom:4px}
+.result-sub-label{font-size:12px;color:#666;margin-bottom:16px;letter-spacing:1px}
+.result-desc{font-size:13px;color:#999;line-height:1.85;background:rgba(255,255,255,0.04);border-radius:12px;padding:14px 16px;margin-bottom:20px;text-align:left}
+.four-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.four-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px;text-align:center}
+.four-card.top{border-width:2px}
+.four-card .fc-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:700;color:#fff}
+.four-card .fc-val{font-family:'Noto Sans KR',sans-serif;font-size:32px;font-weight:900;line-height:1;margin-bottom:4px}
+.four-card .fc-name{font-size:11px;color:#aaa}
+.chart-wrap{margin-bottom:16px}
+.chart-title{font-size:11px;color:#fff;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.bar-row{margin-bottom:10px}
+.bar-top{display:flex;justify-content:space-between;margin-bottom:5px}
+.bar-track{height:6px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;width:0;transition:width 1s ease 0.3s}
+.analysis-block{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px;margin-bottom:12px;text-align:left}
+.analysis-title{font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:10px;color:#fff}
+.analysis-text{font-size:13px;color:#888;line-height:1.85}
+.compat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.compat-card{border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.07)}
+.compat-label{font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:6px}
+.compat-type{font-size:14px;font-weight:700;margin-bottom:4px;color:#fff}
+.compat-desc{font-size:11px;color:#666;line-height:1.5}
+
+</style>
+</head>
+<body>
+<a href="index.html" class="werit-home-btn"><span>←</span><span>werit<span class="dot">.</span></span></a>
+<div id="app"></div>
+<script>
+const COLORS={sec:"#10b981",anx:"#ec4899",avd:"#8b5cf6",fear:"#ef4444"};
+const LABELS={sec:"안정형",anx:"불안형",avd:"회피형",fear:"공포회피형"};
+const EMOJIS={sec:"🌿",anx:"🌊",avd:"🌑",fear:"🌀"};
+const SUBS={sec:"Secure",anx:"Anxious",avd:"Avoidant",fear:"Fearful-Avoidant"};
+
+const Q=[
+  {id:1,cat:"sec",text:"나는 연애에서 내 감정을 상대에게 비교적 편하게 표현할 수 있다."},
+  {id:2,cat:"sec",text:"상대방이 나에게 연락을 늦게 해도 크게 불안하지 않다. 각자 바쁠 수 있다고 생각한다."},
+  {id:3,cat:"sec",text:"관계에서 갈등이 생겼을 때 회피하거나 폭발하지 않고 대화로 해결하려고 한다."},
+  {id:4,cat:"sec",text:"혼자 있는 시간도 좋고 같이 있는 시간도 좋다. 둘 다 편하다."},
+  {id:5,cat:"sec",text:"상대방이 나를 떠날 수도 있다는 생각이 들어도 지나치게 불안해지지 않는다."},
+  {id:6,cat:"sec",text:"나는 내가 사랑받을 자격이 있다고 느낀다. 상대의 반응에 따라 자존감이 크게 흔들리지 않는다."},
+  {id:7,cat:"sec",text:"연인에게 의존하는 것도, 연인이 나에게 의존하는 것도 자연스럽게 느껴진다."},
+  {id:8,cat:"anx",text:"상대가 나에게 충분히 관심을 주지 않으면 불안하고 섭섭해진다."},
+  {id:9,cat:"anx",text:"연락이 평소보다 늦으면 \"혹시 나한테 관심이 식은 건 아닐까\" 하는 생각이 든다."},
+  {id:10,cat:"anx",text:"상대방이 다른 사람과 친하게 지내면 질투가 심하게 올라온다."},
+  {id:11,cat:"anx",text:"관계가 끝날까봐 두려워서 내가 원하지 않는 상황도 참고 넘어간 적이 있다."},
+  {id:12,cat:"anx",text:"상대가 조금만 차갑게 굴어도 \"내가 뭘 잘못했나\" 하고 자책하게 된다."},
+  {id:13,cat:"anx",text:"나는 상대에게 확인을 자주 받고 싶다. \"나 좋아해?\" 같은 말을 듣고 싶은 욕구가 있다."},
+  {id:14,cat:"anx",text:"이별 후에 상대방이 그리워서 먼저 연락하거나, 관계를 회복하려고 많은 노력을 한다."},
+  {id:15,cat:"avd",text:"관계가 너무 가까워지면 어느 순간 숨막히는 느낌이 들고 혼자만의 공간이 필요해진다."},
+  {id:16,cat:"avd",text:"상대방이 감정적으로 많이 의존하거나 요구가 많아지면 부담스럽고 도망치고 싶어진다."},
+  {id:17,cat:"avd",text:"내 감정이나 약한 모습을 연인에게 보여주는 것이 어렵다. 강해 보여야 할 것 같다."},
+  {id:18,cat:"avd",text:"연인보다 일이나 취미처럼 내 개인적인 공간이 더 중요하게 느껴질 때가 있다."},
+  {id:19,cat:"avd",text:"상대가 \"우리 더 자주 보자\"거나 \"더 많이 연락하자\"고 하면 부담스럽다."},
+  {id:20,cat:"avd",text:"연애를 시작하면 처음엔 좋은데 시간이 지나면 자유로워지고 싶다는 생각이 든다."},
+  {id:21,cat:"avd",text:"나는 혼자서 감정을 처리하는 게 더 편하다. 상대에게 털어놓는 것이 어색하다."},
+  {id:22,cat:"fear",text:"설레고 자극적인 사람에게 끌리지만, 막상 가까워지려 하면 이상하게 도망치고 싶어진다."},
+  {id:23,cat:"fear",text:"나는 진짜로 좋아하는 사람 앞에서 오히려 감정을 숨기거나 그 사람을 밀어내게 된다."},
+  {id:24,cat:"fear",text:"안전하고 안정적인 사람은 설레지 않고, 설레는 사람은 나를 불안하게 만드는 패턴이 반복된다."},
+  {id:25,cat:"fear",text:"상처받을 것 같은 예감이 들면 먼저 관계를 끊거나 거리를 두는 방식으로 자신을 보호한다."},
+  {id:26,cat:"fear",text:"친밀감을 원하면서도 막상 그게 이뤄지면 불편하고 도망치고 싶어지는 경험이 있다."},
+  {id:27,cat:"fear",text:"과거 연애에서 내가 먼저 관계를 망가뜨린 것 같다는 느낌이 든 적이 있다."},
+  {id:28,cat:"fear",text:"연애에서 무언가를 확신하기 어렵다. 이 사람이 맞는지, 내 감정이 진짜인지 자주 혼란스럽다."},
+];
+
+const DESC={
+  sec:{
+    main:"안정형은 전체 인구의 약 50~55%예요. 친밀감도 독립도 모두 편안한 구조예요. 관계에서 자기 자신을 잃지 않는 힘이 있어요.",
+    detail:"안정형은 어린 시절 충분히 안정적인 애착 경험에서 형성돼요. <b style='color:#fff'>'나는 사랑받을 자격이 있다, 타인은 믿을 수 있다'</b>는 두 가지 믿음이 모두 있는 상태예요. 갈등을 회피하거나 폭발하지 않고 대화로 해결하는 것이 자연스럽고, 상대가 연락을 늦게 해도 크게 흔들리지 않아요.",
+    pattern:"감정을 솔직하게 표현하는 것이 자연스러워요. 갈등이 생겨도 상대를 비난하거나 도망치지 않고 해결하려 해요. 상대에게 과도하게 의존하거나 상대를 밀어내지 않고 적절한 거리를 유지할 수 있어요.",
+    growth:"이미 안정적인 애착 구조를 가지고 있어요. 파트너에게도 이 안정성을 전달해주는 역할을 자연스럽게 할 수 있어요. 불안형이나 공포회피형 파트너를 만났을 때 지치지 않는 것이 과제예요.",
+    best:{type:"안정형 · 불안형",desc:"불안형 파트너가 안정형과 함께하면서 점점 안정감을 경험할 수 있어요."},
+    caution:{type:"회피형",desc:"회피형 파트너는 안정형의 친밀감 요청을 부담으로 느낄 수 있어요."},
+  },
+  anx:{
+    main:"불안형의 핵심은 '버려질까봐 두렵다'예요. 확인 욕구가 강하고 상대의 반응에 민감하게 반응해요.",
+    detail:"불안형은 <b style='color:#fff'>'내가 충분하지 않으면 버려질 것'</b>이라는 핵심 믿음에서 작동해요. 어린 시절 양육자가 일관되지 않은 반응을 보였을 때 형성되는 경향이 있어요. 상대의 반응 하나하나에 과도하게 의미를 부여하고, 확인을 통해 안도감을 얻으려 해요.",
+    pattern:"연락이 없으면 최악의 상상을 해요. 상대의 기분이나 반응 하나하나에 자신의 감정이 좌우돼요. 확인을 반복하다보면 상대가 지쳐서 오히려 멀어지고, 그게 다시 불안을 증폭시키는 악순환이 반복돼요.",
+    growth:"<b style='color:#fff'>확인 욕구가 올라올 때 그것을 인식하는 것</b>이 첫 번째 단계예요. 상대의 반응이 내 가치를 결정하지 않는다는 것을 반복적으로 인식하는 연습이 필요해요. 혼자 있는 시간을 불안이 아닌 회복으로 경험하는 것도 도움이 돼요.",
+    best:{type:"안정형",desc:"안정형의 일관된 반응이 불안형의 불안을 줄여줘요."},
+    caution:{type:"회피형",desc:"회피형의 거리 두기가 불안형의 불안을 극도로 자극해요."},
+  },
+  avd:{
+    main:"회피형의 핵심은 '가까워지는 것이 위협'이에요. 독립성과 통제감이 최우선이고 상대의 요구가 부담으로 느껴져요.",
+    detail:"회피형은 <b style='color:#fff'>'가까워지면 상처받는다'</b>는 믿음에서 친밀감 자체를 차단하는 방식으로 자신을 보호해요. 감정을 표현하는 것이 어렵고 혼자 처리하는 것이 더 편해요. 관계가 깊어질수록 오히려 도망치고 싶은 충동이 오고, 독립성이 훼손된다고 느끼면 강하게 반응해요.",
+    pattern:"처음엔 괜찮다가 관계가 깊어질수록 '자유롭고 싶다'는 생각이 강해져요. 상대가 요구를 많이 하면 부담스럽고 도망치고 싶어요. 감정을 공유하는 것이 어색하고 혼자 해결하는 것이 더 편해요.",
+    growth:"<b style='color:#fff'>감정을 표현하는 것이 약함이 아니라는 것을 경험하는 것</b>이 핵심이에요. 작은 감정부터 조금씩 공유하는 연습이 필요해요. 상대의 요구가 통제가 아니라 친밀감의 표현이라는 것을 이해하는 과정이 필요해요.",
+    best:{type:"안정형",desc:"안정형은 회피형의 공간을 존중하면서도 천천히 친밀감을 쌓아갈 수 있어요."},
+    caution:{type:"불안형",desc:"불안형의 확인 욕구가 회피형에게 극도의 부담으로 느껴져요."},
+  },
+  fear:{
+    main:"공포회피형은 불안형과 회피형이 동시에 존재하는 구조예요. 친밀감을 원하면서도 두렵고 — 설레는 사람에게 다가가면서도 도망치는 패턴이 반복돼요.",
+    detail:"공포회피형은 <b style='color:#fff'>'연결을 원하는데 연결이 두렵다'</b>는 모순된 내면 상태예요. 불안형처럼 확인 욕구가 있고, 회피형처럼 가까워지면 도망치는 두 가지가 동시에 작동해요. 설레는 사람 = 상처받을 수 있는 사람이라는 등식이 무의식에 있어서, 진짜 좋아하는 사람에게 오히려 거리를 두거나 먼저 관계를 망가뜨리는 패턴이 나타나요.",
+    pattern:"설레는 사람을 만나면 가까워지려 하다가 이상하게 도망쳐요. 안전한 사람은 설레지 않아서 확신이 없어요. '<b style='color:#fff'>이 관계가 맞는 건지 내 감정이 진짜인지</b>' 자주 혼란스럽고, 어느 시점에 스스로 관계를 망가뜨리는 패턴이 반복돼요.",
+    growth:"<b style='color:#fff'>도망치고 싶은 순간을 인식하는 것</b>이 첫 번째예요. 그 감각이 그 사람이 나쁜 사람이어서가 아니라, 공포회피 패턴이 작동하는 것임을 아는 것만으로도 달라져요. 안전한 관계에서 작은 취약함을 드러내는 경험을 쌓는 것이 핵심이에요.",
+    best:{type:"안정형",desc:"안정형의 일관되고 안전한 반응이 공포회피형이 조금씩 신뢰를 쌓게 도와줘요."},
+    caution:{type:"공포회피형",desc:"두 사람 모두 도망치는 패턴이 있어서 관계 유지가 어려울 수 있어요."},
+  },
+};
+
+// Supabase
+const SUPABASE_URL="https://dleoheiqaardmpyoklmt.supabase.co";
+const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRsZW9oZWlxYWFyZG1weW9rbG10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MzUzNzMsImV4cCI6MjA5NDIxMTM3M30.yVmdhisxmC1KB3Ku1ZapF_CtTqEacqw8BWt32n30-Lc";
+const TEST_NAME="attachment_test";
+let countedThisSession=false;
+async function incrementCount(){
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/test_counts?test_name=eq.${TEST_NAME}&select=count`,{headers:{"apikey":SUPABASE_KEY,"Authorization":`Bearer ${SUPABASE_KEY}`}});
+    const data=await res.json();
+    if(data&&data.length>0){
+      const cur=data[0].count||0;
+      await fetch(`${SUPABASE_URL}/rest/v1/test_counts?test_name=eq.${TEST_NAME}`,{method:"PATCH",headers:{"apikey":SUPABASE_KEY,"Authorization":`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json"},body:JSON.stringify({count:cur+1})});
+    }else{
+      await fetch(`${SUPABASE_URL}/rest/v1/test_counts`,{method:"POST",headers:{"apikey":SUPABASE_KEY,"Authorization":`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json"},body:JSON.stringify({test_name:TEST_NAME,count:1})});
+    }
+  }catch(e){console.log("count error",e);}
+}
+
+// 상태
+let phase="intro",nickname="",cur=0,ans={},transitioning=false;
+
+function calcCat(cat){
+  const qs=Q.filter(q=>q.cat===cat);
+  const sum=qs.reduce((s,q)=>s+(ans[q.id]||0),0);
+  return Math.round(sum/(qs.length*5)*100);
+}
+
+function calcResult(){
+  const s={sec:calcCat("sec"),anx:calcCat("anx"),avd:calcCat("avd"),fear:calcCat("fear")};
+  let main="sec";
+  const {sec,anx,avd,fear}=s;
+  if(fear>=75) main="fear";
+  else if(fear>=60&&(avd>=55||anx>=55)) main="fear";
+  else if(sec>=70&&anx<50&&avd<50) main="sec";
+  else if(anx>avd&&anx>=60) main="anx";
+  else if(avd>anx&&avd>=60) main="avd";
+  else main=Object.entries(s).reduce((a,b)=>s[a]>b[1]?a:b[0],"sec");
+  return {scores:s,main};
+}
+
+function render(){
+  const app=document.getElementById("app");
+  if(phase==="intro") renderIntro(app);
+  else if(phase==="quiz") renderQuiz(app);
+  else if(phase==="result") renderResult(app);
+}
+
+function renderIntro(app){
+  app.innerHTML=`
+  <div class="screen" style="text-align:center">
+    <div style="font-size:52px;margin-bottom:16px">🫂</div>
+    <div class="label">Attachment Style Test</div>
+    <h1 style="font-size:24px;font-weight:900;color:#fff;line-height:1.35;margin:0 0 12px">나의 애착유형은?</h1>
+    <p style="font-size:14px;color:#666;line-height:1.8;margin:0 0 24px">28가지 문항으로<br>내 연애 애착 패턴을 알아봐요.</p>
+    <div class="type-grid" style="margin-bottom:24px">
+      <div class="type-pill" style="background:rgba(16,185,129,0.06);border-color:rgba(16,185,129,0.2)">
+        <div class="type-name" style="color:#10b981">🌿 안정형</div>
+        <div class="type-sub">친밀감과 독립, 둘 다 편한 유형</div>
+      </div>
+      <div class="type-pill" style="background:rgba(236,72,153,0.06);border-color:rgba(236,72,153,0.2)">
+        <div class="type-name" style="color:#ec4899">🌊 불안형</div>
+        <div class="type-sub">버려질까봐 늘 확인하는 유형</div>
+      </div>
+      <div class="type-pill" style="background:rgba(139,92,246,0.06);border-color:rgba(139,92,246,0.2)">
+        <div class="type-name" style="color:#8b5cf6">🌑 회피형</div>
+        <div class="type-sub">가까워질수록 도망치는 유형</div>
+      </div>
+      <div class="type-pill" style="background:rgba(239,68,68,0.06);border-color:rgba(239,68,68,0.2)">
+        <div class="type-name" style="color:#ef4444">🌀 공포회피형</div>
+        <div class="type-sub">원하지만 두렵고 설레지만 도망치는 유형</div>
+      </div>
+    </div>
+    <div class="card-box" style="margin-bottom:24px">
+      <div class="card-row"><span>—</span> 28문항 · 5점 척도</div>
+      <div class="card-row"><span>—</span> 4가지 애착유형 중 주 유형 판정</div>
+      <div class="card-row"><span>—</span> 연애 패턴 + 성장 방향 + 궁합 분석</div>
+    </div>
+    <div style="margin-bottom:14px;text-align:left">
+      <label class="input-label">이름 또는 닉네임 <span style="font-weight:400;color:#555">(선택)</span></label>
+      <input type="text" id="nick-input" placeholder="예) 해리쉬, 햄진이" maxlength="10" value="${nickname}">
+    </div>
+    <button class="btn-primary" id="start-btn">시작하기 →</button>
+  </div>`;
+  const inp=document.getElementById("nick-input");
+  inp.addEventListener("input",e=>{nickname=e.target.value;});
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter"){phase="quiz";render();}});
+  document.getElementById("start-btn").addEventListener("click",()=>{phase="quiz";render();});
+}
+
+function renderQuiz(app){
+  const q=Q[cur];
+  const progress=Math.round(((cur+1)/Q.length)*100);
+  const color=COLORS[q.cat];
+  const selected=ans[q.id];
+  app.innerHTML=`
+  <div class="screen quiz">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span style="font-size:11px;color:#666;font-weight:700;letter-spacing:1px">Q ${cur+1} / ${Q.length}</span>
+        <span style="font-size:11px;color:#555;font-weight:700">${progress}%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:${progress}%;background:${color}"></div>
+      </div>
+    </div>
+    <div class="q-card">
+      <div class="q-cat" style="color:${color}">${EMOJIS[q.cat]} ${LABELS[q.cat]}</div>
+      <p class="q-text">${q.text}</p>
+    </div>
+    <div class="scale-wrap">
+      <div class="scale-row">
+        ${[1,2,3,4,5].map(v=>`<button class="s-btn ${selected===v?"sel":""}" data-v="${v}" style="color:${selected===v?color:""}; border-color:${selected===v?color:""}">${v}</button>`).join("")}
+      </div>
+      <div class="scale-foot"><span>전혀 아님</span><span>매우 그렇다</span></div>
+    </div>
+    <div class="warn" id="warn" style="display:none;font-size:12px;color:#f87171;text-align:left;margin-bottom:10px">답변을 선택해주세요</div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      ${cur>0?'<button id="prev-btn" style="width:56px;flex-shrink:0;height:52px;border-radius:12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:#aaa;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">←</button>':""}
+      <button id="next-btn" style="flex:1;height:52px;border-radius:12px;border:none;font-size:15px;font-weight:900;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all 0.2s;background:${selected!==undefined?"#fff":"rgba(255,255,255,0.1)"};color:${selected!==undefined?"#111":"#444"}">${cur+1>=Q.length?"결과 보기 →":"다음 →"}</button>
+    </div>
+  </div>`;
+
+  const prev=document.getElementById("prev-btn");
+  if(prev) prev.addEventListener("click",()=>{if(cur>0){cur--;render();}});
+
+  document.querySelectorAll(".s-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const v=parseInt(btn.dataset.v);
+      if(ans[q.id]===v){delete ans[q.id];}
+      else{ans[q.id]=v;}
+      render();
+    });
+  });
+
+  document.getElementById("next-btn").addEventListener("click",()=>{
+    if(ans[q.id]===undefined){const w=document.getElementById("warn");if(w)w.style.display="block";return;}
+    if(cur+1>=Q.length){
+      if(!countedThisSession){countedThisSession=true;incrementCount();}
+      phase="result";render();
+    } else {
+      transitioning=true;
+      setTimeout(()=>{cur++;transitioning=false;render();},150);
+    }
+  });
+}
+
+
+function renderResult(app){
+  const {scores,main}=calcResult();
+  const d=DESC[main];
+  const color=COLORS[main];
+  const name=nickname.trim()||"";
+
+  const typeInfo={
+    sec:{label:"안정형",color:"#10b981",emoji:"🌿",sub:"Secure Attachment"},
+    anx:{label:"불안형",color:"#ec4899",emoji:"🌊",sub:"Anxious Attachment"},
+    avd:{label:"회피형",color:"#8b5cf6",emoji:"🌑",sub:"Avoidant Attachment"},
+    fear:{label:"공포회피형",color:"#ef4444",emoji:"🌀",sub:"Fearful-Avoidant Attachment"},
+  };
+
+  app.innerHTML=`
+  <div class="screen">
+    <div class="result-wrap">
+      <div style="text-align:center;margin-bottom:24px">
+        <div class="label">결과</div>
+        ${name?`<div style="font-size:13px;color:#666;margin-bottom:8px"><span style="color:#fff;font-weight:900">${name}</span>의 애착유형은</div>`:""}
+        <div class="result-main-type" style="color:${color}">${EMOJIS[main]} ${LABELS[main]}</div>
+        <div class="result-desc">${d.main}</div>
+      </div>
+
+      <!-- 4가지 수치 그리드 -->
+      <div class="four-grid">
+        ${["sec","anx","avd","fear"].map(cat=>`
+        <div class="four-card ${cat===main?"top":""}" style="${cat===main?`border-color:${typeInfo[cat].color}`:""}">
+          <div class="fc-label">${typeInfo[cat].label}</div>
+          <div class="fc-val" style="color:${typeInfo[cat].color}">${scores[cat]}%</div>
+          <div class="fc-name" style="color:#aaa">${typeInfo[cat].sub}</div>
+        </div>`).join("")}
+      </div>
+
+      <!-- 바 차트 -->
+      <div class="chart-wrap">
+        <div class="chart-title">📊 유형별 수치</div>
+        ${["sec","anx","avd","fear"].map(cat=>`
+        <div class="bar-row">
+          <div class="bar-top">
+            <span style="font-size:12px;color:#fff;font-weight:700">${typeInfo[cat].emoji} ${typeInfo[cat].label}</span>
+            <span style="font-size:12px;color:${typeInfo[cat].color};font-weight:700">${scores[cat]}%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" id="bar-${cat}" style="background:${typeInfo[cat].color}"></div>
+          </div>
+        </div>`).join("")}
+      </div>
+
+      <!-- 상세 분석 -->
+      <div class="analysis-block">
+        <div class="analysis-title" style="color:${color}">${EMOJIS[main]} ${LABELS[main]} 상세 분석</div>
+        <div class="analysis-text" style="color:#aaa">${d.detail}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px">
+          ${TAGS[main].map(t=>`<span style="font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;border:1px solid ${t.c}66;color:${t.c}">${t.t}</span>`).join("")}
+        </div>
+      </div>
+
+      <!-- 연애 패턴 -->
+      <div class="analysis-block">
+        <div class="analysis-title" style="color:#f0d060">💞 연애에서 나타나는 패턴</div>
+        <div class="analysis-text" style="color:#e0e0e0">${d.pattern}</div>
+      </div>
+
+      <!-- 성장 방향 -->
+      <div class="analysis-block">
+        <div class="analysis-title" style="color:#10b981">🌱 성장 방향</div>
+        <div class="analysis-text" style="color:#e0e0e0">${d.growth}</div>
+      </div>
+
+      <!-- 궁합 -->
+      <div class="analysis-block" style="margin-bottom:24px">
+        <div class="analysis-title" style="color:#ec4899;margin-bottom:16px">💘 애착유형별 궁합</div>
+        ${getCompatRows(main)}
+      </div>
+
+    <p style="text-align:center;font-size:11px;color:#333;margin-top:8px;padding-bottom:80px">친구한테도 공유해봐 👀</p>
+  </div>
+  <button class="btn-restart" id="restart-btn">다시 테스트하기 🔄</button>`;
+
+  setTimeout(()=>{
+    ["sec","anx","avd","fear"].forEach(cat=>{
+      const el=document.getElementById("bar-"+cat);
+      if(el) el.style.width=scores[cat]+"%";
+    });
+  },300);
+
+  document.getElementById("restart-btn").addEventListener("click",()=>{
+    phase="intro";nickname="";cur=0;ans={};transitioning=false;countedThisSession=false;
+    render();
+  });
+}
+
+
+const TAGS = {
+  sec:  [{t:"안정 애착",c:"#10b981"},{t:"감정 표현",c:"#10b981"},{t:"신뢰",c:"#10b981"},{t:"균형",c:"#10b981"},{t:"독립+친밀",c:"#10b981"}],
+  anx:  [{t:"확인 욕구",c:"#ec4899"},{t:"분리 불안",c:"#ec4899"},{t:"집착",c:"#ec4899"},{t:"감정 기복",c:"#ec4899"},{t:"버려짐 공포",c:"#ec4899"}],
+  avd:  [{t:"친밀감 회피",c:"#8b5cf6"},{t:"감정 차단",c:"#8b5cf6"},{t:"독립 집착",c:"#8b5cf6"},{t:"거리 두기",c:"#8b5cf6"},{t:"도망",c:"#8b5cf6"}],
+  fear: [{t:"공포회피",c:"#ef4444"},{t:"불안+회피 혼합",c:"#ef4444"},{t:"친밀감 공포",c:"#ef4444"},{t:"높은 불안",c:"#ec4899"},{t:"높은 회피",c:"#8b5cf6"}],
+};
+const COMPAT = {
+  sec: [
+    {type:"sec", label:"안정형",  emoji:"🌿", tag:"베스트",   tagColor:"#4ade80", bold:"안정형끼리는 서로의 공간을 존중하며 편안하게 성장해요.", desc:"갈등이 생겨도 대화로 해결하는 가장 건강한 조합이에요."},
+    {type:"anx", label:"불안형",  emoji:"🌊", tag:"좋아요",   tagColor:"#60a5fa", bold:"안정형의 일관된 반응이 불안형의 불안을 줄여줄 수 있어요.", desc:"안정형이 충분히 인내심을 가져야 해요."},
+    {type:"avd", label:"회피형",  emoji:"🌑", tag:"주의 필요", tagColor:"#f87171", bold:"안정형은 회피형의 공간을 존중하면서 천천히 친밀감을 쌓아요.", desc:"회피형이 마음을 열기까지 시간이 필요해요."},
+    {type:"fear",label:"공포회피형",emoji:"🌀",tag:"주의 필요", tagColor:"#f87171", bold:"안정형의 일관성이 공포회피형의 패턴을 서서히 바꿔줄 수 있어요.", desc:"공포회피형이 도망쳐도 흔들리지 않는 인내가 필요해요."},
+  ],
+  anx: [
+    {type:"sec", label:"안정형",  emoji:"🌿", tag:"베스트",   tagColor:"#4ade80", bold:"안정형의 일관된 반응이 불안형에게 안정감을 줘요.", desc:"불안형의 확인 욕구를 자연스럽게 채워줄 수 있어요."},
+    {type:"anx", label:"불안형",  emoji:"🌊", tag:"주의 필요", tagColor:"#f87171", bold:"서로의 불안이 증폭되는 조합이에요.", desc:"둘 다 확인이 필요해서 서로를 지치게 할 수 있어요."},
+    {type:"avd", label:"회피형",  emoji:"🌑", tag:"최악 궁합", tagColor:"#ef4444", bold:"불안형의 확인 욕구가 회피형에게 극도의 부담이 돼요.", desc:"회피형이 멀어질수록 불안형은 더 매달리는 악순환이 생겨요."},
+    {type:"fear",label:"공포회피형",emoji:"🌀",tag:"주의 필요", tagColor:"#f87171", bold:"공포회피형이 도망치면 불안형은 더 달려들어요.", desc:"서로의 상처가 정면 충돌하는 고통스러운 조합이에요."},
+  ],
+  avd: [
+    {type:"sec", label:"안정형",  emoji:"🌿", tag:"베스트",   tagColor:"#4ade80", bold:"안정형은 회피형의 공간을 존중하면서 친밀감을 쌓아요.", desc:"강요 없이 천천히 신뢰를 쌓아가는 가장 좋은 파트너예요."},
+    {type:"anx", label:"불안형",  emoji:"🌊", tag:"최악 궁합", tagColor:"#ef4444", bold:"불안형의 요구가 회피형에게 극도의 부담이 돼요.", desc:"회피형이 멀어질수록 불안형은 더 매달리는 악순환이에요."},
+    {type:"avd", label:"회피형",  emoji:"🌑", tag:"주의 필요", tagColor:"#f87171", bold:"서로 공간을 존중하지만 친밀감이 깊어지기 어려워요.", desc:"안정적이지만 관계가 표면적으로 머물 수 있어요."},
+    {type:"fear",label:"공포회피형",emoji:"🌀",tag:"주의 필요", tagColor:"#f87171", bold:"공포회피형의 연결 욕구를 회피형은 채워주지 못해요.", desc:"공포회피형이 원할 때 회피형은 이미 물러나 있어요."},
+  ],
+  fear: [
+    {type:"sec", label:"안정형",  emoji:"🌿", tag:"베스트",   tagColor:"#4ade80", bold:"공포회피형이 도망쳐도 흔들리지 않고 기다려줄 수 있는 유일한 유형이에요.", desc:"안정형의 일관성이 공포회피형의 패턴을 서서히 바꿔줄 수 있어요."},
+    {type:"anx", label:"불안형",  emoji:"🌊", tag:"주의 필요", tagColor:"#f87171", bold:"공포회피형이 도망치면 불안형은 더 달려들어요.", desc:"힘들지만 불안형이 먼저 다가오기 때문에 관계 자체는 유지돼요."},
+    {type:"fear",label:"공포회피형",emoji:"🌀",tag:"최악 궁합", tagColor:"#ef4444", bold:"둘 다 가까워지면 도망치기 때문에 관계가 영원히 앞으로 나아가지 못해요.", desc:"서로 끌리지만 아무도 먼저 취약해지지 않는 교착 상태가 끝없이 반복돼요."},
+    {type:"avd", label:"회피형",  emoji:"🌑", tag:"주의 필요", tagColor:"#f87171", bold:"공포회피형의 연결 욕구를 회피형은 채워주지 못해요.", desc:"공포회피형이 원할 때 회피형은 이미 물러나 있어요."},
+  ],
+};
+
+function getCompatRows(main){
+  return COMPAT[main].map(c=>`
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:16px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:16px">${c.emoji}</span>
+          <span style="font-size:15px;font-weight:700;color:#fff">${c.label}</span>
+        </div>
+        <span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid ${c.tagColor};color:${c.tagColor}">${c.tag}</span>
+      </div>
+      <p style="font-size:13px;color:#ccc;line-height:1.7;margin-bottom:4px"><b>${c.bold}</b> <span style="color:#666">${c.desc}</span></p>
+    </div>`).join("");
+}
+
+
+render();
+</script>
+</body>
+</html>

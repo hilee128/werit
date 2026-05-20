@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나는 연애할 때 어떤 유형과 잘 맞을까?</title>
+
+<!-- ✅ Google Analytics 연동 완료 (G-KWVEBVRZT4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KWVEBVRZT4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KWVEBVRZT4');
+
+  // 테스트 완료 이벤트 추적 (결과 화면 진입 시 자동 기록)
+  function trackTestComplete(resultType) {
+    gtag('event', 'test_complete', {
+      'event_category': '테토에겐 테스트',
+      'event_label': resultType,
+    });
+  }
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --teto: #ff6b6b;
+  --teto-l: #ff9a9a;
+  --teto-p: #fff0f0;
+  --egen: #6bcfff;
+  --egen-l: #9adeff;
+  --egen-p: #f0f9ff;
+  --sens: #b06bff;
+  --sens-l: #ce9aff;
+  --sens-p: #f7f0ff;
+  --mutt: #6bffb0;
+  --mutt-l: #9affcc;
+  --mutt-p: #f0fff7;
+  --ink: #1a1a2e;
+  --slate: #4a4a6a;
+  --muted: #9898b8;
+  --border: #ede8e0;
+  --peach: #ffb347;
+  --peach-p: #fff4e0;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  background: var(--bg);
+  font-family: 'Gowun Dodum', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* 배경 패턴 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: none;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pop {
+  0%   { transform:scale(1); }
+  50%  { transform:scale(0.96); }
+  100% { transform:scale(1); }
+}
+@keyframes float {
+  0%,100% { transform:translateY(0); }
+  50%      { transform:translateY(-6px); }
+}
+@keyframes shimmer {
+  0%   { background-position:-200% center; }
+  100% { background-position:200% center; }
+}
+
+.page { display:none; flex:1; flex-direction:column; }
+.page.on { display:flex; }
+
+/* ══════════════════════════════
+   인트로
+══════════════════════════════ */
+.intro-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 28px;
+  text-align: center;
+  animation: fadeUp 0.7s ease both;
+}
+
+.intro-icons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 32px;
+  animation: float 3s ease infinite;
+}
+.intro-hearts {
+  margin-bottom: 28px;
+  animation: float 3s ease infinite;
+}
+
+.type-bubble {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.intro-title {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.intro-title .hl {
+  background: linear-gradient(135deg, var(--teto), var(--egen));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.intro-sub {
+  font-size: 14px;
+  color: var(--slate);
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.intro-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.intro-tag {
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.btn-start {
+  width: 100%;
+  max-width: 320px;
+  padding: 18px;
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 18px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(26,26,46,0.15);
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+.btn-start:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(26,26,46,0.2); }
+.btn-start:active { animation: pop 0.2s ease; }
+
+
+/* 이름 입력 */
+.name-input-wrap {
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 20px;
+}
+.name-input-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'Noto Sans KR', sans-serif;
+  margin-bottom: 8px;
+  display: block;
+  text-align: left;
+  letter-spacing: 0.3px;
+}
+.name-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: #f7f7fa;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  font-size: 15px;
+  font-family: 'Gowun Dodum', sans-serif;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.name-input::placeholder { color: var(--muted); }
+.name-input:focus { border-color: var(--teto); background: white; }
+/* ══════════════════════════════
+   진행바 헤더
+══════════════════════════════ */
+.test-header {
+  padding: 14px 24px 12px;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+
+.prog-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.prog-axis {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.axis-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+
+.prog-axis-label {
+  font-size: 11px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--slate);
+}
+
+.prog-count {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.prog-count b {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.prog-track {
+  height: 6px;
+  background: var(--border);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.prog-bar {
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  background: linear-gradient(90deg, var(--teto), var(--peach), var(--sens));
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+/* ══════════════════════════════
+   질문 영역
+══════════════════════════════ */
+.test-body {
+  flex: 1;
+  padding: 16px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.q-wrap {
+  animation: fadeUp 0.35s ease both;
+}
+
+.q-num-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.q-num-badge {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: white;
+}
+
+.q-axis-label {
+  font-size: 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.q-axis-name {
+  font-size: 11px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.q-text {
+  font-size: 20px;
+  line-height: 1.65;
+  color: var(--ink);
+  margin-bottom: 32px;
+  word-break: keep-all;
+}
+
+/* 선택지 */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.choice-btn {
+  width: 100%;
+  padding: 20px 22px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  text-align: left;
+  font-size: 15px;
+  font-family: 'Gowun Dodum', sans-serif;
+  color: var(--slate);
+  cursor: pointer;
+  line-height: 1.6;
+  word-break: keep-all;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.choice-btn:hover {
+  border-color: var(--border);
+  background: var(--surface);
+}
+
+@media (hover: hover) {
+  .choice-btn:hover {
+    border-color: var(--peach);
+    background: var(--peach-p);
+  }
+}
+
+.choice-btn.picked {
+  border-color: var(--teto);
+  background: var(--teto-p);
+  color: var(--ink);
+}
+
+.choice-btn.picked.sm {
+  border-color: var(--sens);
+  background: var(--sens-p);
+}
+
+.choice-btn.dimmed {
+  opacity: 0.35;
+}
+
+.choice-letter {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.choice-btn.picked .choice-letter { background: var(--teto); color: white; }
+.choice-btn.picked.sm .choice-letter { background: var(--sens); color: white; }
+
+/* ══════════════════════════════
+   결과
+══════════════════════════════ */
+.result-page {
+  padding: 0 0 60px;
+  animation: fadeUp 0.7s ease both;
+}
+
+/* 결과 히어로 */
+.result-hero {
+  padding: 40px 28px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.result-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--teto) 0px, var(--teto) 1px,
+    transparent 1px, transparent 20px
+  );
+}
+
+.result-eyebrow {
+  font-size: 11px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.result-type-big {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 52px;
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 8px;
+  letter-spacing: -1px;
+}
+
+.result-type-name {
+  font-size: 15px;
+  color: var(--slate);
+  margin-bottom: 24px;
+}
+
+.result-desc-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--slate);
+  line-height: 1.8;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+/* 4가지 축 점수 */
+.score-section {
+  padding: 0 24px;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.axis-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.axis-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+}
+
+.axis-card.dominant { border-width: 2px; }
+
+.axis-card-label {
+  font-size: 10px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.axis-card-type {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+
+.axis-card-pct {
+  font-size: 24px;
+  font-weight: 900;
+  font-family: 'Noto Sans KR', sans-serif;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.axis-card-sub {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* 바 */
+.axis-bar-wrap { margin-bottom: 8px; }
+
+.axis-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.axis-bar-label {
+  font-size: 11px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+}
+
+.axis-bar-track {
+  height: 10px;
+  background: var(--border);
+  border-radius: 100px;
+  overflow: hidden;
+  position: relative;
+}
+
+.axis-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.axis-bar-pct {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: right;
+  margin-top: 3px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 커플 조합 결과 */
+.couple-section {
+  padding: 0 24px;
+  margin-bottom: 24px;
+}
+
+.couple-input-area {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.couple-input-title {
+  font-size: 13px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.type-select-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.type-select-btn {
+  padding: 10px 8px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 12px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  color: var(--slate);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.type-select-btn:hover { border-color: var(--peach); }
+.type-select-btn.selected { color: white; }
+
+.btn-couple-result {
+  width: 100%;
+  padding: 14px;
+  background: var(--ink);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-couple-result:hover { background: #2a2a4e; transform: translateY(-1px); }
+
+/* 조합 결과 카드 */
+.combo-result {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 22px;
+  margin-top: 12px;
+  display: none;
+}
+
+.combo-title {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--ink);
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.combo-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.combo-features {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.combo-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--slate);
+  line-height: 1.6;
+}
+
+.combo-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 12px 0;
+}
+
+.combo-warning {
+  font-size: 12px;
+  color: var(--slate);
+  line-height: 1.7;
+  padding: 12px;
+  background: #fff8f0;
+  border-radius: 10px;
+  border-left: 3px solid var(--peach);
+}
+
+/* 유형별 설명 */
+.type-detail-section {
+  padding: 0 24px;
+  margin-bottom: 24px;
+}
+
+.type-detail-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 12px;
+}
+
+.tdcard-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.tdcard-badge {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 900;
+  color: white;
+}
+
+.tdcard-name {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.tdcard-sub {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.tdcard-desc {
+  font-size: 13px;
+  color: var(--slate);
+  line-height: 1.85;
+}
+
+/* 다시 버튼 */
+.retry-section {
+  padding: 0 24px;
+}
+
+.btn-retry {
+  width: 100%;
+  padding: 16px;
+  background: transparent;
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  color: var(--slate);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-retry:hover { border-color: var(--teto); color: var(--teto); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ══ 인트로 ══ -->
+<div id="p-intro" class="page on">
+  <div class="intro-wrap">
+    <div class="intro-hearts">
+      <svg width="72" height="68" viewBox="0 0 72 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M36 64S4 44 4 20a16 16 0 0 1 32 0 16 16 0 0 1 32 0C68 44 36 64 36 64z" fill="url(#hg)"/>
+        <defs>
+          <linearGradient id="hg" x1="4" y1="4" x2="68" y2="64" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#ff6b6b"/>
+            <stop offset="50%" stop-color="#b06bff"/>
+            <stop offset="100%" stop-color="#6bcfff"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <h1 class="intro-title">
+      나는 연애할 때<br/>어떤 유형과 잘 맞을까?
+    </h1>
+    <p class="intro-sub">
+      테토·에겐·섬세·무던 25문항으로<br/>
+      내 연애 유형과 딱 맞는 상대를 찾아보세요
+    </p>
+
+    <div class="intro-tags">
+      <span class="intro-tag" style="background:var(--teto-p);color:var(--teto)">🔥 테토</span>
+      <span class="intro-tag" style="background:var(--egen-p);color:#1a9fd4">💙 에겐</span>
+      <span class="intro-tag" style="background:var(--sens-p);color:var(--sens)">🌸 섬세</span>
+      <span class="intro-tag" style="background:var(--mutt-p);color:#2db87a">🌿 무던</span>
+    </div>
+
+    <div class="name-input-wrap">
+      <label class="name-input-label">이름 또는 닉네임 (선택)</label>
+      <input class="name-input" id="user-name" type="text" placeholder="예) 해리쉬, 민준이" maxlength="10">
+    </div>
+    <button class="btn-start" onclick="startTest()">테스트 시작하기 →</button>
+  </div>
+</div>
+
+<!-- ══ 검사 ══ -->
+<div id="p-test" class="page">
+  <div class="test-header">
+    <div class="prog-top">
+      <div class="prog-axis">
+        <div class="axis-dot" id="pdot"></div>
+        <span class="prog-axis-label" id="paxis">테토 / 에겐</span>
+      </div>
+      <div class="prog-count"><b id="pnum">1</b> / 25</div>
+    </div>
+    <div class="prog-track">
+      <div class="prog-bar" id="pbar" style="width:4.1%"></div>
+    </div>
+  </div>
+
+  <div class="test-body">
+    <div id="qarea"></div>
+  </div>
+</div>
+
+<!-- ══ 결과 ══ -->
+<div id="p-result" class="page">
+  <div class="result-page" id="result-content"></div>
+</div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// 질문 데이터 (24문항)
+// ══════════════════════════════════════════════════════════════
+// ax: TE=테토/에겐, SM=섬세/무던
+// pole A = 테토 or 섬세, pole B = 에겐 or 무던
+
+const QS = [
+  // ── 테토 / 에겐 (12문항) — 주도권·에너지 방향 중심 ──────────
+  {id:1,  ax:'TE', text:'연애에서 나는 주로…', a:'내가 먼저 연락하고 계획을 주도하는 편이다', b:'상대가 리드해주면 따라가는 게 더 편하다'},
+  {id:2,  ax:'TE', text:'데이트 장소를 정할 때 나는…', a:'내가 찾아보고 예약까지 해서 데려간다', b:'어디든 상대가 가고 싶은 데 맞춰주는 게 좋다'},
+  {id:3,  ax:'TE', text:'연애에서 내가 더 자연스럽게 하는 역할은…', a:'분위기나 상황을 만들어가는 것', b:'상대가 만든 분위기에 잘 녹아드는 것'},
+  {id:4,  ax:'TE', text:'나는 연애에서 주도권이…', a:'어느 정도 내게 있어야 심리적으로 편하다', b:'누구한테 있든 크게 상관없다. 분위기가 더 중요하다'},
+  {id:5,  ax:'TE', text:'상대가 내 의견을 무시하거나 가볍게 넘길 때 나는…', a:'바로 기분이 나빠지고 티가 난다', b:'서운하긴 해도 크게 표현하지 않는다'},
+  {id:6,  ax:'TE', text:'갈등이 생겼을 때 나는…', a:'불편해도 할 말은 하고 넘어가야 개운하다', b:'분위기 망치기 싫어서 일단 넘어가는 편이다'},
+  {id:7,  ax:'TE', text:'처음 좋아하는 사람이 생기면 나는…', a:'먼저 적극적으로 다가가는 편이다', b:'상대가 먼저 다가오기를 기다리는 편이다'},
+  {id:8,  ax:'TE', text:'연인이 먼저 고백하거나 적극적으로 나왔을 때 나는…', a:'내가 먼저였으면 더 좋았을 것 같다는 생각이 든다', b:'상대가 먼저 와줘서 오히려 편하고 좋았다'},
+  {id:9,  ax:'TE', text:'관계에서 내 존재감은…', a:'뚜렷한 편이다. 내가 있으면 분위기가 달라진다', b:'조용한 편이다. 상대를 돋보이게 해주는 것이 좋다'},
+  {id:10, ax:'TE', text:'연인이 우유부단하게 결정을 못 내릴 때 나는…', a:'답답해서 내가 대신 결정해버리는 편이다', b:'천천히 기다려주거나 함께 고민해주는 편이다'},
+  {id:11, ax:'TE', text:'연애에서 나는…', a:'추진력 있고 결단력 있는 내 모습이 매력이다', b:'다정하고 잘 맞춰주는 내 모습이 매력이다'},
+  {id:12, ax:'TE', text:'상대가 나보다 더 주도적으로 관계를 이끌면…', a:'솔직히 좀 답답하거나 경쟁심이 생긴다', b:'오히려 편하고 좋다. 이끌어주는 게 좋다'},
+  {id:13, ax:'TE', text:'연애에서 감정 표현을 나는…', a:'내가 먼저 꺼내는 편이다. 내가 표현해야 관계가 진전된다고 느낀다', b:'상대가 먼저 표현해주길 기다리는 편이다. 내가 먼저 말하는 게 어색하다'},
+
+  // ── 섬세 / 무던 (12문항) — 감정 반응 속도·회복력 중심 ────────
+  {id:14, ax:'SM', text:'연인의 말투가 평소보다 조금 건조할 때 나는…', a:'바로 감지하고 "혹시 나한테 화났어?" 생각이 든다', b:'피곤한가보다 하고 자연스럽게 넘긴다'},
+  {id:15, ax:'SM', text:'연인과 가벼운 말다툼 후 나는…', a:'그 장면이 머릿속에서 계속 맴돌고 오래 간다', b:'잠깐 불편하다가 금방 털고 평소대로 돌아온다'},
+  {id:16, ax:'SM', text:'상대가 내가 공들인 것을 알아차리지 못하면…', a:'서운함이 꽤 오래 남는다', b:'별로 신경 쓰이지 않는다. 그럴 수도 있지 싶다'},
+  {id:17, ax:'SM', text:'연인에게 상처받는 말을 들었을 때 나는…', a:'한동안 그 말이 머릿속에 남아 반복해서 생각한다', b:'당장은 아프지만 시간이 지나면 금방 잊는다'},
+  {id:18, ax:'SM', text:'싸운 다음 날 연인을 마주치면 나는…', a:'아직 감정이 남아있어 어색하게 행동하게 된다', b:'어제 일은 어제 일. 평소처럼 대할 수 있다'},
+  {id:19, ax:'SM', text:'연인이 연락을 평소보다 늦게 할 때 나는…', a:'무슨 일이 있나, 나한테 섭섭한 건가 생각이 든다', b:'바쁜가보다 하고 크게 신경 쓰지 않는다'},
+  {id:20, ax:'SM', text:'이별 후 감정이 정리되는 데 나는…', a:'꽤 오랜 시간이 걸리고 쉽게 털어내지 못한다', b:'힘들긴 해도 시간이 지나면 자연스럽게 회복된다'},
+  {id:21, ax:'SM', text:'연인과의 기념일이나 작은 약속들을…', a:'꼭 챙겨야 한다. 그런 게 쌓여서 관계가 된다', b:'큰 의미를 두지 않는다. 자연스럽게 흐르면 된다'},
+  {id:22, ax:'SM', text:'연인이 갑자기 평소보다 차갑게 대할 때 나는…', a:'이유가 뭔지 계속 생각하고 불안해진다', b:'그냥 기분이 안 좋은가보다 하고 넘긴다'},
+  {id:23, ax:'SM', text:'연인의 기분이나 감정 상태를 파악하는 게…', a:'자연스럽게 잘 된다. 말 안 해도 느껴진다', b:'잘 모르겠다. 직접 말해줘야 알 것 같다'},
+  {id:24, ax:'SM', text:'연애에서 나의 감정 기복은…', a:'있는 편이다. 상대의 반응에 따라 많이 오르내린다', b:'안정적인 편이다. 웬만한 일에는 크게 흔들리지 않는다'},
+  {id:25, ax:'SM', text:'연인이 바빠서 연락이 뜸해지는 시기에 나는…', a:'불안하거나 서운한 감정이 올라온다', b:'각자 바쁜 거지 싶고 크게 개의치 않는다'},
+];
+
+const AX_INFO = {
+  TE: { label:'테토 / 에겐', colorA: 'var(--teto)', colorB: 'var(--egen)' },
+  SM: { label:'섬세 / 무던', colorA: 'var(--sens)', colorB: '#2db87a' },
+};
+
+let cur = 0;
+let scores = { TE_A:0, TE_B:0, SM_A:0, SM_B:0 };
+let ansPoles = {};
+
+function startTest() {
+  const nameEl = document.getElementById('user-name');
+  const name = nameEl ? nameEl.value.trim() : '';
+  if (name) localStorage.setItem('teto_user_name', name);
+  show('p-test');
+  renderQ();
+}
+
+function show(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+
+function renderQ() {
+  const q = QS[cur];
+  const total = QS.length;
+  const ax = AX_INFO[q.ax];
+
+  document.getElementById('pbar').style.width = ((cur+1)/total*100)+'%';
+  document.getElementById('pnum').textContent = cur+1;
+  document.getElementById('paxis').textContent = ax.label;
+  document.getElementById('pdot').style.background = ax.colorA;
+  document.getElementById('pdot').style.boxShadow = `0 0 8px ${ax.colorA}`;
+
+  // 기존 area를 완전히 새 div로 교체 — 이전 인라인 스타일 잔상 원천 차단
+  const oldArea = document.getElementById('qarea');
+  const newArea = document.createElement('div');
+  newArea.id = 'qarea';
+  oldArea.parentNode.replaceChild(newArea, oldArea);
+
+  newArea.innerHTML = `
+    <div class="q-wrap">
+      <div class="q-num-row">
+        <div class="q-num-badge" style="background:${ax.colorA}">${cur+1}</div>
+        <span class="q-axis-label" style="color:${ax.colorA}">${ax.label}</span>
+      </div>
+      <p class="q-text">${q.text}</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="pick('A')" id="choiceA">
+          <div class="choice-letter">A</div>
+          <span>${q.a}</span>
+        </button>
+        <button class="choice-btn" onclick="pick('B')" id="choiceB">
+          <div class="choice-letter">B</div>
+          <span>${q.b}</span>
+        </button>
+      </div>
+    </div>`;
+
+  newArea.style.animation='none'; newArea.offsetHeight;
+  newArea.style.animation='fadeUp 0.35s ease both';
+}
+
+function pick(pole) {
+  const q = QS[cur];
+  const key = q.ax + '_' + pole;
+  scores[key] = (scores[key]||0) + 1;
+  ansPoles[q.id] = pole;
+
+  const btnA = document.getElementById('choiceA');
+  const btnB = document.getElementById('choiceB');
+
+  // 누른 버튼만 색 표시, 나머지는 흐리게
+  const isSM = q.ax === 'SM';
+  if (pole === 'A') {
+    btnA.classList.add('picked');
+    if (isSM) btnA.classList.add('sm');
+    btnB.classList.add('dimmed');
+  } else {
+    btnB.classList.add('picked');
+    if (isSM) btnB.classList.add('sm');
+    btnA.classList.add('dimmed');
+  }
+
+  // 중복 클릭 방지
+  btnA.onclick = null;
+  btnB.onclick = null;
+
+  // 300ms 후 fadeOut → 다음 문항
+  setTimeout(() => {
+    const area = document.getElementById('qarea');
+    area.style.transition = 'opacity 0.2s ease';
+    area.style.opacity = '0';
+    setTimeout(() => {
+      area.style.transition = '';
+      area.style.opacity = '1';
+      if (cur === QS.length - 1) {
+        buildResult();
+      } else {
+        cur++;
+        renderQ();
+      }
+    }, 200);
+  }, 300);
+}
+
+// ══════════════════════════════════════════════════════════════
+// 결과 빌드
+// ══════════════════════════════════════════════════════════════
+function buildResult() {
+  const teTotal = scores.TE_A + scores.TE_B;
+  const smTotal = scores.SM_A + scores.SM_B;
+
+  const tePct = Math.round(scores.TE_A / teTotal * 100);
+  const egPct = 100 - tePct;
+  const sensPct = Math.round(scores.SM_A / smTotal * 100);
+  const muttPct = 100 - sensPct;
+
+  const isTeto = tePct >= egPct;
+  const isSens = sensPct >= muttPct;
+
+  const myType = (isTeto ? '테토' : '에겐') + ' + ' + (isSens ? '섬세' : '무던');
+  const myCode = (isTeto ? 'T' : 'E') + (isSens ? 'S' : 'M');
+
+  const typeData = getTypeData(myCode);
+
+  const content = document.getElementById('result-content');
+  content.innerHTML = `
+    <!-- 히어로 -->
+    <div class="result-hero" style="background:linear-gradient(160deg, ${typeData.bg1}, ${typeData.bg2})">
+      <div class="result-eyebrow">${localStorage.getItem('teto_user_name') ? localStorage.getItem('teto_user_name') + '의 연애 유형' : '나의 연애 유형'}</div>
+      <div class="result-type-big" style="background:linear-gradient(135deg,${typeData.c1},${typeData.c2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${myType}</div>
+      <div class="result-type-name">${typeData.nickname}</div>
+      <div class="result-desc-card">
+        <div style="font-size:12px;font-family:'Noto Sans KR',sans-serif;font-weight:700;color:${typeData.c1};margin-bottom:8px;letter-spacing:1px">유형 설명</div>
+        ${typeData.desc}
+      </div>
+    </div>
+
+    <!-- 점수 -->
+    <div class="score-section">
+      <div class="section-title">📊 측정 점수</div>
+
+      <div class="axis-cards">
+        <div class="axis-card ${isTeto?'dominant':''}" style="${isTeto?'border-color:var(--teto);background:var(--teto-p)':''}">
+          <div class="axis-card-label" style="color:var(--teto)">테토형</div>
+          <div class="axis-card-pct" style="color:var(--teto)">${tePct}%</div>
+          <div class="axis-card-sub">${isTeto?'✓ 주 유형':''}  ${scores.TE_A}점</div>
+        </div>
+        <div class="axis-card ${!isTeto?'dominant':''}" style="${!isTeto?'border-color:var(--egen);background:var(--egen-p)':''}">
+          <div class="axis-card-label" style="color:#1a9fd4">에겐형</div>
+          <div class="axis-card-pct" style="color:#1a9fd4">${egPct}%</div>
+          <div class="axis-card-sub">${!isTeto?'✓ 주 유형':''}  ${scores.TE_B}점</div>
+        </div>
+        <div class="axis-card ${isSens?'dominant':''}" style="${isSens?'border-color:var(--sens);background:var(--sens-p)':''}">
+          <div class="axis-card-label" style="color:var(--sens)">섬세형</div>
+          <div class="axis-card-pct" style="color:var(--sens)">${sensPct}%</div>
+          <div class="axis-card-sub">${isSens?'✓ 주 유형':''}  ${scores.SM_A}점</div>
+        </div>
+        <div class="axis-card ${!isSens?'dominant':''}" style="${!isSens?'border-color:#2db87a;background:var(--mutt-p)':''}">
+          <div class="axis-card-label" style="color:#2db87a">무던형</div>
+          <div class="axis-card-pct" style="color:#2db87a">${muttPct}%</div>
+          <div class="axis-card-sub">${!isSens?'✓ 주 유형':''}  ${scores.SM_B}점</div>
+        </div>
+      </div>
+
+      <!-- 바 -->
+      <div class="axis-bar-wrap">
+        <div class="axis-bar-labels">
+          <span class="axis-bar-label" style="color:var(--teto)">테토 ${tePct}%</span>
+          <span class="axis-bar-label" style="color:#1a9fd4">에겐 ${egPct}%</span>
+        </div>
+        <div class="axis-bar-track">
+          ${isTeto
+            ? `<div class="axis-bar-fill" style="background:linear-gradient(90deg,var(--teto),var(--teto-l))" data-w="${tePct}"></div>`
+            : `<div class="axis-bar-fill" style="background:linear-gradient(90deg,var(--egen),var(--egen-l));margin-left:auto" data-w="${egPct}"></div>`
+          }
+        </div>
+      </div>
+
+      <div class="axis-bar-wrap">
+        <div class="axis-bar-labels">
+          <span class="axis-bar-label" style="color:var(--sens)">섬세 ${sensPct}%</span>
+          <span class="axis-bar-label" style="color:#2db87a">무던 ${muttPct}%</span>
+        </div>
+        <div class="axis-bar-track">
+          ${isSens
+            ? `<div class="axis-bar-fill" style="background:linear-gradient(90deg,var(--sens),var(--sens-l))" data-w="${sensPct}"></div>`
+            : `<div class="axis-bar-fill" style="background:linear-gradient(90deg,#2db87a,var(--mutt-l));margin-left:auto" data-w="${muttPct}"></div>`
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- 유형별 상세 -->
+    <div class="type-detail-section">
+      <div class="section-title">🔍 유형별 연애 모습</div>
+      ${getTypeDetails(isTeto, isSens)}
+    </div>
+
+    <!-- 커플 조합 -->
+    <div class="couple-section">
+      <div class="section-title">💑 상대방 유형 입력하기</div>
+      <div class="couple-input-area">
+        <div class="couple-input-title">상대방은 어떤 유형인가요?</div>
+        <div class="type-select-grid">
+          ${['테토+섬세','테토+무던','에겐+섬세','에겐+무던'].map(t=>`
+            <button class="type-select-btn" onclick="selectPartner('${t}',this)"
+              data-type="${t}">
+              ${t === '테토+섬세' ? '🔥🌸' : t === '테토+무던' ? '🔥🌿' : t === '에겐+섬세' ? '💙🌸' : '💙🌿'}<br/>${t}
+            </button>
+          `).join('')}
+        </div>
+        <button class="btn-couple-result" onclick="showCombo('${myType}')">조합 결과 보기</button>
+        <div class="combo-result" id="combo-result"></div>
+      </div>
+    </div>
+
+    <div class="retry-section">
+      <button class="btn-retry" onclick="location.reload()">🔄 처음부터 다시하기</button>
+    </div>
+  `;
+
+  show('p-result');
+  incrementCount('teto_egen_test');
+
+  // Google Analytics 완료 이벤트 전송
+  trackTestComplete(myType);
+
+  setTimeout(() => {
+    document.querySelectorAll('.axis-bar-fill').forEach(el => {
+      el.style.width = el.dataset.w + '%';
+    });
+  }, 500);
+}
+
+let selectedPartner = null;
+
+function selectPartner(type, btn) {
+  selectedPartner = type;
+  document.querySelectorAll('.type-select-btn').forEach(b => {
+    b.classList.remove('selected');
+    b.style.background = '';
+    b.style.color = '';
+    b.style.borderColor = '';
+  });
+  btn.classList.add('selected');
+  btn.style.background = 'var(--teto)';
+  btn.style.borderColor = 'var(--teto)';
+  btn.style.color = 'white';
+}
+
+function showCombo(myType) {
+  if (!selectedPartner) {
+    alert('상대방 유형을 먼저 선택해주세요');
+    return;
+  }
+  const combo = getComboData(myType, selectedPartner);
+  const el = document.getElementById('combo-result');
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-size:12px;color:var(--muted);font-family:'Noto Sans KR',sans-serif;margin-bottom:6px">우리 조합</div>
+      <div class="combo-title">${myType} × ${selectedPartner}</div>
+      <span class="combo-badge" style="background:${combo.badgeBg};color:${combo.badgeColor}">${combo.badge}</span>
+    </div>
+    <div class="combo-features">
+      ${combo.features.map(f=>`<div class="combo-feature"><span>💗</span><span>${f}</span></div>`).join('')}
+    </div>
+    <div class="combo-divider"></div>
+    <div class="combo-warning">⚠️ ${combo.warning}</div>
+  `;
+
+  el.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+// ══════════════════════════════════════════════════════════════
+// 유형 데이터
+// ══════════════════════════════════════════════════════════════
+function getTypeData(code) {
+  const d = {
+    TS: {
+      nickname: '불꽃 감성형', bg1:'#fff0f0', bg2:'#f7f0ff',
+      c1:'var(--teto)', c2:'var(--sens)',
+      desc: '추진력과 감수성을 동시에 가진 유형이에요. 강하게 이끌면서도 상대의 감정 변화에 민감하게 반응해요. 사랑할 땐 온 힘을 다하지만 상처도 깊게 받는 편이에요.'
+    },
+    TM: {
+      nickname: '행동파 안정형', bg1:'#fff0f0', bg2:'#f0fff7',
+      c1:'var(--teto)', c2:'#2db87a',
+      desc: '이끄는 힘도 있고 웬만한 일엔 흔들리지 않는 유형이에요. 연애에서 든든한 존재감을 주고 갈등을 크게 만들지 않아요. 감정 표현이 적어 보일 수 있어요.'
+    },
+    ES: {
+      nickname: '공감 감성형', bg1:'#f0f9ff', bg2:'#f7f0ff',
+      c1:'#1a9fd4', c2:'var(--sens)',
+      desc: '상대방의 감정을 가장 잘 읽는 유형이에요. 배려가 넘치고 깊은 교감을 원하지만 그만큼 상처도 잘 받아요. 관계에서 가장 감정 노동을 많이 하는 유형이기도 해요.'
+    },
+    EM: {
+      nickname: '잔잔 안정형', bg1:'#f0f9ff', bg2:'#f0fff7',
+      c1:'#1a9fd4', c2:'#2db87a',
+      desc: '다정하고 편안한 에너지를 가진 유형이에요. 갈등을 만들지 않고 상대에게 잘 맞춰줘요. 너무 평온해서 자극이 부족할 수 있지만 오래 가기에 좋은 구조예요.'
+    }
+  };
+  return d[code] || d['EM'];
+}
+
+function getTypeDetails(isTeto, isSens) {
+  const te = isTeto ? `
+    <div class="type-detail-card">
+      <div class="tdcard-header">
+        <div class="tdcard-badge" style="background:var(--teto)">테토</div>
+        <div>
+          <div class="tdcard-name">테토형 연애 모습</div>
+          <div class="tdcard-sub">추진력 · 주도권 · 자존심</div>
+        </div>
+      </div>
+      <div class="tdcard-desc">연애에서 주도적인 역할을 자연스럽게 맡아요. 계획을 세우고 이끄는 것에 에너지가 있어요. 자존심이 있어서 무시당하는 느낌엔 바로 반응하고, 상대가 내 결정을 믿어줄 때 사랑받는다고 느껴요. 갈등이 생기면 피하지 않고 직접 부딪히는 편이에요.</div>
+    </div>` : `
+    <div class="type-detail-card">
+      <div class="tdcard-header">
+        <div class="tdcard-badge" style="background:#1a9fd4">에겐</div>
+        <div>
+          <div class="tdcard-name">에겐형 연애 모습</div>
+          <div class="tdcard-sub">공감 · 배려 · 수용</div>
+        </div>
+      </div>
+      <div class="tdcard-desc">상대방의 감정과 상황에 자연스럽게 맞춰주는 유형이에요. 분위기를 부드럽게 유지하고 상대가 편안함을 느끼도록 행동해요. 갈등보다는 조화를 중시하고, 상대가 먼저 감정을 표현해줄 때 연결감을 느껴요. 다정하지만 본인의 감정은 잘 드러내지 않을 수 있어요.</div>
+    </div>`;
+
+  const sm = isSens ? `
+    <div class="type-detail-card">
+      <div class="tdcard-header">
+        <div class="tdcard-badge" style="background:var(--sens)">섬세</div>
+        <div>
+          <div class="tdcard-name">섬세형 연애 모습</div>
+          <div class="tdcard-sub">감수성 · 공감 · 감정 깊이</div>
+        </div>
+      </div>
+      <div class="tdcard-desc">상대의 작은 변화도 바로 감지하고, 말 한마디에도 깊게 반응해요. 감정 교류가 깊고 연인과의 연결감을 아주 소중하게 여겨요. 상처도 깊게 받는 편이고, 이별 후 감정이 오래 남는 구조예요. 디테일을 잘 챙기는 만큼 상대에게도 그것을 기대하는 경향이 있어요.</div>
+    </div>` : `
+    <div class="type-detail-card">
+      <div class="tdcard-header">
+        <div class="tdcard-badge" style="background:#2db87a">무던</div>
+        <div>
+          <div class="tdcard-name">무던형 연애 모습</div>
+          <div class="tdcard-sub">안정감 · 여유 · 일관성</div>
+        </div>
+      </div>
+      <div class="tdcard-desc">웬만한 일에는 크게 흔들리지 않고 감정이 안정적이에요. 상대가 예민하게 굴어도 여유롭게 받아줄 수 있어요. 갈등이 생겨도 금방 털고 일어나고 다음날 평소처럼 대할 수 있어요. 다만 상대 입장에서 "왜 이렇게 무심해?"라는 느낌을 줄 수 있어요.</div>
+    </div>`;
+
+  return te + sm;
+}
+
+// ══════════════════════════════════════════════════════════════
+// 커플 조합 데이터 (이미지 11장 기반)
+// ══════════════════════════════════════════════════════════════
+function getComboData(myType, partnerType) {
+  const myCode = myType.replace(' + ', '_').replace('테토','T').replace('에겐','E').replace('섬세','S').replace('무던','M');
+  const ptCode = partnerType.replace('+','_').replace('테토','T').replace('에겐','E').replace('섬세','S').replace('무던','M').replace(/\s/g,'');
+
+  const key = myCode + '__' + ptCode;
+
+  const combos = {
+    // 잔잔한 안정 궁합
+    'E_M__E_M': { badge:'🌙 잔잔한 안정 궁합', badgeBg:'#f0f9ff', badgeColor:'#1a9fd4', features:['둘 다 다정하고 부드러운 성향','갈등을 크게 만들지 않는 편','서로 맞춰주며 관계 유지'], warning:'너무 평온해서 문제나 서운함을 본인도 모르게 넘기다 언젠가 터지거나 회피하며 쌓일 수 있어요.' },
+    // 배려형 궁합
+    'E_S__E_M': { badge:'🌿 배려형 궁합', badgeBg:'#f0fff7', badgeColor:'#2db87a', features:['한쪽은 애정 표현이나 감정 캐치 능력 좋음','한쪽은 말랑 느긋하고 수더분~','서로 배려하며 균형 잡힘'], warning:'섬세한 쪽이 혼자 관계 내 감정 영역을 과하게 책임지다 지칠 수 있어요.' },
+    'E_M__E_S': { badge:'🌿 배려형 궁합', badgeBg:'#f0fff7', badgeColor:'#2db87a', features:['정서적으로 조화가 잘 되는 안정적인 관계','서로의 감정을 자연스럽게 받아주는 구조'], warning:'섬세한 쪽이 혼자 감정 노동을 더 많이 하게 될 수 있어요.' },
+    // 감정 교감 궁합
+    'E_S__E_S': { badge:'✍️ 감정 교감 궁합', badgeBg:'var(--sens-p)', badgeColor:'var(--sens)', features:['둘 다 공감 능력 높음','말하지 않아도 분위기 읽는 편','감정 교류 깊은 스타일'], warning:'둘 다 예민해지면 서로 눈치 보며 감정 피로도 높아질 수 있어요. 자잘한 걸로 부딪히기 쉬운 관계예요.' },
+    // 감정 폭발 궁합
+    'T_S__E_S': { badge:'🌴 감정 폭발 궁합', badgeBg:'#fff0f0', badgeColor:'var(--teto)', features:['테토는 주도권·자존심 강함','섬세한 쪽은 감정 반응 빠름','말 한마디에도 상처 생기기 쉬움'], warning:'테토의 직설적인 표현이 에겐 쪽에게 상처로 남기 쉬워요.' },
+    'E_S__T_S': { badge:'🌴 감정 폭발 궁합', badgeBg:'#fff0f0', badgeColor:'var(--teto)', features:['사랑은 깊지만 감정 소모 큰 관계','서로에게 많은 것을 기대하게 됨'], warning:'테토의 직설적인 말이 섬세한 에겐에게 깊은 상처를 남길 수 있어요.' },
+    // 불꽃 에너지 궁합
+    'T_S__T_S': { badge:'💚 불꽃 에너지 궁합', badgeBg:'var(--mutt-p)', badgeColor:'#2db87a', features:['둘 다 추진력 강함','자존심과 주관 확실','에너지와 존재감 강한 편'], warning:'방향 맞으면 최강 조합이지만 자존심 싸움 시작되면 걷잡을 수 없어요.' },
+    // 강한 평행 궁합
+    'T_M__T_M': { badge:'🧊 강한 평행 궁합', badgeBg:'var(--teto-p)', badgeColor:'var(--teto)', features:['둘 다 감정 표현 적은 편','서로 간섭 거의 없음','각자 생활 존중'], warning:'감정 표현이 부족하면 정서적 거리감이 생길 수 있어요.' },
+    // 안정 균형 궁합
+    'T_M__E_M': { badge:'⚖️ 안정 균형 궁합', badgeBg:'#fffbf0', badgeColor:'var(--peach)', features:['한쪽은 추진력 있음','한쪽은 부드럽게 받아주는 스타일','갈등이 크게 번지지 않음'], warning:'서로 너무 무던하면 문제를 깊게 이야기하지 않고 넘어갈 수 있어요.' },
+    'E_M__T_M': { badge:'⚖️ 안정 균형 궁합', badgeBg:'#fffbf0', badgeColor:'var(--peach)', features:['편안하고 현실적인 관계','큰 갈등 없이 잘 흘러가는 편'], warning:'서로 무던해서 감정 대화가 부족해질 수 있어요.' },
+    // 보완 성장 궁합
+    'T_M__E_S': { badge:'🔥 보완 성장 궁합', badgeBg:'#fff8f0', badgeColor:'var(--peach)', features:['한쪽은 행동 중심','한쪽은 감정 중심','서로 부족한 부분 채워줌'], warning:'감정 표현 방식 차이로 "왜 내 마음을 몰라?" 같은 오해가 생길 수 있어요.' },
+    'E_S__T_M': { badge:'🔥 보완 성장 궁합', badgeBg:'#fff8f0', badgeColor:'var(--peach)', features:['잘 맞으면 서로 성장하는 관계','행동형과 감정형의 균형'], warning:'감정 표현 방식 차이 때문에 오해가 반복될 수 있어요.' },
+    // 온도차 궁합
+    'T_S__T_M': { badge:'🔍 온도차 궁합', badgeBg:'#f7f0ff', badgeColor:'var(--sens)', features:['둘 다 추진력 강한 편','한쪽은 감정 민감, 한쪽은 둔감','문제 생기면 체감 온도 다름'], warning:'섬세 쪽은 "왜 이렇게 무심해?", 무던 쪽은 "왜 이렇게 예민해?" 감정 체감 차이로 갈등 생기기 쉬워요.' },
+    'T_M__T_S': { badge:'🔍 온도차 궁합', badgeBg:'#f7f0ff', badgeColor:'var(--sens)', features:['같은 테토지만 감정 속도 차이 큰 커플','에너지는 맞지만 감정 온도가 달라요'], warning:'감정 체감 차이로 작은 일에서 자주 부딪힐 수 있어요.' },
+    // 균형 완충 궁합
+    'T_S__E_M': { badge:'💚 균형 완충 궁합', badgeBg:'var(--mutt-p)', badgeColor:'#2db87a', features:['한쪽은 추진력 + 감정 민감','한쪽은 부드럽고 안정적','분위기 조절 잘 되는 구조'], warning:'테섬이 감정적으로 올라올 때 에무가 계속 받아주기만 하면 감정 의존 구조가 될 수 있고 지치기 쉬워요.' },
+    'E_M__T_S': { badge:'💚 균형 완충 궁합', badgeBg:'var(--mutt-p)', badgeColor:'#2db87a', features:['강함 + 안정 균형형 커플','서로 다른 에너지가 잘 보완됨'], warning:'에무가 테섬의 감정을 계속 받아주다 지칠 수 있어요. 균형 필요.' },
+  };
+
+  return combos[key] || {
+    badge: '💗 특별한 조합',
+    badgeBg: '#fff0f0',
+    badgeColor: 'var(--teto)',
+    features: ['서로 다른 에너지가 만나는 관계', '차이를 이해하면 성장할 수 있는 구조'],
+    warning: '서로의 에너지 차이를 인정하고 대화하는 것이 중요해요.'
+  };
+}
+
+const SUPA_URL = 'https://dleoheiqaardmpyoklmt.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRsZW9oZWlxYWFyZG1weW9rbG10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MzUzNzMsImV4cCI6MjA5NDIxMTM3M30.yVmdhisxmC1KB3Ku1ZapF_CtTqEacqw8BWt32n30-Lc';
+
+async function getCount(testName) {
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/test_counts?test_name=eq.${testName}&select=count`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    const data = await res.json();
+    return data.length > 0 ? data[0].count : 0;
+  } catch(e) { return 0; }
+}
+
+async function incrementCount(testName) {
+  const res = await fetch(`${SUPA_URL}/rest/v1/test_counts?test_name=eq.${testName}&select=count`, {
+    headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+  });
+  const data = await res.json();
+  if (data.length === 0) {
+    await fetch(`${SUPA_URL}/rest/v1/test_counts`, {
+      method: 'POST',
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ test_name: testName, count: 1 })
+    });
+  } else {
+    await fetch(`${SUPA_URL}/rest/v1/test_counts?test_name=eq.${testName}`, {
+      method: 'PATCH',
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ count: data[0].count + 1 })
+    });
+  }
+}
+
+async function showCountBadge(testName, elementId) {
+  const n = await getCount(testName);
+  const el = document.getElementById(elementId);
+  if (el) el.textContent = n.toLocaleString() + '명이 완료했어요';
+}
+
+</script>
+
+  <!-- werit 홈 버튼 -->
+  <style>
+    .werit-home-btn{position:fixed;top:16px;left:16px;z-index:9999;background:#fff;border:1.5px solid #e5e5e5;border-radius:99px;padding:8px 16px;font-size:12px;font-weight:700;color:#111;text-decoration:none;font-family:'Noto Sans KR',sans-serif;box-shadow:0 2px 12px rgba(0,0,0,0.08);transition:all 0.2s ease;display:flex;align-items:center;gap:6px}
+    .werit-home-btn:hover{border-color:#111;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+    .werit-home-btn .dot{color:#fb923c;font-size:14px;font-weight:900}
+  </style>
+  <a href="index.html" class="werit-home-btn"><span>←</span><span>werit<span class="dot">.</span></span></a>
+
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>werit — 나를 읽는 시간</title>
+<meta name="description" content="MBTI, 연애, 직장, 성향 테스트로 나를 읽는 시간. 재밌게 풀고 깊이 알아가요.">
+<meta property="og:title" content="werit — 나를 읽는 시간">
+<meta property="og:description" content="MBTI, 연애, 직장 — 재밌게 풀고 깊이 알아가는 심리 테스트">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f5f5f5;font-family:'Noto Sans KR',sans-serif;color:#111;min-height:100vh;-webkit-font-smoothing:antialiased}
+.container{max-width:680px;margin:0 auto;padding:0 20px}
+.header{padding:36px 20px 28px;text-align:center;background:#fff;border-bottom:1px solid #f0f0f0}
+.logo{font-size:30px;font-weight:900;letter-spacing:-1px;color:#111;margin-bottom:6px}
+.logo-dot{color:#fb923c}
+.slogan{font-size:12px;color:#aaa;letter-spacing:4px;text-transform:uppercase;font-weight:500}
+.section{padding:20px 20px 12px}
+.section-label{font-size:11px;letter-spacing:3px;color:#bbb;text-transform:uppercase;font-weight:700;margin-bottom:12px;padding-left:2px}
+.test-list{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.test-card{background:#fff;border:1px solid #ebebeb;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.2s ease;text-decoration:none;color:inherit;position:relative}
+.test-card:hover{border-color:#111;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.07)}
+.test-card.coming{cursor:default;opacity:0.5}
+.test-card.coming:hover{border-color:#ebebeb;transform:none;box-shadow:none}
+.test-emoji{font-size:28px;flex-shrink:0;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:#f7f7f7;border-radius:12px}
+.test-info{flex:1;min-width:0}
+.test-cat{font-size:10px;color:#bbb;font-weight:700;letter-spacing:1px;margin-bottom:3px;text-transform:uppercase}
+.test-title{font-size:15px;font-weight:700;color:#111;margin-bottom:2px;line-height:1.4}
+.test-desc{font-size:12px;color:#aaa;line-height:1.5}
+.test-arrow{font-size:16px;color:#ccc;flex-shrink:0}
+.badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:6px;vertical-align:middle;letter-spacing:0.5px}
+.badge-hot{background:#fff0eb;color:#fb923c}
+.badge-new{background:#f0fdf4;color:#22c55e}
+.badge-coming{background:#f3f3f3;color:#bbb}
+.hero{background:#fff;padding:48px 20px 44px;text-align:center;border-bottom:1px solid #f0f0f0}
+.hero-title{font-size:28px;font-weight:900;line-height:1.4;letter-spacing:-0.5px;color:#111;margin-bottom:12px}
+.hero-sub{font-size:13px;color:#aaa;line-height:1.8;font-weight:400}
+.hero-tags{display:flex;justify-content:center;gap:8px;margin-top:20px;flex-wrap:wrap}
+.hero-tag{font-size:11px;font-weight:700;padding:5px 12px;border-radius:99px;border:1px solid #ebebeb;color:#999;background:#fafafa;letter-spacing:0.5px}
+.section-label.star{color:#a78bfa}
+.footer{padding:28px 20px 48px;text-align:center;border-top:1px solid #f0f0f0;background:#fff;margin-top:12px}
+.footer-links{display:flex;justify-content:center;gap:16px;margin-bottom:10px}
+.footer-links a{font-size:12px;color:#bbb;text-decoration:none}
+.footer-links a:hover{color:#111}
+.footer-copy{font-size:11px;color:#ddd}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="container">
+    <div class="logo">werit<span class="logo-dot">.</span></div>
+    <div class="slogan">나를 읽는 시간</div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="container">
+    <div class="hero-title">재밌게 풀고<br>깊이 알아가는 시간</div>
+    <div class="hero-sub">MBTI · 연애 · 직장 · 성향 · 별자리<br>나를 이해하는 다양한 방법들</div>
+    <div class="hero-tags">
+      <span class="hero-tag">✦ 심리 테스트</span>
+      <span class="hero-tag">🔮 점성술 가이드</span>
+      <span class="hero-tag">💡 자기 탐색</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="section">
+    <div class="section-label">💝 LOVE</div>
+    <div class="test-list">
+
+      <a href="teto-egen-test.html" class="test-card">
+        <div class="test-emoji">💞</div>
+        <div class="test-info">
+          <div class="test-cat">연애 · 성향</div>
+          <div class="test-title">나는 연애할 때 어떤 유형과 잘 맞을까? <span class="badge badge-hot">🔥 인기</span></div>
+          <div class="test-desc">에겐 · 테토 · 무던 · 섬세 조합 분석</div>
+        </div>
+        <div class="test-arrow">→</div>
+      </a>
+
+      <a href="ddongcha-filter-test.html" class="test-card">
+        <div class="test-emoji">💩</div>
+        <div class="test-info">
+          <div class="test-cat">연애 · 판별</div>
+          <div class="test-title">나는 똥차 판별을 잘할까? <span class="badge badge-new">✨ NEW</span></div>
+          <div class="test-desc">레드플래그 감지 능력 측정</div>
+        </div>
+        <div class="test-arrow">→</div>
+      </a>
+
+      <a href="attachment-style.html" class="test-card">
+        <div class="test-emoji">🫂</div>
+        <div class="test-info">
+          <div class="test-cat">애착</div>
+          <div class="test-title">애착유형 검사</div>
+          <div class="test-desc">나의 연애 애착 패턴 파악하기</div>
+        </div>
+        <div class="test-arrow">→</div>
+      </a>
+
+      <a href="attachment-mbti.html" class="test-card">
+        <div class="test-emoji">💝</div>
+        <div class="test-info">
+          <div class="test-cat">애착 · MBTI</div>
+          <div class="test-title">애착 × MBTI 궁합</div>
+          <div class="test-desc">애착유형과 MBTI로 보는 관계</div>
+        </div>
+        <div class="test-arrow">→</div>
+      </a>
+
+      <a href="dog-love-test.html" class="test-card">
+        <div class="test-emoji">🐾</div>
+        <div class="test-info">
+          <div class="test-cat">MBTI · 연애</div>
+          <div class="test-title">나의 연애 성향과 닮은 강아지는?</div>
+          <div class="test-desc">12문항 · MBTI별 강아지 캐릭터</div>
+        </div>
+        <div class="test-arrow">→</div>
+      </a>
+
+      <a href="mbti-love-test.html" class="test-card">
+        <div class="test-emoji">💑</div>
+        <div class="test-info">
+          <div class="test-cat">연애 · MBTI</div>
+          <div class="test-title">연애 궁합 MBTI 분석</div>
+          <div class="test-desc">우리는 잘 맞는 사이일까?</div>
+        </div>
+        <div class="test-arrow">→</div>
+      </a>
+
+      <div class="test-card coming">
+        <div class="test-emoji">🍀</div>
+        <div class="test-info">
+          <div class="test-cat">연애 · 운</div>
+          <div class="test-title">나는 이성복이 있을까? <span class="badge badge-coming">COMING</span></div>
+          <div class="test-desc">내 연애 운 진단</div>
+        </div>
+      </div>
+
+      <div class="test-card coming">
+        <div class="test-emoji">👀</div>
+        <div class="test-info">
+          <div class="test-cat">연애 · 기준</div>
+          <div class="test-title">나는 이성 보는 눈이 높을까? <span class="badge badge-coming">COMING</span></div>
+          <div class="test-desc">내 연애 기준선 체크</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-label">💼 WORK</div>
+    <div class="test-list">
+
+      <a href="resign-test.html" class="test-card">
+        <div class="test-emoji">💼</div>
+        <div class="test-info">
+          <div class="test-cat">직장 · 퇴사</div>
+          <div class="test-title">나, 지금 퇴사해도 될까?</div>
+          <div class="test-desc">MBTI + 직군별 퇴사 타이밍 분석</div>
+        </div>
+        <div class="test-arrow">→</div>
+      </a>
+
+      <a href="villain-test.html" class="test-card">
+        <div class="test-emoji">😈</div>
+        <div class="test-info">
+          <div class="test-cat">직장 · 성향</div>
+          <div class="test-title">나는 얼마나 직장 빌런인가?</div>
+          <div class="test-desc">내 직장 내 캐릭터 진단</div>
+        </div>
+        <div class="test-arrow">→</div>
+      </a>
+
+    </div>
+
+    <div class="section-label star">🔮 STAR</div>
+    <div class="test-list">
+
+      <a href="astro_guide_fixed.html" class="test-card">
+        <div class="test-emoji">🌌</div>
+        <div class="test-info">
+          <div class="test-cat">점성술 · 가이드</div>
+          <div class="test-title">내 차트 보는 법 <span class="badge badge-new">✨ NEW</span></div>
+          <div class="test-desc">행성 · 하우스 · 애스펙트 — 차트 읽는 법부터 Claude 분석 요청까지</div>
+        </div>
+        <div class="test-arrow">→</div>
+      </a>
+
+      <div class="test-card coming">
+        <div class="test-emoji">☽</div>
+        <div class="test-info">
+          <div class="test-cat">점성술 · 연애</div>
+          <div class="test-title">달 · 금성으로 보는 연애 패턴 <span class="badge badge-coming">COMING</span></div>
+          <div class="test-desc">감정 개방 조건과 무의식적 끌림</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-links">
+    <a href="privacy.html">개인정보처리방침</a>
+    <a href="mailto:contact@werit.com">문의</a>
+  </div>
+  <div class="footer-copy">© 2026 werit. all rights reserved.</div>
+</div>
+
+</body>
+</html>

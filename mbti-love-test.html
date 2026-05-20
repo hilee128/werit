@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연애 궁합 MBTI 분석</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0c0c14;
+  --paper: #ffffff;
+  --cream: #f7f7f7;
+  --gold: #c2318a;
+  --gold-l: #e8579a;
+  --gold-pale: #fce7f3;
+  --rose: #6b2fa0;
+  --rose-l: #8b4fc0;
+  --rose-pale: #f3e8ff;
+  --teal: #e8579a;
+  --teal-l: #f4a7c3;
+  --teal-pale: #fdeef5;
+  --navy: #c2318a;
+  --slate: #4a5568;
+  --muted: #8892a4;
+  --border: #ddd8ce;
+  --shadow: rgba(12,12,20,0.08);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* 배경 텍스처 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 85%, rgba(232,87,154,0.07) 0%, transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(196,81,106,0.06) 0%, transparent 40%),
+    radial-gradient(circle at 50% 10%, rgba(107,47,160,0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 48px 24px 100px;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes slideIn {
+  from { opacity:0; transform:translateX(-12px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ── 페이지 전환 ── */
+.page { display:none; }
+.page.on { display:block; }
+
+/* ── 공통 컴포넌트 ── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.chip-gold { background: var(--gold-pale); color: var(--gold); border: 1px solid rgba(201,151,58,0.3); }
+.chip-rose { background: var(--rose-pale); color: var(--rose); border: 1px solid rgba(196,81,106,0.3); }
+.chip-teal { background: var(--teal-pale); color: var(--teal); border: 1px solid rgba(42,124,116,0.3); }
+
+.serif { font-family: 'Noto Serif KR', serif; }
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 24px 0;
+}
+
+/* ── 버튼 ── */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  letter-spacing: 0.3px;
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 0 4px 20px rgba(12,12,20,0.2);
+}
+
+.name-input-wrap { margin-bottom: 16px; }
+.name-input-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  display: block;
+}
+.name-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.name-input::placeholder { color: var(--muted); }
+.name-input:focus { border-color: var(--rose); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(12,12,20,0.28); }
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold-l));
+  color: white;
+  box-shadow: 0 4px 20px rgba(201,151,58,0.3);
+}
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,151,58,0.4); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--slate);
+  border: 1.5px solid var(--border);
+}
+.btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ── 카드 ── */
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+
+/* ══════════════════════════════════════
+   인트로
+══════════════════════════════════════ */
+.intro-eyebrow {
+  animation: fadeUp 0.6s ease both;
+  margin-bottom: 20px;
+}
+
+.intro-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 14px;
+  animation: fadeUp 0.6s 0.08s ease both;
+}
+
+.intro-title em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--gold), var(--rose));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.intro-desc {
+  font-size: 14px;
+  color: var(--slate);
+  line-height: 1.8;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s 0.12s ease both;
+}
+
+.intro-modules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s 0.18s ease both;
+}
+
+.module-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  transition: all 0.25s ease;
+}
+.module-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+
+.module-icon { font-size: 22px; margin-bottom: 8px; }
+.module-name { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.module-sub  { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+/* ══════════════════════════════════════
+   진행바
+══════════════════════════════════════ */
+.prog-area { margin-bottom: 32px; }
+
+.prog-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.prog-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+.prog-label-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.prog-count { font-size: 12px; color: var(--muted); }
+
+.prog-track {
+  height: 3px;
+  background: #f0f0f0;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.prog-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #f9d0e0, #f4a7c3, #e8579a, #c2318a, #6b2fa0);
+  border-radius: 100px;
+  transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ══════════════════════════════════════
+   질문
+══════════════════════════════════════ */
+.q-wrap {
+  animation: fadeUp 0.4s ease both;
+}
+
+.q-cat-tag {
+  margin-bottom: 14px;
+}
+
+.q-text {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+
+/* 5점 척도 */
+.scale-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.sc {
+  flex: 1;
+  aspect-ratio: 1;
+  max-height: 52px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sc:hover { border-color: var(--gold); color: var(--ink); background: var(--gold-pale); }
+.sc.on { background: var(--ink); border-color: var(--ink); color: white; }
+
+.scale-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+/* 객관식 */
+.choice-group { display: flex; flex-direction: column; gap: 10px; }
+
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+.choice:hover { background: var(--gold-pale); border-color: rgba(201,151,58,0.5); }
+.choice.on { background: var(--ink); border-color: var(--ink); }
+
+.choice-radio {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s ease;
+}
+.choice.on .choice-radio { border-color: white; background: white; }
+.choice.on .choice-radio::after { content:''; width:8px; height:8px; border-radius:50%; background:var(--ink); }
+
+.choice-text { font-size: 13px; color: var(--slate); line-height: 1.6; }
+.choice.on .choice-text { color: white; }
+
+/* 내비 */
+.nav-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.btn-nav-back {
+  flex: 0 0 52px;
+  height: 52px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.btn-nav-back:hover { border-color: var(--ink); }
+
+.btn-nav-next {
+  flex: 1;
+  height: 52px;
+  background: var(--ink);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.3px;
+}
+.btn-nav-next:hover { background: #1e2a3e; transform: translateY(-1px); }
+.btn-nav-next.gold { background: var(--rose); color: white; }
+
+.warn-msg { font-size: 12px; color: var(--rose); margin-top: 8px; display: none; }
+
+/* ══════════════════════════════════════
+   결과
+══════════════════════════════════════ */
+
+/* 결과 히어로 */
+.result-hero {
+  text-align: center;
+  padding: 40px 0 32px;
+  animation: fadeUp 0.8s ease both;
+}
+
+.result-mbti-big {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 64px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin: 16px 0 8px;
+  background: linear-gradient(135deg, var(--ink) 0%, var(--slate) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.result-mbti-name {
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+
+.result-one-line {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 14px;
+  color: var(--slate);
+  line-height: 1.8;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+/* 4축 바 */
+.axis-section {
+  margin-bottom: 20px;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+
+.axis-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.axis-left  { width: 28px; font-size: 14px; font-weight: 700; color: var(--ink); text-align: right; }
+.axis-right { width: 28px; font-size: 14px; font-weight: 700; color: var(--ink); }
+
+.axis-track {
+  flex: 1;
+  height: 10px;
+  background: #f0f0f0;
+  border-radius: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.axis-fill {
+  position: absolute;
+  top: 0; bottom: 0;
+  border-radius: 100px;
+  transition: all 1s cubic-bezier(0.4,0,0.2,1);
+}
+
+.axis-pct { font-size: 11px; color: var(--muted); width: 36px; text-align: right; }
+
+/* 성향 분석 섹션 */
+.analysis-section {
+  animation: fadeUp 0.8s 0.15s ease both;
+}
+
+.section-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trait-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.trait-item {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.trait-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+.trait-val   { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+
+.analysis-text {
+  font-size: 13px;
+  color: var(--slate);
+  line-height: 1.85;
+  padding: 16px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+
+}
+.analysis-text b { color: var(--ink); }
+
+
+
+/* 궁합 카드 */
+.compat-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.compat-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.25s ease;
+}
+.compat-card:hover { box-shadow: 0 4px 20px var(--shadow); transform: translateY(-2px); }
+
+.compat-card.best { border-color: var(--gold); background: var(--gold-pale); }
+.compat-card.good { border-color: rgba(244,167,195,0.4); background: #fff5fb; }
+.compat-card.caution { border-color: rgba(107,47,160,0.3); background: #f8f0ff; }
+
+.compat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.compat-mbti-badge {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  min-width: 80px;
+}
+
+.compat-name { font-size: 12px; color: var(--muted); }
+
+.compat-score-wrap {
+  margin-left: auto;
+  text-align: right;
+}
+
+.compat-score {
+  font-size: 22px;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.compat-score-label { font-size: 10px; color: var(--muted); }
+
+.compat-bar-track {
+  height: 5px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.compat-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.compat-desc { font-size: 12px; color: var(--slate); line-height: 1.7; }
+.compat-desc b { color: var(--ink); }
+
+.compat-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.compat-tag {
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* 연애 취약점 */
+.vuln-list { display: flex; flex-direction: column; gap: 8px; }
+.vuln-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--slate);
+  line-height: 1.6;
+}
+.vuln-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+/* 태그 줄 */
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.tag-item {
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid;
+}
+.t-gold { color: var(--gold); border-color: rgba(201,151,58,0.4); background: var(--gold-pale); }
+.t-rose { color: var(--rose); border-color: rgba(196,81,106,0.4); background: var(--rose-pale); }
+.t-teal { color: var(--teal); border-color: rgba(42,124,116,0.4); background: var(--teal-pale); }
+.t-navy { color: var(--navy); border-color: rgba(30,45,74,0.3); background: white; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ══ 인트로 ══ -->
+<div id="p-intro" class="page on">
+  <div class="intro-eyebrow"><span class="chip chip-gold">💌 MBTI × 연애 궁합 분석</span></div>
+  <h1 class="intro-title">나의 연애 성향과<br/><em>잘 맞는 MBTI</em>는?</h1>
+  <p class="intro-desc">MBTI 4개 축을 직접 측정하고,<br/>연애 스타일·취약점·궁합까지 한 번에 분석해요.<br/>총 32문항 · 약 5분 소요</p>
+
+  <div class="intro-modules">
+    <div class="module-card">
+      <div class="module-icon">🧭</div>
+      <div class="module-name">MBTI 정밀 측정</div>
+      <div class="module-sub">4개 축을 수치로 측정해 정확한 타입 도출</div>
+    </div>
+    <div class="module-card">
+      <div class="module-icon">💞</div>
+      <div class="module-name">연애 궁합 순위</div>
+      <div class="module-sub">베스트 · 좋음 · 주의 유형 분류</div>
+    </div>
+    <div class="module-card">
+      <div class="module-icon">🔍</div>
+      <div class="module-name">연애 성향 분석</div>
+      <div class="module-sub">감정 표현·갈등 방식·애정 언어</div>
+    </div>
+    <div class="module-card">
+      <div class="module-icon">⚠️</div>
+      <div class="module-name">연애 취약점</div>
+      <div class="module-sub">반복되는 연애 문제 패턴 진단</div>
+    </div>
+  </div>
+
+  <div class="name-input-wrap">
+    <label class="name-input-label">이름 또는 닉네임 (선택)</label>
+    <input class="name-input" id="mbti-user-name" type="text" placeholder="예) 해리쉬, 햄진이" maxlength="10">
+  </div>
+  <button class="btn btn-primary" onclick="startTest()">시작하기 →</button>
+</div>
+
+<!-- ══ 검사 ══ -->
+<div id="p-test" class="page">
+  <div class="prog-area">
+    <div class="prog-meta">
+      <div class="prog-label">
+        <div class="prog-label-dot" id="pdot"></div>
+        <span id="psec">E / I 축</span>
+      </div>
+      <span class="prog-count" id="pcount">1 / 32</span>
+    </div>
+    <div class="prog-track"><div class="prog-bar" id="pbar" style="width:3%"></div></div>
+  </div>
+
+  <div id="qarea"></div>
+  <p class="warn-msg" id="wmsg">답변을 선택해주세요</p>
+
+  <div class="nav-row">
+    <button class="btn-nav-back" id="backbtn" onclick="prev()" style="display:none">←</button>
+    <button class="btn-nav-next" id="nextbtn" onclick="next()">다음 →</button>
+  </div>
+</div>
+
+<!-- ══ 결과 ══ -->
+<div id="p-result" class="page"></div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// 질문 데이터
+// ══════════════════════════════════════════════════════════════
+const QS = [
+  // E/I (8문항)
+  {id:1, ax:'EI', pole:'E', text:'새로운 사람을 만나거나 모임에 가면 에너지가 충전된다.', type:'scale'},
+  {id:2, ax:'EI', pole:'I', text:'혼자 있는 시간이 없으면 지치는 느낌이 든다.', type:'scale'},
+  {id:3, ax:'EI', pole:'E', text:'연애할 때 상대에게 먼저 연락하거나 계획을 주도하는 편이다.', type:'scale'},
+  {id:4, ax:'EI', pole:'I', text:'연인이라도 혼자만의 시간이 규칙적으로 필요하다.', type:'scale'},
+  {id:5, ax:'EI', pole:'E', text:'감정이나 생각을 말로 꺼내야 정리가 된다.', type:'scale'},
+  {id:6, ax:'EI', pole:'I', text:'깊은 관계 1~2명이 넓은 관계 여러 명보다 좋다.', type:'scale'},
+  {id:7, ax:'EI', pole:'E', text:'오랫동안 연락이 없으면 먼저 연락하고 싶어진다.', type:'scale'},
+  {id:8, ax:'EI', pole:'I', text:'상대가 내 감정을 직접 물어보기 전까지 먼저 말하지 않는 편이다.', type:'scale'},
+
+  // S/N (8문항)
+  {id:9,  ax:'SN', pole:'N', text:'연애에서 "지금"보다 "앞으로 우리가 어떤 모습일까"를 더 많이 상상한다.', type:'scale'},
+  {id:10, ax:'SN', pole:'S', text:'여행이나 데이트 계획을 짤 때 구체적인 일정이 있어야 안심이 된다.', type:'scale'},
+  {id:11, ax:'SN', pole:'N', text:'상대방이 말할 때 숨겨진 의미나 감정을 파악하려는 편이다.', type:'scale'},
+  {id:12, ax:'SN', pole:'S', text:'과거 경험을 바탕으로 지금 관계를 판단하는 편이다.', type:'scale'},
+  {id:13, ax:'SN', pole:'N', text:'새로운 방식의 연애나 관계에 열려있고 기존 틀을 깨고 싶다.', type:'scale'},
+  {id:14, ax:'SN', pole:'S', text:'상대의 작은 행동(밥 사주기, 배웅하기)이 말보다 더 의미있게 느껴진다.', type:'scale'},
+  {id:15, ax:'SN', pole:'N', text:'연애에서 감각적 즐거움보다 정신적·지적 연결이 더 중요하다.', type:'scale'},
+  {id:16, ax:'SN', pole:'S', text:'안정적이고 루틴이 있는 연애가 더 편하다.', type:'scale'},
+
+  // T/F (8문항)
+  {id:17, ax:'TF', pole:'F', text:'상대가 힘들어할 때 해결책보다 공감과 위로를 먼저 원한다.', type:'scale'},
+  {id:18, ax:'TF', pole:'T', text:'갈등이 생기면 감정보다 사실관계를 먼저 따지게 된다.', type:'scale'},
+  {id:19, ax:'TF', pole:'F', text:'상대방의 기분이나 감정 변화를 빠르게 감지하는 편이다.', type:'scale'},
+  {id:20, ax:'TF', pole:'T', text:'연애에서도 논리적으로 맞지 않으면 수긍하기 어렵다.', type:'scale'},
+  {id:21, ax:'TF', pole:'F', text:'이별 후 감정을 오래 간직하고 쉽게 잊지 못하는 편이다.', type:'scale'},
+  {id:22, ax:'TF', pole:'T', text:'상대에게 솔직한 피드백을 줄 수 있다. 감정보다 사실이 더 중요하다.', type:'scale'},
+  {id:23, ax:'TF', pole:'F', text:'상대가 내 감정을 알아줄 때 가장 사랑받는다고 느낀다.', type:'scale'},
+  {id:24, ax:'TF', pole:'T', text:'연애에서 감정적으로 흔들리는 상황을 빨리 끝내고 싶다.', type:'scale'},
+
+  // J/P (8문항)
+  {id:25, ax:'JP', pole:'J', text:'연애에서 관계의 방향이나 미래를 명확히 정하고 싶다.', type:'scale'},
+  {id:26, ax:'JP', pole:'P', text:'즉흥적인 데이트나 갑작스러운 계획이 오히려 설레고 좋다.', type:'scale'},
+  {id:27, ax:'JP', pole:'J', text:'상대가 약속을 어기거나 계획을 자꾸 바꾸면 스트레스를 받는다.', type:'scale'},
+  {id:28, ax:'JP', pole:'P', text:'연애에서 "우리 어떻게 할 거야?" 같은 규정짓는 대화가 부담스럽다.', type:'scale'},
+  {id:29, ax:'JP', pole:'J', text:'할 일이 쌓이면 연애에 집중하기 어렵다. 정리가 되어야 편하다.', type:'scale'},
+  {id:30, ax:'JP', pole:'P', text:'연애 초반에 규칙이나 약속을 정하는 것보다 자연스럽게 흐르는 게 좋다.', type:'scale'},
+  {id:31, ax:'JP', pole:'J', text:'데이트 계획은 미리 정해두는 것이 편하다.', type:'scale'},
+  {id:32, ax:'JP', pole:'P', text:'상황에 따라 유연하게 관계 방식을 바꾸는 것이 자연스럽다.', type:'scale'},
+];
+
+const AX_COLOR = { EI:'#f4a7c3', SN:'#e8579a', TF:'#c2318a', JP:'#6b2fa0' };
+const AX_LABEL = { EI:'외향 / 내향', SN:'감각 / 직관', TF:'감정 / 사고', JP:'계획 / 유연' };
+
+let cur = 0;
+let ans = {};
+
+function startTest() {
+  const nameEl = document.getElementById('mbti-user-name');
+  const name = nameEl ? nameEl.value.trim() : '';
+  if (name) localStorage.setItem('mbti_user_name', name);
+  show('p-test');
+  renderQ();
+}
+
+function show(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+}
+
+function renderQ() {
+  const q = QS[cur];
+  const total = QS.length;
+
+  document.getElementById('pbar').style.width = ((cur+1)/total*100)+'%';
+  document.getElementById('pcount').textContent = `${cur+1} / ${total}`;
+  document.getElementById('psec').textContent = AX_LABEL[q.ax];
+  document.getElementById('pdot').style.background = AX_COLOR[q.ax];
+
+  document.getElementById('backbtn').style.display = cur===0?'none':'flex';
+  const nb = document.getElementById('nextbtn');
+  if (cur===total-1) { nb.textContent='결과 보기 ✨'; nb.classList.add('gold'); }
+  else { nb.textContent='다음 →'; nb.classList.remove('gold'); }
+
+  const sel = ans[q.id];
+  const area = document.getElementById('qarea');
+  area.innerHTML = `
+    <div class="q-wrap">
+
+      <p class="q-text">${q.text}</p>
+      <div class="scale-group">
+        ${[1,2,3,4,5].map(v=>`<button class="sc ${sel===v?'on':''}" onclick="pick(${q.id},${v})">${v}</button>`).join('')}
+      </div>
+      <div class="scale-labels"><span>전혀 아님</span><span>매우 그렇다</span></div>
+    </div>`;
+
+  document.getElementById('wmsg').style.display='none';
+  area.style.animation='none'; area.offsetHeight; area.style.animation='fadeUp 0.35s ease both';
+}
+
+function pick(id, v) { ans[id]=v; renderQ(); }
+
+function next() {
+  if (!ans[QS[cur].id]) { document.getElementById('wmsg').style.display='block'; return; }
+  if (cur===QS.length-1) calcResult();
+  else { cur++; renderQ(); }
+}
+function prev() { if(cur>0){cur--;renderQ();} }
+
+// ══════════════════════════════════════════════════════════════
+// 결과 계산
+// ══════════════════════════════════════════════════════════════
+function calcResult() {
+  // 각 축별 점수 계산
+  const axes = ['EI','SN','TF','JP'];
+  const scores = {};
+
+  // 각 축의 두 극을 순서 고정 (문항 순서와 무관하게 항상 동일한 p0/p1 유지)
+  const AXIS_POLES = { EI:['E','I'], SN:['S','N'], TF:['T','F'], JP:['J','P'] };
+
+  axes.forEach(ax => {
+    const qs = QS.filter(q=>q.ax===ax);
+    const [p0, p1] = AXIS_POLES[ax];
+
+    let s0=0, s1=0, cnt0=0, cnt1=0;
+    qs.forEach(q => {
+      const v = ans[q.id]||3;
+      if(q.pole===p0) { s0+=v; cnt0++; }
+      else { s1+=v; cnt1++; }
+    });
+
+    const avg0 = s0/cnt0;
+    const avg1 = s1/cnt1;
+    const total = avg0+avg1;
+    const pct0 = Math.round(avg0/total*100);
+    const pct1 = 100-pct0;
+
+    scores[ax] = { p0, p1, pct0, pct1, dominant: pct0>=pct1 ? p0 : p1 };
+  });
+
+  const mbti = scores.EI.dominant + scores.SN.dominant + scores.TF.dominant + scores.JP.dominant;
+
+  show('p-result');
+  incrementCount('mbti_love_test');
+  buildResult(mbti, scores);
+}
+
+// ══════════════════════════════════════════════════════════════
+// 결과 빌드
+// ══════════════════════════════════════════════════════════════
+const MBTI_DATA = {
+  ENFP: { name:'활동가', keyword:'열정적인 자유영혼', love:'감정 충만, 자극 추구, 마무리 약함' },
+  ENTP: { name:'변론가', keyword:'창의적 도전자', love:'지적 자극 중시, 갈등 회피 안 함' },
+  ENFJ: { name:'선도자', keyword:'따뜻한 리더', love:'관계 헌신형, 상대 감정 우선' },
+  ENTJ: { name:'통솔자', keyword:'카리스마 전략가', love:'목표 지향, 감정 표현 서툼' },
+  INFP: { name:'중재자', keyword:'이상을 꿈꾸는 시인', love:'깊은 감정 연결 중시, 내면세계 풍부' },
+  INTP: { name:'논리술사', keyword:'고독한 분석가', love:'지적 유대 중시, 감정 표현 어려움' },
+  INFJ: { name:'옹호자', keyword:'신비로운 이상주의자', love:'깊은 연결 추구, 상처 잘 받음' },
+  INTJ: { name:'전략가', keyword:'냉철한 설계자', love:'독립성 중시, 깊은 연결 원하나 표현 어려움' },
+  ESFP: { name:'연예인', keyword:'자유로운 즉흥파', love:'현재 충실, 감각적 즐거움 중시' },
+  ESTP: { name:'사업가', keyword:'도전적 행동파', love:'행동으로 사랑 표현, 감정 대화 약함' },
+  ESFJ: { name:'집정관', keyword:'따뜻한 돌봄형', love:'헌신·배려 강함, 인정 욕구 있음' },
+  ESTJ: { name:'경영자', keyword:'현실적 책임자', love:'안정·헌신형, 감정 표현 직접적' },
+  ISFP: { name:'모험가', keyword:'섬세한 예술가', love:'자유 중시, 감정 깊지만 표현 소극적' },
+  ISTP: { name:'장인', keyword:'냉철한 관찰자', love:'독립성 최우선, 친밀감 느리게 형성' },
+  ISFJ: { name:'수호자', keyword:'헌신적 보호자', love:'안정·일관성 중시, 상대 배려 강함' },
+  ISTJ: { name:'현실주의자', keyword:'신뢰할 수 있는 기둥', love:'책임감 강함, 변화 싫어함' },
+};
+
+function getCompat(myMbti) {
+  const compatMap = {
+    ENFP: {
+      best:    ['INTJ','INFJ','ENTJ'],
+      good:    ['ENTP','INFP','ENFJ','INTP'],
+      neutral: ['ENFP','ISFJ','ESFJ','ISFP'],
+      caution: ['ISTJ','ESTJ','ISTP','ESTP'],
+    },
+    INFP: {
+      best:    ['ENFJ','INFJ','ENTJ'],
+      good:    ['ENFP','INTJ','ENTP','INFP'],
+      neutral: ['ISFJ','ESFJ','ISFP','ESFP'],
+      caution: ['ISTJ','ESTJ','ISTP','ESTP'],
+    },
+    ENTP: {
+      best:    ['INFJ','INTJ','ENFP'],
+      good:    ['ENFJ','INTP','ENTJ','INFP'],
+      neutral: ['ENTP','ESFJ','ISFJ','ESFP'],
+      caution: ['ISTJ','ISFP','ISTP','ESTJ'],
+    },
+    ENFJ: {
+      best:    ['INFP','ISFP','INTP'],
+      good:    ['ENFP','INFJ','INTJ','ENTP'],
+      neutral: ['ENFJ','ESFJ','ISFJ','ENTJ'],
+      caution: ['ISTP','ESTP','ISTJ','ESTJ'],
+    },
+    INTJ: {
+      best:    ['ENFP','ENTP','INFJ'],
+      good:    ['ENTJ','INFP','INTP','ISFJ'],
+      neutral: ['INTJ','ISFP','ISTJ','ENFJ'],
+      caution: ['ESFP','ESTP','ESFJ','ESTJ'],
+    },
+    INFJ: {
+      best:    ['ENFP','ENTP','INTJ'],
+      good:    ['ENFJ','INFP','ENTJ','INFJ'],
+      neutral: ['ISFJ','ISFP','INTP','ISTJ'],
+      caution: ['ESFP','ESTP','ESFJ','ESTJ'],
+    },
+    INTP: {
+      best:    ['ENFJ','ENTJ','ESTJ'],
+      good:    ['ENTP','INTJ','INFJ','ENFP'],
+      neutral: ['INTP','ISFJ','ESFJ','INFP'],
+      caution: ['ESFP','ESTP','ISFP','ISTP'],
+    },
+    ENTJ: {
+      best:    ['INFP','INTP','ISFP'],
+      good:    ['ENFP','INTJ','INFJ','ENTP'],
+      neutral: ['ENTJ','ESTJ','ENFJ','ISTJ'],
+      caution: ['ESFP','ESTP','ESFJ','ISFJ'],
+    },
+    ISFJ: {
+      best:    ['ESFP','ESTP','ISFP'],
+      good:    ['ISFJ','ISTJ','INFJ','ENFJ'],
+      neutral: ['INTJ','INFP','ENFP','ESFJ'],
+      caution: ['ENTP','INTP','ENTJ','INTJ'],
+    },
+    ISTJ: {
+      best:    ['ESFP','ESTP','ISFP'],
+      good:    ['ISFJ','ISTJ','ESTJ','INTJ'],
+      neutral: ['ENFJ','INFJ','ISFP','ESFJ'],
+      caution: ['ENFP','ENTP','INFP','INTP'],
+    },
+    ISFP: {
+      best:    ['ENFJ','ENTJ','ESFJ'],
+      good:    ['ISFJ','INFP','INFJ','ESFP'],
+      neutral: ['ISFP','ISTP','ESTJ','ISTJ'],
+      caution: ['ENTP','INTP','INTJ','ENTJ'],
+    },
+    ISTP: {
+      best:    ['ESFJ','ESTJ','ENTJ'],
+      good:    ['ISTP','ISTJ','ESTP','INTP'],
+      neutral: ['ISFP','INFP','ENFP','ENTP'],
+      caution: ['ENFJ','INFJ','ISFJ','ESFP'],
+    },
+    ESFP: {
+      best:    ['ISTJ','ISFJ','INTJ'],
+      good:    ['ESFJ','ESTP','ISFP','ESTJ'],
+      neutral: ['ESFP','ENFP','INFP','ENTP'],
+      caution: ['INFJ','INTJ','INTP','ENTJ'],
+    },
+    ESTP: {
+      best:    ['ISTJ','ISFJ','INTJ'],
+      good:    ['ESTJ','ISTP','ESFP','ENTJ'],
+      neutral: ['ESTP','ENFP','ENTP','INFP'],
+      caution: ['INFJ','ENFJ','INTP','ISFP'],
+    },
+    ESFJ: {
+      best:    ['ISFP','ISTP','INFP'],
+      good:    ['ESFJ','ISFJ','ENFJ','ESTJ'],
+      neutral: ['ESFP','ESTP','ENFP','ISTJ'],
+      caution: ['INTP','INTJ','ENTP','ENTJ'],
+    },
+    ESTJ: {
+      best:    ['ISFP','ISTP','INTP'],
+      good:    ['ESTJ','ISTJ','ENTJ','ESFJ'],
+      neutral: ['ESTP','ESFP','ENFJ','INFJ'],
+      caution: ['INFP','ENFP','INTP','ENTP'],
+    },
+  };
+
+  return compatMap[myMbti] || compatMap['ENFP'];
+}
+
+function getCompatScore(tier) {
+  if(tier==='best') return { score: Math.floor(Math.random()*8)+88, label:'최고 궁합', color:'var(--gold)' };
+  if(tier==='good') return { score: Math.floor(Math.random()*10)+73, label:'좋은 궁합', color:'var(--teal)' };
+  if(tier==='neutral') return { score: Math.floor(Math.random()*10)+58, label:'보통 궁합', color:'var(--muted)' };
+  return { score: Math.floor(Math.random()*15)+40, label:'주의 필요', color:'var(--rose)' };
+}
+
+function getCompatDesc(myMbti, theirMbti, tier) {
+  const descs = {
+    'ENFP-INTJ': '겉보기엔 정반대지만 둘 다 "깊이"를 원한다. INTJ의 흔들리지 않는 중심이 ENFP를 안정시킨다. <b>ENFP가 쉽게 흔들 수 없는 사람</b>이 바로 INTJ다.',
+    'ENFP-INFJ': '둘 다 의미와 연결을 추구한다. INFJ는 ENFP의 에너지를 받아주면서도 자기 세계가 있어 설렘이 유지된다.',
+    'ENFP-ENTJ': '치열하게 사는 ENTJ는 ENFP에게 자극과 성장 에너지를 준다. 서로 야망이 있어 함께 성장하는 구조.',
+    'ENFP-ESFJ': 'ESFJ의 헌신과 배려는 처음엔 따뜻하지만, 시간이 지나면 ENFP에게 자극이 줄어드는 패턴이 생길 수 있다.',
+    'ENFP-ISTJ': 'ISTJ의 일관성은 안정적이지만 ENFP에게 답답함으로 느껴질 가능성이 높다.',
+    'INTJ-ENFP': 'ENFP의 열정과 창의성이 INTJ의 세계를 넓혀준다. INTJ가 보기 드물게 마음을 여는 유형.',
+    'INFJ-ENFP': 'ENFP의 에너지와 INFJ의 깊이가 만나 강한 정신적 연결이 형성된다.',
+    'ENTJ-INFP': 'INFP의 가치관과 이상이 ENTJ에게 인간적인 따뜻함을 준다. 보완 관계.',
+    'ENFJ-INFP': 'INFP의 내면 세계를 ENFJ가 진심으로 이해하려 한다. 감정적 교류가 깊다.',
+  };
+  return descs[`${myMbti}-${theirMbti}`] || getDefaultDesc(theirMbti, tier);
+}
+
+function getDefaultDesc(mbti, tier) {
+  const d = MBTI_DATA[mbti];
+  if(tier==='best') return `<b>${d.keyword}</b> 유형. ${d.love}. 서로 부족한 부분을 채워주는 보완 관계.`;
+  if(tier==='good') return `<b>${d.keyword}</b> 유형. ${d.love}. 공통점과 차이점이 균형있게 존재하는 관계.`;
+  if(tier==='neutral') return `<b>${d.keyword}</b> 유형. ${d.love}. 서로 노력이 필요하지만 가능한 관계.`;
+  return `<b>${d.keyword}</b> 유형. ${d.love}. 근본적인 가치관 차이로 갈등이 잦을 수 있음.`;
+}
+
+function getLoveStyle(mbti) {
+  const styles = {
+    ENFP: { express:'감정 표현 강함 — 말과 행동으로 직접적', conflict:'회피하거나 새 주제로 전환', love_lang:'인정의 말 + 함께하는 시간', weak:'마무리 약함 / 자극 없으면 흥미 감소 / 공포회피 구조' },
+    ENTP: { express:'언어적 표현 강함 — 토론하듯 감정 표현', conflict:'논쟁으로 풀려 함', love_lang:'지적 자극 + 인정의 말', weak:'감정보다 논리 우선 / 공감 부족 / 마무리 약함' },
+    ENFJ: { express:'적극적 감정 표현 — 상대 감정 먼저 살핌', conflict:'갈등 회피 / 참다가 폭발', love_lang:'인정의 말 + 봉사', weak:'자기희생 과함 / 인정 욕구 강함' },
+    ENTJ: { express:'직접적·목표 지향적 표현 — 행동으로 사랑 표현', conflict:'논리로 정리하려 함 / 감정 표현 서툼', love_lang:'봉사 + 함께하는 시간', weak:'일 우선 / 상대 감정 과소평가 / 지배적 성향' },
+    INFP: { express:'내면 깊은 감정 / 표현은 소극적', conflict:'철수하거나 혼자 처리', love_lang:'인정의 말 + 함께하는 시간', weak:'현실 감각 부족 / 이상화 후 실망' },
+    INTP: { express:'감정보다 논리로 표현 — 말보다 행동', conflict:'분석하거나 거리 둠', love_lang:'지적 자극 + 함께하는 시간', weak:'감정 표현 극히 어려움 / 무심해 보임 / 관계 우선순위 낮음' },
+    INFJ: { express:'깊고 진중한 감정 표현', conflict:'참다가 완전 철수', love_lang:'인정의 말 + 함께하는 시간', weak:'문 닫기(door-slam) / 완벽주의 / 상처 잘 받음' },
+    INTJ: { express:'직접적이나 건조함 — 행동으로 표현', conflict:'논리적으로 정리하려 함', love_lang:'봉사 + 함께하는 시간', weak:'감정 표현 서툼 / 냉담해 보임 / 독립성 고집' },
+    ESFP: { express:'활발하고 스킨십 많음 — 현재에 충실', conflict:'갈등 회피 / 분위기 전환으로 넘어감', love_lang:'스킨십 + 함께하는 시간', weak:'깊은 감정 대화 어려움 / 미래 계획 회피 / 자극 추구' },
+    ESTP: { express:'행동으로 표현 — 말보다 직접적 케어', conflict:'직접적으로 맞서거나 무시', love_lang:'스킨십 + 봉사', weak:'감정 대화 약함 / 충동적 / 장기 관계 유지 어려움' },
+    ESFJ: { express:'헌신과 배려로 표현 — 매우 적극적', conflict:'갈등 회피 / 맞춰주다 지침', love_lang:'봉사 + 인정의 말', weak:'상대 의존적 / 인정 욕구 강함 / 자아 경계 약함' },
+    ESTJ: { express:'책임과 헌신으로 표현 — 말보다 실천', conflict:'원칙 고수 / 타협 어려움', love_lang:'봉사 + 함께하는 시간', weak:'감정 표현 서툼 / 통제적 성향 / 변화 거부' },
+    ISFP: { express:'조용하지만 세심한 행동으로 표현', conflict:'갈등 회피 / 혼자 삭힘', love_lang:'스킨십 + 함께하는 시간', weak:'표현 소극적 / 상처 잘 받음 / 갑자기 사라짐' },
+    ISTP: { express:'행동과 실용적 도움으로 표현 — 말 거의 없음', conflict:'거리 두거나 침묵', love_lang:'봉사 + 함께하는 시간', weak:'친밀감 형성 느림 / 감정 표현 극히 적음 / 예측 불가' },
+    ISFJ: { express:'배려와 챙김으로 표현 — 헌신적', conflict:'갈등 회피 / 참다가 표출', love_lang:'봉사 + 인정의 말', weak:'자기 희생 과함 / 변화 거부 / 상대에 과도하게 맞춤' },
+    ISTJ: { express:'행동과 책임으로 표현 — 말 표현 약함', conflict:'회피하거나 원칙 고수', love_lang:'봉사 + 함께하는 시간', weak:'변화 거부 / 감정 표현 어려움 / 융통성 부족' },
+  };
+  return styles[mbti] || { express:'-', conflict:'-', love_lang:'-', weak:'-' };
+}
+
+function getVulnerabilities(mbti) {
+  const v = {
+    ENFP: [
+      { icon:'⚡', text:'새로운 자극이 없으면 흥미가 감소한다. 안정적인 관계가 지루하게 느껴지는 패턴이 반복된다.' },
+      { icon:'🌀', text:'불편한 감정을 새 프로젝트나 새 관계로 전환해버린다. 직면하지 않는 회피 패턴.' },
+      { icon:'💔', text:'공포회피 구조 — 설레는 사람에게 다가가다 도망치고, 안전한 사람은 설레지 않는 딜레마.' },
+      { icon:'🎭', text:'미안함과 죄책감으로 관계를 유지하는 패턴. 확신 없이 머무는 것이 반복된다.' },
+    ],
+    ENTP: [
+      { icon:'⚡', text:'지루함을 견디지 못한다. 관계가 안정기에 접어들면 자극이 줄어 흥미를 잃을 수 있다.' },
+      { icon:'🗣️', text:'감정 대화보다 논쟁을 선호한다. 상대가 공감받고 싶을 때 해결책을 제시해 갈등이 생긴다.' },
+      { icon:'🌪️', text:'마무리가 약하다. 관계에서도 흐지부지 끝나거나 명확한 결론을 피하는 경향.' },
+    ],
+    ENFJ: [
+      { icon:'🫂', text:'상대를 위해 자신을 과도하게 희생한다. 번아웃 후 갑자기 관계를 끊는 패턴.' },
+      { icon:'👁️', text:'상대가 나를 인정해주길 강하게 원한다. 인정받지 못하면 깊이 상처받는다.' },
+      { icon:'🎭', text:'갈등을 회피하다 한계가 오면 폭발한다. 평소와 다른 모습에 상대가 당황한다.' },
+    ],
+    ENTJ: [
+      { icon:'🏆', text:'관계에서도 주도권을 갖고 싶어한다. 상대가 통제받는다고 느끼면 갈등이 생긴다.' },
+      { icon:'🧊', text:'감정 표현이 서툴러 차갑게 보인다. 상대는 사랑받는지 확신하기 어려울 수 있다.' },
+      { icon:'⏰', text:'일과 성과를 관계보다 우선시하는 경향. 파트너가 소외감을 느끼는 패턴.' },
+    ],
+    INFP: [
+      { icon:'🌈', text:'상대를 이상화했다가 현실을 보고 크게 실망하는 패턴이 반복된다.' },
+      { icon:'🐚', text:'내면에 감정을 쌓아두고 표현 안 하다 혼자 지쳐서 철수하는 방식.' },
+      { icon:'💭', text:'현실보다 이상적인 관계를 꿈꾸다 지금 있는 사람의 가치를 놓친다.' },
+    ],
+    INTP: [
+      { icon:'🤖', text:'감정보다 논리로 관계를 접근한다. 상대가 공감받고 싶을 때 분석을 먼저 해 갈등이 생긴다.' },
+      { icon:'🏝️', text:'관계보다 개인 공간을 우선한다. 상대가 관심이 없다고 오해할 수 있다.' },
+      { icon:'⏳', text:'감정 표현에 시간이 오래 걸린다. 관계가 무르익기 전에 상대가 포기하는 경우가 있다.' },
+    ],
+    INFJ: [
+      { icon:'🚪', text:'도어슬램 — 한계를 넘으면 갑자기 완전히 관계를 끊는다. 상대는 예측할 수 없다.' },
+      { icon:'🎯', text:'완벽한 관계를 원해 현실 파트너에게 실망하는 경우가 많다.' },
+      { icon:'🧘', text:'감정을 혼자 처리하다 갑자기 철수한다. 상대는 이유를 알지 못해 혼란스럽다.' },
+    ],
+    INTJ: [
+      { icon:'🧊', text:'감정 표현이 극히 어렵다. 사랑해도 티가 나지 않아 상대가 불안해진다.' },
+      { icon:'🏰', text:'독립성을 매우 중요시한다. 상대가 가까워지려 할수록 오히려 거리를 두는 경향.' },
+      { icon:'📐', text:'관계도 논리적으로 분석한다. 감정적인 대화에서 상대가 상처받을 수 있다.' },
+    ],
+    ESFP: [
+      { icon:'🎆', text:'자극과 새로움을 끊임없이 원한다. 안정기에 접어든 관계에서 권태를 느끼기 쉽다.' },
+      { icon:'🙈', text:'갈등을 분위기 전환으로 회피한다. 문제가 쌓이다 한꺼번에 터지는 경우가 많다.' },
+      { icon:'⏩', text:'미래보다 지금에 집중한다. 장기적 관계 계획에 대한 대화가 어렵다.' },
+    ],
+    ESTP: [
+      { icon:'🎯', text:'감정 대화를 불편해한다. 상대가 감정 공유를 원할 때 행동으로만 반응해 오해가 생긴다.' },
+      { icon:'🌪️', text:'충동적인 결정을 내리는 경향. 관계에서도 즉흥적 행동이 갈등을 만든다.' },
+      { icon:'🏃', text:'문제가 생기면 행동으로 도망치는 패턴. 감정적 직면을 피한다.' },
+    ],
+    ESFJ: [
+      { icon:'🫧', text:'자신의 욕구보다 상대에게 맞추다 서서히 지친다. 번아웃 후 갑자기 한계를 드러낸다.' },
+      { icon:'👏', text:'인정과 칭찬에 대한 욕구가 강하다. 충분히 인정받지 못하면 깊이 상처받는다.' },
+      { icon:'📌', text:'갈등을 회피하고 문제를 덮으려 한다. 해결되지 않은 감정이 쌓이는 구조.' },
+    ],
+    ESTJ: [
+      { icon:'📏', text:'원칙과 규칙을 중시한다. 상대에게도 자신의 기준을 요구해 답답하게 느껴질 수 있다.' },
+      { icon:'🗂️', text:'감정보다 현실과 효율을 우선한다. 상대가 감정적 지지를 원할 때 해결책만 제시한다.' },
+      { icon:'🔒', text:'변화를 싫어한다. 관계에서도 새로운 시도나 변화에 저항하는 경향.' },
+    ],
+    ISFP: [
+      { icon:'🌬️', text:'갈등이 생기면 말 없이 사라진다. 상대는 무슨 일인지 알 수 없어 혼란스럽다.' },
+      { icon:'🌸', text:'상처를 잘 받지만 표현하지 않는다. 내면에 쌓이다 갑자기 관계가 끝나는 경우가 있다.' },
+      { icon:'🦋', text:'자유와 독립을 중요시한다. 상대가 너무 가까이 다가오면 부담을 느낀다.' },
+    ],
+    ISTP: [
+      { icon:'🏔️', text:'감정 표현이 거의 없다. 상대는 사랑받는지 확신하기 어렵다.' },
+      { icon:'🔌', text:'예고 없이 연락을 끊거나 사라지는 경향. 상대에게 불안감을 준다.' },
+      { icon:'🔧', text:'관계 문제를 감정보다 실용적으로 접근한다. 상대의 감정적 욕구를 놓치는 경우가 많다.' },
+    ],
+    ISFJ: [
+      { icon:'🫶', text:'자신을 희생해 상대에게 맞추다 번아웃이 온다. 한계가 올 때까지 말하지 않는다.' },
+      { icon:'📸', text:'과거에 집착하는 경향. 오래된 상처나 서운함을 쉽게 잊지 못한다.' },
+      { icon:'🧱', text:'변화와 새로운 시도에 저항한다. 관계에서 안정을 유지하려다 성장을 막기도 한다.' },
+    ],
+    ISTJ: [
+      { icon:'📋', text:'감정보다 의무와 책임으로 관계를 유지한다. 상대가 따뜻함을 원할 때 원칙적으로 반응한다.' },
+      { icon:'🔁', text:'한번 정한 방식을 바꾸지 않는다. 상대가 변화를 원해도 수용이 어렵다.' },
+      { icon:'🗺️', text:'새로운 관계 방식에 적응이 느리다. 상대가 답답함을 느끼는 패턴이 생길 수 있다.' },
+    ],
+  };
+  return v[mbti] || [
+    { icon:'⚠️', text:'자신의 연애 패턴을 인식하는 것이 관계 성장의 첫 번째 단계예요.' },
+  ];
+}
+
+function buildResult(mbti, scores) {
+  const mdata = MBTI_DATA[mbti] || { name:'알 수 없음', keyword:mbti, love:'' };
+  const compat = getCompat(mbti);
+  const ls = getLoveStyle(mbti);
+  const vulns = getVulnerabilities(mbti);
+
+  // 4축 바 렌더용
+  const axisRows = [
+    { left:'E', right:'I', pctL: scores.EI.pct0, pctR: scores.EI.pct1, domL: scores.EI.dominant==='E', color:'#f4a7c3' },
+    { left:'S', right:'N', pctL: scores.SN.pct0, pctR: scores.SN.pct1, domL: scores.SN.dominant==='S', color:'#e8579a' },
+    { left:'T', right:'F', pctL: scores.TF.pct0, pctR: scores.TF.pct1, domL: scores.TF.dominant==='T', color:'#c2318a' },
+    { left:'J', right:'P', pctL: scores.JP.pct0, pctR: scores.JP.pct1, domL: scores.JP.dominant==='J', color:'#6b2fa0' },
+  ];
+
+  // 궁합 목록 - 점수 높은 순 정렬
+  const compatRaw = [
+    ...compat.best.slice(0,3).map(m=>({mbti:m,tier:'best'})),
+    ...compat.good.slice(0,3).map(m=>({mbti:m,tier:'good'})),
+    ...(compat.caution||[]).slice(0,2).map(m=>({mbti:m,tier:'caution'})),
+  ];
+  // 점수 랜덤 미리 계산 후 내림차순 정렬
+  const compatWithScore = compatRaw.map(item => ({...item, score: getCompatScore(item.tier).score}));
+  const compatList = compatWithScore.sort((a,b) => b.score - a.score);
+
+  const rs = document.getElementById('p-result');
+  rs.innerHTML = `
+    <!-- 히어로 -->
+    <div class="result-hero">
+      <div class="chip chip-gold">${localStorage.getItem('mbti_user_name') ? localStorage.getItem('mbti_user_name') + ' · 결과' : '✨ 결과'}</div>
+      <div class="result-mbti-big">${mbti}</div>
+      <div class="result-mbti-name serif">${mdata.name} · ${mdata.keyword}</div>
+      <div class="result-one-line">${mdata.love}</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 4축 -->
+    <div class="card analysis-section" style="margin-bottom:16px">
+      <div class="section-title">🧭 MBTI 4축 측정값</div>
+      ${axisRows.map((r,i)=>{
+        const fillPct = r.domL ? r.pctL : r.pctR;
+        const fillSide = r.domL ? 'left:0' : 'right:0';
+        const showPct = r.domL ? r.pctL : r.pctR;
+        const domLetter = r.domL ? r.left : r.right;
+        return `
+        <div class="axis-row" style="animation:slideIn 0.5s ${i*0.08}s ease both">
+          <div class="axis-left" style="${r.domL?'color:'+r.color:''}">${r.left}</div>
+          <div class="axis-track">
+            <div class="axis-fill" style="background:${r.color};width:0%;${fillSide}" data-w="${fillPct}"></div>
+          </div>
+          <div class="axis-right" style="${!r.domL?'color:'+r.color:''}">${r.right}</div>
+          <div class="axis-pct" style="color:${r.color}">${showPct}%</div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <!-- 연애 성향 분석 -->
+    <div class="card analysis-section" style="margin-bottom:16px">
+      <div class="section-title">💞 연애 성향 분석</div>
+      <div class="trait-grid">
+        <div class="trait-item">
+          <div class="trait-label">감정 표현 방식</div>
+          <div class="trait-val">${ls.express}</div>
+        </div>
+        <div class="trait-item">
+          <div class="trait-label">갈등 처리 방식</div>
+          <div class="trait-val">${ls.conflict}</div>
+        </div>
+        <div class="trait-item">
+          <div class="trait-label">애정 언어</div>
+          <div class="trait-val">${ls.love_lang}</div>
+        </div>
+        <div class="trait-item">
+          <div class="trait-label">연애 약점 요약</div>
+          <div class="trait-val">${ls.weak}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 연애 취약점 -->
+    <div class="card analysis-section" style="margin-bottom:16px">
+      <div class="section-title">⚠️ 반복되는 연애 패턴 & 취약점</div>
+      <div class="vuln-list">
+        ${vulns.map(v=>`
+          <div class="vuln-item">
+            <span class="vuln-icon">${v.icon}</span>
+            <span>${v.text}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- 궁합 -->
+    <div style="margin-bottom:8px">
+      <div class="section-title" style="margin-bottom:16px">💌 연애 궁합 순위</div>
+      <div class="compat-grid">
+        ${compatList.map(({mbti:tm, tier, score})=>{
+          const td = MBTI_DATA[tm] || { name:tm, keyword:tm };
+          const sc = { score, label: getCompatScore(tier).label, color: getCompatScore(tier).color };
+          const tierLabel = {best:'💛 베스트 궁합', good:'💚 좋은 궁합', neutral:'🩶 보통 궁합', caution:'🔴 주의 궁합'}[tier];
+          const barColor = {best:'#e8579a', good:'#f4a7c3', neutral:'var(--muted)', caution:'#6b2fa0'}[tier];
+          const cardClass = {best:'best', good:'good', neutral:'', caution:'caution'}[tier];
+          return `
+          <div class="compat-card ${cardClass}">
+            <div class="compat-header">
+              <div>
+                <div class="compat-mbti-badge">${tm}</div>
+                <div class="compat-name">${td.name} · ${tierLabel}</div>
+              </div>
+              <div class="compat-score-wrap">
+                <div class="compat-score" style="color:${barColor}">${sc.score}</div>
+                <div class="compat-score-label">/ 100</div>
+              </div>
+            </div>
+            <div class="compat-bar-track">
+              <div class="compat-bar-fill" style="background:${barColor}" data-w="${sc.score}"></div>
+            </div>
+            <div class="compat-desc">${getCompatDesc(mbti, tm, tier)}</div>
+            <div class="compat-tags">
+              <span class="compat-tag" style="background:${barColor}20;color:${barColor};border:1px solid ${barColor}40">${sc.label}</span>
+              <span class="compat-tag" style="background:var(--cream);color:var(--slate);border:1px solid var(--border)">${td.keyword}</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <button class="btn btn-outline" style="margin-top:8px" onclick="location.reload()">다시 검사하기</button>
+  `;
+
+  // 바 애니메이션
+  setTimeout(()=>{
+    document.querySelectorAll('.axis-fill').forEach(el=>{
+      el.style.width = el.dataset.w+'%';
+    });
+    document.querySelectorAll('.compat-bar-fill').forEach(el=>{
+      el.style.width = el.dataset.w+'%';
+    });
+  }, 400);
+}
+
+const SUPA_URL = 'https://dleoheiqaardmpyoklmt.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRsZW9oZWlxYWFyZG1weW9rbG10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MzUzNzMsImV4cCI6MjA5NDIxMTM3M30.yVmdhisxmC1KB3Ku1ZapF_CtTqEacqw8BWt32n30-Lc';
+
+async function getCount(testName) {
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/test_counts?test_name=eq.${testName}&select=count`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    const data = await res.json();
+    return data.length > 0 ? data[0].count : 0;
+  } catch(e) { return 0; }
+}
+
+async function incrementCount(testName) {
+  // 먼저 존재하는지 확인
+  const res = await fetch(`${SUPA_URL}/rest/v1/test_counts?test_name=eq.${testName}&select=count`, {
+    headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+  });
+  const data = await res.json();
+
+  if (data.length === 0) {
+    // 없으면 insert
+    await fetch(`${SUPA_URL}/rest/v1/test_counts`, {
+      method: 'POST',
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ test_name: testName, count: 1 })
+    });
+  } else {
+    // 있으면 +1
+    await fetch(`${SUPA_URL}/rest/v1/test_counts?test_name=eq.${testName}`, {
+      method: 'PATCH',
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ count: data[0].count + 1 })
+    });
+  }
+}
+
+async function showCountBadge(testName, elementId) {
+  const n = await getCount(testName);
+  const el = document.getElementById(elementId);
+  if (el) el.textContent = n.toLocaleString() + '명이 완료했어요';
+}
+
+</script>
+
+  <!-- werit 홈 버튼 -->
+  <style>
+    .werit-home-btn{position:fixed;top:16px;left:16px;z-index:9999;background:#fff;border:1.5px solid #e5e5e5;border-radius:99px;padding:8px 16px;font-size:12px;font-weight:700;color:#111;text-decoration:none;font-family:'Noto Sans KR',sans-serif;box-shadow:0 2px 12px rgba(0,0,0,0.08);transition:all 0.2s ease;display:flex;align-items:center;gap:6px}
+    .werit-home-btn:hover{border-color:#111;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+    .werit-home-btn .dot{color:#fb923c;font-size:14px;font-weight:900}
+  </style>
+  <a href="index.html" class="werit-home-btn"><span>←</span><span>werit<span class="dot">.</span></span></a>
+
+</body>
+</html>

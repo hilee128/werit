@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>애착 × MBTI 궁합</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NW4YGEKJS4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NW4YGEKJS4');
+</script>
+<style>
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --border: #ece9e3;
+  --border2: #d9d4cc;
+  --ink: #1a1714;
+  --slate: #5a5550;
+  --muted: #9a9490;
+  --dim: #c5c0b8;
+
+  --sec: #2d7a5f;
+  --sec-bg: #edf7f3;
+  --anx: #c4517a;
+  --anx-bg: #fdf0f5;
+  --avd: #6b54a0;
+  --avd-bg: #f4f1fb;
+  --fear: #c47a30;
+  --fear-bg: #fdf5ec;
+
+  --gold: #b8952a;
+  --rose: #c45050;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Pretendard', sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* 인트로 전용 중앙 정렬 */
+#p-intro.active {
+  min-height: 100vh;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  padding: 24px 28px 60px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+#p-intro .intro-chip { margin-bottom: 20px; }
+
+#p-intro .intro-title {
+  font-size: clamp(30px, 8vw, 44px);
+  font-weight: 700;
+  margin-bottom: 12px;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+#p-intro .intro-sub {
+  font-size: 14px;
+  color: var(--slate);
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+#p-intro .intro-how {
+  width: 100%;
+  max-width: 340px;
+  background: #f7f7fa;
+  border: none;
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin-bottom: 28px;
+  text-align: left;
+}
+
+#p-intro .how-step {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+#p-intro .btn-primary {
+  width: 100%;
+  max-width: 340px;
+  padding: 18px;
+  font-size: 15px;
+  border-radius: 14px;
+}
+
+
+/* 닉네임 입력 */
+.name-input-wrap {
+  width: 100%;
+  max-width: 340px;
+  margin-bottom: 16px;
+}
+.name-input-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  display: block;
+  text-align: left;
+  letter-spacing: 0.3px;
+}
+.name-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: #f7f7fa;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  font-size: 15px;
+  font-family: 'Pretendard', sans-serif;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.name-input::placeholder { color: var(--muted); }
+.name-input:focus { border-color: var(--gold); background: white; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.4s ease both; }
+
+/* ── INTRO ── */
+.intro-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--border2);
+  padding: 5px 14px;
+  border-radius: 100px;
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s ease both;
+}
+
+.intro-title {
+  font-family: 'Pretendard', sans-serif;
+  font-size: clamp(28px, 7vw, 40px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+  animation: fadeUp 0.6s 0.07s ease both;
+}
+.intro-title em {
+  font-style: normal;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.intro-sub {
+  font-size: 13px;
+  color: var(--slate);
+  line-height: 1.8;
+  margin-bottom: 36px;
+  animation: fadeUp 0.6s 0.12s ease both;
+}
+
+.intro-how {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s 0.17s ease both;
+}
+.how-title {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.how-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.how-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--slate);
+}
+.how-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.how-arrow {
+  text-align: center;
+  color: var(--dim);
+  font-size: 12px;
+  padding-left: 11px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  background: var(--ink);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Pretendard', sans-serif;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: all 0.2s;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+.btn-primary:hover { background: #2d2926; transform: translateY(-1px); }
+
+/* ── STEP ── */
+.step-header {
+  margin-bottom: 24px;
+}
+.step-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.step-title {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+.step-title em { font-style: normal; color: var(--gold); font-weight: 700; }
+
+/* 애착 카드 */
+.attach-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.attach-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.attach-card:hover { transform: translateY(-2px); }
+.attach-card.selected { border-width: 2px; }
+
+.ac-emoji { font-size: 22px; margin-bottom: 10px; display: block; }
+.ac-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.ac-desc { font-size: 11px; color: var(--slate); line-height: 1.5; }
+
+.attach-card.sec { border-color: var(--sec); background: var(--sec-bg); }
+.attach-card.sec .ac-name { color: var(--sec); }
+.attach-card.anx { border-color: var(--anx); background: var(--anx-bg); }
+.attach-card.anx .ac-name { color: var(--anx); }
+.attach-card.avd { border-color: var(--avd); background: var(--avd-bg); }
+.attach-card.avd .ac-name { color: var(--avd); }
+.attach-card.fear { border-color: var(--fear); background: var(--fear-bg); }
+.attach-card.fear .ac-name { color: var(--fear); }
+
+/* MBTI 그리드 */
+.mbti-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.mbti-group-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.mbti-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+.mbti-btn {
+  flex: 1;
+  padding: 14px 8px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Pretendard', sans-serif;
+  color: var(--slate);
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.5px;
+}
+.mbti-btn:hover { border-color: var(--border2); color: var(--ink); transform: translateY(-1px); }
+.mbti-btn.selected {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: white;
+}
+.mbti-btn2 {
+  flex: 1;
+  padding: 14px 8px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Pretendard', sans-serif;
+  color: var(--slate);
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.5px;
+}
+.mbti-btn2:hover { border-color: var(--border2); color: var(--ink); transform: translateY(-1px); }
+.mbti-btn2.selected {
+  background: var(--anx);
+  border-color: var(--anx);
+  color: white;
+}
+
+/* nav */
+.step-nav {
+  display: flex;
+  gap: 8px;
+}
+.btn-back {
+  width: 48px; height: 48px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--slate);
+  font-family: 'Pretendard', sans-serif;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.btn-back:hover { border-color: var(--border2); color: var(--ink); }
+.btn-next {
+  flex: 1;
+  height: 48px;
+  background: var(--ink);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Pretendard', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  opacity: 0.3;
+  pointer-events: none;
+}
+.btn-next.active { opacity: 1; pointer-events: all; }
+.btn-next.active:hover { background: #2d2926; transform: translateY(-1px); }
+
+/* ── RESULT ── */
+.result-wrap { animation: scaleIn 0.5s ease both; }
+
+.result-combo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.combo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid;
+}
+.combo-x {
+  font-size: 14px;
+  color: var(--dim);
+  font-weight: 300;
+}
+
+.result-title {
+  font-family: 'Pretendard', sans-serif;
+  font-size: clamp(22px, 6vw, 30px);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+.result-title em { font-style: normal; font-weight: 400; }
+
+.result-tagline {
+  font-size: 13px;
+  color: var(--slate);
+  line-height: 1.7;
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* 궁합 카드 */
+.compat-section {
+  margin-bottom: 16px;
+}
+.cs-title {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cs-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.compat-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.compat-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+.compat-card:hover { transform: translateY(-1px); }
+.compat-card.best { border-color: #c5a84a40; background: #fdf8ec; }
+.compat-card.worst { border-color: #c4505040; background: #fdf2f2; }
+
+.cc-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 8px;
+}
+.cc-types {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.cc-attach {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1.5px solid;
+}
+.cc-plus { font-size: 12px; color: var(--dim); }
+.cc-mbti {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.cc-tier {
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-weight: 600;
+  flex-shrink: 0;
+  border: 1.5px solid;
+}
+.best .cc-tier { color: var(--gold); border-color: #c5a84a40; background: #fdf0cc; }
+.worst .cc-tier { color: var(--rose); border-color: #c4505040; background: #fde8e8; }
+
+.cc-reason {
+  font-size: 13px;
+  color: var(--slate);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+.cc-reason b { color: var(--ink); font-weight: 600; }
+
+.cc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.cc-tag {
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1px solid var(--border2);
+  color: var(--slate);
+  background: var(--bg);
+}
+
+/* 패턴 분석 */
+.pattern-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.pb-title {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.pb-body {
+  font-size: 13px;
+  color: var(--slate);
+  line-height: 1.85;
+}
+.pb-body b { color: var(--ink); }
+.pb-body p + p { margin-top: 10px; }
+
+.btn-restart {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  border: 1.5px solid var(--border2);
+  border-radius: 12px;
+  color: var(--slate);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Pretendard', sans-serif;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.2s;
+}
+.btn-restart:hover { border-color: var(--ink); color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ── INTRO ── -->
+  <div id="p-intro" class="page active">
+    <div style="font-size:52px;margin-bottom:16px;line-height:1">💘</div>
+    <div class="intro-chip">Attachment × MBTI</div>
+    <h1 class="intro-title">그 사람과 나,<br><em>잘 맞을까</em></h1>
+
+    <div class="intro-how">
+      <div class="how-title">How it works</div>
+      <div class="how-steps">
+        <div class="how-step"><div class="how-num">1</div> 내 애착유형 선택</div>
+        <div class="how-arrow">↓</div>
+        <div class="how-step"><div class="how-num">2</div> 내 MBTI 선택</div>
+        <div class="how-arrow">↓</div>
+        <div class="how-step"><div class="how-num">3</div> 상대방 애착 + MBTI 선택</div>
+        <div class="how-arrow">↓</div>
+        <div class="how-step"><div class="how-num">4</div> 우리 조합 결과 확인</div>
+      </div>
+    </div>
+    <div class="name-input-wrap">
+      <label class="name-input-label">이름 또는 닉네임 (선택)</label>
+      <input class="name-input" id="user-name" type="text" placeholder="예) 해리쉬, 햄진이" maxlength="10">
+    </div>
+    <button class="btn-primary" onclick="startTest()">시작하기 →</button>
+  </div>
+
+  <!-- ── STEP 1: 애착유형 ── -->
+  <div id="p-attach" class="page">
+    <div class="step-header">
+      <div class="step-label">Step 01</div>
+      <div class="step-title">내 <em>애착유형</em>은?</div>
+    </div>
+    <div class="attach-grid">
+      <div class="attach-card sec" onclick="selectAttach('sec',this)">
+        <span class="ac-emoji">🌿</span>
+        <div class="ac-name">안정형</div>
+        <div class="ac-desc">친밀감이 편함<br>혼자도 같이도 OK</div>
+      </div>
+      <div class="attach-card anx" onclick="selectAttach('anx',this)">
+        <span class="ac-emoji">🌊</span>
+        <div class="ac-name">불안형</div>
+        <div class="ac-desc">확인 욕구 강함<br>버려질까봐 두려움</div>
+      </div>
+      <div class="attach-card avd" onclick="selectAttach('avd',this)">
+        <span class="ac-emoji">🌑</span>
+        <div class="ac-name">회피형</div>
+        <div class="ac-desc">가까워지면 부담<br>독립성이 최우선</div>
+      </div>
+      <div class="attach-card fear" onclick="selectAttach('fear',this)">
+        <span class="ac-emoji">🌀</span>
+        <div class="ac-name">공포회피형</div>
+        <div class="ac-desc">원하는데 두렵다<br>불안+회피 동시</div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goPage('p-intro')">←</button>
+      <button class="btn-next" id="btn-next-attach" onclick="goPage('p-mbti')">다음 →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: 내 MBTI ── -->
+  <div id="p-mbti" class="page">
+    <div class="step-header">
+      <div class="step-label">Step 02</div>
+      <div class="step-title">내 MBTI는?</div>
+    </div>
+    <div class="mbti-groups">
+      <div>
+        <div class="mbti-group-label">분석가</div>
+        <div class="mbti-row">
+          <button class="mbti-btn" onclick="selectMbti('INTJ',this)">INTJ</button>
+          <button class="mbti-btn" onclick="selectMbti('INTP',this)">INTP</button>
+          <button class="mbti-btn" onclick="selectMbti('ENTJ',this)">ENTJ</button>
+          <button class="mbti-btn" onclick="selectMbti('ENTP',this)">ENTP</button>
+        </div>
+      </div>
+      <div>
+        <div class="mbti-group-label">외교관</div>
+        <div class="mbti-row">
+          <button class="mbti-btn" onclick="selectMbti('INFJ',this)">INFJ</button>
+          <button class="mbti-btn" onclick="selectMbti('INFP',this)">INFP</button>
+          <button class="mbti-btn" onclick="selectMbti('ENFJ',this)">ENFJ</button>
+          <button class="mbti-btn" onclick="selectMbti('ENFP',this)">ENFP</button>
+        </div>
+      </div>
+      <div>
+        <div class="mbti-group-label">관리자</div>
+        <div class="mbti-row">
+          <button class="mbti-btn" onclick="selectMbti('ISTJ',this)">ISTJ</button>
+          <button class="mbti-btn" onclick="selectMbti('ISFJ',this)">ISFJ</button>
+          <button class="mbti-btn" onclick="selectMbti('ESTJ',this)">ESTJ</button>
+          <button class="mbti-btn" onclick="selectMbti('ESFJ',this)">ESFJ</button>
+        </div>
+      </div>
+      <div>
+        <div class="mbti-group-label">탐험가</div>
+        <div class="mbti-row">
+          <button class="mbti-btn" onclick="selectMbti('ISTP',this)">ISTP</button>
+          <button class="mbti-btn" onclick="selectMbti('ISFP',this)">ISFP</button>
+          <button class="mbti-btn" onclick="selectMbti('ESTP',this)">ESTP</button>
+          <button class="mbti-btn" onclick="selectMbti('ESFP',this)">ESFP</button>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goPage('p-attach')">←</button>
+      <button class="btn-next" id="btn-next-mbti" onclick="goPage('p-attach2')">다음 →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: 상대방 애착유형 ── -->
+  <div id="p-attach2" class="page">
+    <div class="step-header">
+      <div class="step-label">Step 03</div>
+      <div class="step-title">상대방 애착유형은?</div>
+    </div>
+    <div class="attach-grid" id="attach2-grid">
+      <div class="attach-card sec" onclick="selectAttach2('sec',this)">
+        <span class="ac-emoji">🌿</span>
+        <div class="ac-name">안정형</div>
+        <div class="ac-desc">친밀감이 편함<br>혼자도 같이도 OK</div>
+      </div>
+      <div class="attach-card anx" onclick="selectAttach2('anx',this)">
+        <span class="ac-emoji">🌊</span>
+        <div class="ac-name">불안형</div>
+        <div class="ac-desc">확인 욕구 강함<br>버려질까봐 두려움</div>
+      </div>
+      <div class="attach-card avd" onclick="selectAttach2('avd',this)">
+        <span class="ac-emoji">🌑</span>
+        <div class="ac-name">회피형</div>
+        <div class="ac-desc">가까워지면 부담<br>독립성이 최우선</div>
+      </div>
+      <div class="attach-card fear" onclick="selectAttach2('fear',this)">
+        <span class="ac-emoji">🌀</span>
+        <div class="ac-name">공포회피형</div>
+        <div class="ac-desc">원하는데 두렵다<br>불안+회피 동시</div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goPage('p-mbti')">←</button>
+      <button class="btn-next" id="btn-next-attach2" onclick="goPage('p-mbti2')">다음 →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: 상대방 MBTI ── -->
+  <div id="p-mbti2" class="page">
+    <div class="step-header">
+      <div class="step-label">Step 04</div>
+      <div class="step-title">상대방 MBTI는?</div>
+    </div>
+    <div class="mbti-groups">
+      <div>
+        <div class="mbti-group-label">분석가</div>
+        <div class="mbti-row">
+          <button class="mbti-btn2" onclick="selectMbti2('INTJ',this)">INTJ</button>
+          <button class="mbti-btn2" onclick="selectMbti2('INTP',this)">INTP</button>
+          <button class="mbti-btn2" onclick="selectMbti2('ENTJ',this)">ENTJ</button>
+          <button class="mbti-btn2" onclick="selectMbti2('ENTP',this)">ENTP</button>
+        </div>
+      </div>
+      <div>
+        <div class="mbti-group-label">외교관</div>
+        <div class="mbti-row">
+          <button class="mbti-btn2" onclick="selectMbti2('INFJ',this)">INFJ</button>
+          <button class="mbti-btn2" onclick="selectMbti2('INFP',this)">INFP</button>
+          <button class="mbti-btn2" onclick="selectMbti2('ENFJ',this)">ENFJ</button>
+          <button class="mbti-btn2" onclick="selectMbti2('ENFP',this)">ENFP</button>
+        </div>
+      </div>
+      <div>
+        <div class="mbti-group-label">관리자</div>
+        <div class="mbti-row">
+          <button class="mbti-btn2" onclick="selectMbti2('ISTJ',this)">ISTJ</button>
+          <button class="mbti-btn2" onclick="selectMbti2('ISFJ',this)">ISFJ</button>
+          <button class="mbti-btn2" onclick="selectMbti2('ESTJ',this)">ESTJ</button>
+          <button class="mbti-btn2" onclick="selectMbti2('ESFJ',this)">ESFJ</button>
+        </div>
+      </div>
+      <div>
+        <div class="mbti-group-label">탐험가</div>
+        <div class="mbti-row">
+          <button class="mbti-btn2" onclick="selectMbti2('ISTP',this)">ISTP</button>
+          <button class="mbti-btn2" onclick="selectMbti2('ISFP',this)">ISFP</button>
+          <button class="mbti-btn2" onclick="selectMbti2('ESTP',this)">ESTP</button>
+          <button class="mbti-btn2" onclick="selectMbti2('ESFP',this)">ESFP</button>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goPage('p-attach2')">←</button>
+      <button class="btn-next" id="btn-next-mbti2" onclick="showResult()">결과 보기 →</button>
+    </div>
+  </div>
+
+  <!-- ── RESULT ── -->
+  <div id="p-result" class="page"></div>
+
+</div>
+
+<script>
+let myAttach = null, myMbti = null, theirAttach = null, theirMbti = null;
+
+const ATTACH = {
+  sec:  { label:'안정형',    emoji:'🌿', color:'var(--sec)',  bg:'var(--sec-bg)'  },
+  anx:  { label:'불안형',    emoji:'🌊', color:'var(--anx)',  bg:'var(--anx-bg)'  },
+  avd:  { label:'회피형',    emoji:'🌑', color:'var(--avd)',  bg:'var(--avd-bg)'  },
+  fear: { label:'공포회피형', emoji:'🌀', color:'var(--fear)', bg:'var(--fear-bg)' },
+};
+
+const MBTI_INFO = {
+  INTJ:{ name:'전략가',    keyword:'냉철한 설계자',   type:'IT' },
+  INTP:{ name:'논리술사',  keyword:'분석적 사색가',   type:'IT' },
+  ENTJ:{ name:'통솔자',    keyword:'야망의 리더',     type:'ET' },
+  ENTP:{ name:'변론가',    keyword:'아이디어 폭발형', type:'ET' },
+  INFJ:{ name:'옹호자',    keyword:'깊은 통찰자',     type:'IF' },
+  INFP:{ name:'중재자',    keyword:'이상주의 감성인', type:'IF' },
+  ENFJ:{ name:'선도자',    keyword:'따뜻한 리더',     type:'EF' },
+  ENFP:{ name:'활동가',    keyword:'자유로운 열정가', type:'EF' },
+  ISTJ:{ name:'현실주의자',keyword:'신뢰할 수 있는 기둥', type:'IT' },
+  ISFJ:{ name:'수호자',    keyword:'헌신적 보호자',   type:'IF' },
+  ESTJ:{ name:'경영자',    keyword:'현실적 책임자',   type:'ET' },
+  ESFJ:{ name:'집정관',    keyword:'따뜻한 돌봄형',   type:'EF' },
+  ISTP:{ name:'장인',      keyword:'냉철한 관찰자',   type:'IT' },
+  ISFP:{ name:'모험가',    keyword:'섬세한 예술가',   type:'IF' },
+  ESTP:{ name:'사업가',    keyword:'도전적 행동파',   type:'ET' },
+  ESFP:{ name:'연예인',    keyword:'자유로운 즉흥파', type:'EF' },
+};
+
+// 64조합 결과 데이터
+// [애착유형][상대MBTI] = { score, desc, tags, pattern }
+// score: 'best' | 'good' | 'caution' | 'worst'
+
+const RESULT = {
+  sec: {
+    // 안정형은 대부분 유형과 잘 맞음. IF/EF 최고, IT 무난, 극단적 회피 주의
+    ENFJ: { score:'best', desc:'<b>가장 이상적인 조합이에요.</b> ENFJ의 따뜻한 리더십과 적극적인 감정 표현이 안정형의 연결 욕구를 완벽하게 채워줘요. 갈등도 대화로 풀 수 있는 관계예요.', tags:['감정 공유','갈등 적음','깊은 연결'] },
+    INFJ: { score:'best', desc:'<b>둘 다 깊이 있는 연결을 원해요.</b> INFJ의 통찰력과 안정형의 여유가 만나 서로를 가장 잘 이해하는 관계가 돼요.', tags:['깊은 연결','상호 이해','장기 관계'] },
+    ISFJ: { score:'best', desc:'<b>헌신과 안정의 최고 조합이에요.</b> 서로 기대어도 흔들리지 않는 구조예요. 배려가 자연스럽게 오가는 관계예요.', tags:['헌신적','배려','안정적'] },
+    ESFJ: { score:'best', desc:'ESFJ의 <b>적극적인 챙김과 표현이</b> 안정형에게 자연스러운 따뜻함을 줘요. 서로의 감정을 편하게 나눌 수 있어요.', tags:['챙김','따뜻함','편안함'] },
+    ENFP: { score:'good', desc:'ENFP의 열정과 자유로움이 안정형에게 활력을 줘요. <b>안정형이 ENFP를 흔들리지 않고 잡아줄 수 있어요.</b>', tags:['활력','균형','성장'] },
+    INFP: { score:'good', desc:'INFP의 깊은 감수성을 안정형이 충분히 받아줄 수 있어요. <b>INFP가 이상화 후 실망하지 않도록</b> 현실적인 중심이 돼줄 수 있어요.', tags:['감수성','균형','이해'] },
+    ENTJ: { score:'good', desc:'<b>서로 강한 개성이 있어 자극이 있는 관계예요.</b> ENTJ의 추진력을 안정형이 부드럽게 받아줄 수 있어요.', tags:['자극','성장','강한 개성'] },
+    ENTP: { score:'good', desc:'ENTP의 지적 자극과 안정형의 여유가 균형을 이뤄요. <b>ENTP가 안정형 앞에서 자연스럽게 편해지는 관계예요.</b>', tags:['지적 자극','균형','편안함'] },
+    ISTJ: { score:'good', desc:'<b>둘 다 신뢰와 안정을 중시해요.</b> 표현이 서툴 수 있지만 행동으로 보여주는 관계예요.', tags:['신뢰','안정','행동'] },
+    ESTJ: { score:'good', desc:'<b>현실적이고 책임감 있는 조합이에요.</b> 서로 역할이 명확하고 안정적인 관계를 만들 수 있어요.', tags:['책임감','안정','현실적'] },
+    ISFP: { score:'good', desc:'ISFP의 섬세함을 안정형이 자연스럽게 받아줄 수 있어요. <b>ISFP가 표현하지 않아도 읽어주는 관계예요.</b>', tags:['섬세함','이해','편안함'] },
+    ESFP: { score:'good', desc:'ESFP의 에너지와 안정형의 여유가 균형을 이뤄요. <b>즐거운 현재와 안정적인 기반을 동시에 갖는 관계예요.</b>', tags:['활기','균형','즐거움'] },
+    INTJ: { score:'caution', desc:'INTJ의 독립성 고집이 안정형에게 거리감으로 느껴질 수 있어요. <b>노력하면 충분히 가능하지만 감정 표현 면에서 답답함이 생길 수 있어요.</b>', tags:['거리감','노력 필요','감정 표현 약함'] },
+    INTP: { score:'caution', desc:'INTP의 무심한 듯한 태도가 안정형에게도 가끔 답답할 수 있어요. <b>지적 교류는 풍부하지만 감정 공유는 노력이 필요해요.</b>', tags:['감정 공유 약함','지적 교류','노력 필요'] },
+    ISTP: { score:'caution', desc:'<b>ISTP의 예측 불가능한 패턴이 안정형에게도 피로감을 줄 수 있어요.</b> 공간을 충분히 주면 관계가 유지될 수 있어요.', tags:['예측 불가','공간 필요','피로감'] },
+    ESTP: { score:'caution', desc:'ESTP의 즉흥성과 감정 대화 회피가 가끔 충돌해요. <b>안정형이 ESTP의 행동 중심 사랑 방식을 이해하는 게 중요해요.</b>', tags:['즉흥적','행동 중심','이해 필요'] },
+  },
+  anx: {
+    // 불안형은 안정적·헌신적 EF/IF 최고, IT 회피형 최악
+    ISFJ: { score:'best', desc:'<b>불안형에게 가장 이상적인 상대예요.</b> ISFJ는 연락과 챙김이 자연스럽고 일관된 헌신을 줘요. 확인을 요구하지 않아도 먼저 챙겨주는 유형이에요.', tags:['일관된 헌신','먼저 챙김','안심'] },
+    ESFJ: { score:'best', desc:'<b>ESFJ의 적극적인 표현이 불안형의 확인 욕구를 자연스럽게 채워줘요.</b> 연락도 자주 하고 감정 표현도 풍부해서 불안형이 가장 편안함을 느끼는 유형이에요.', tags:['표현적','연락','확인 충족'] },
+    ENFJ: { score:'best', desc:'<b>ENFJ는 상대의 감정을 적극적으로 이해하려 해요.</b> 불안형의 감정 기복을 받아주면서도 흔들리지 않는 안정감을 줄 수 있어요.', tags:['공감','안정감','감정 수용'] },
+    INFJ: { score:'good', desc:'INFJ의 깊은 통찰이 불안형의 감정을 잘 읽어줘요. <b>단, INFJ도 감정을 많이 쏟으면 지칠 수 있어 상호 배려가 필요해요.</b>', tags:['통찰','이해','상호 배려 필요'] },
+    ISFP: { score:'good', desc:'ISFP는 조용하지만 세심하게 챙겨줘요. <b>표현이 적어 불안형이 답답할 수 있지만 행동으로 보여주는 사랑 방식이에요.</b>', tags:['세심함','행동 표현','표현 부족 주의'] },
+    INFP: { score:'good', desc:'<b>둘 다 감정이 풍부해 깊이 공감해요.</b> 단, INFP도 불안 성향이 있을 수 있어 서로 확인 욕구가 충돌할 수 있어요.', tags:['감정 공유','공감','충돌 가능'] },
+    ENFP: { score:'caution', desc:'ENFP는 <b>공포회피 성향을 함께 가진 경우가 많아요.</b> 다가왔다 갑자기 사라지는 패턴이 불안형의 핵심 공포를 자극할 수 있어요.', tags:['밀당 주의','공포회피 가능','예측 불가'] },
+    ESFP: { score:'caution', desc:'<b>ESFP는 현재에 충실하고 즉흥적이에요.</b> 미래 계획이나 관계 방향성에 대한 대화를 회피해 불안형에게 불안감을 줄 수 있어요.', tags:['즉흥적','미래 불확실','불안 자극'] },
+    ESTJ: { score:'caution', desc:'ESTJ는 안정적이지만 <b>감정 공유보다 현실·역할을 중시해요.</b> 불안형이 원하는 감정적 확인을 충분히 못 받을 수 있어요.', tags:['감정 표현 약함','현실 중심','확인 부족'] },
+    ENTJ: { score:'caution', desc:'<b>ENTJ는 일 우선 성향이 강해요.</b> 바쁠 때 연락이 줄어들면 불안형은 최악의 상상을 하게 돼요.', tags:['일 우선','연락 감소','불안 자극'] },
+    ENTP: { score:'caution', desc:'ENTP는 감정보다 논리로 반응해요. <b>불안형이 공감받고 싶을 때 분석부터 하는 ENTP와 자주 충돌할 수 있어요.</b>', tags:['논리 우선','공감 약함','충돌'] },
+    INTJ: { score:'worst', desc:'<b>최악의 조합이에요.</b> 불안형이 확인을 원할수록 INTJ는 더 물러나요. 불안형의 가장 큰 공포(버려짐)를 지속적으로 자극하는 구조예요.', tags:['최악 궁합','버려짐 공포','악순환'] },
+    INTP: { score:'worst', desc:'<b>INTP는 감정 표현이 거의 없고 연락도 잘 안 해요.</b> 불안형 입장에서 "나를 좋아하는 건지" 영원히 알 수 없는 관계가 돼요.', tags:['감정 공백','연락 없음','불안 증폭'] },
+    ISTP: { score:'worst', desc:'ISTP는 <b>예고 없이 사라지는 패턴이 있어요.</b> 불안형에게 가장 고통스러운 방식으로 상처를 주는 조합이에요.', tags:['갑자기 사라짐','공포 자극','최악'] },
+    ISTJ: { score:'caution', desc:'<b>ISTJ는 안정적이지만 감정 표현이 서툴러요.</b> 책임감으로 관계를 유지하지만 불안형이 원하는 따뜻한 확인을 못 받을 수 있어요.', tags:['감정 표현 부족','책임감','확인 부족'] },
+    ESTP: { score:'worst', desc:'<b>ESTP는 감정 대화를 회피하고 즉흥적이에요.</b> 불안형이 안정이 필요한 순간 ESTP는 행동으로만 반응해 깊이 있는 연결이 어려워요.', tags:['감정 회피','즉흥적','연결 어려움'] },
+  },
+  avd: {
+    // 회피형은 공간 주는 유형 최고, 달라붙는 유형 최악
+    ENTP: { score:'best', desc:'<b>회피형이 가장 편하게 느끼는 E형이에요.</b> ENTP는 독립적이고 지적 자극을 주면서도 달라붙지 않아요. 자연스럽게 끌리는 관계예요.', tags:['독립적','지적 자극','부담 없음'] },
+    ENFP: { score:'best', desc:'ENFP는 <b>회피형의 공간을 자연스럽게 존중하면서도 관계를 유지해요.</b> 달라붙지 않는 에너지가 오히려 회피형이 스스로 다가오게 만들어요.', tags:['공간 존중','자연스러움','끌림'] },
+    INTJ: { score:'best', desc:'<b>서로 공간이 필요하다는 걸 이해해요.</b> 같은 독립 욕구를 가져 표면적으로 가장 편안한 조합이에요.', tags:['공간 이해','독립','편안함'] },
+    INTP: { score:'best', desc:'<b>서로 혼자 있는 시간을 존중해요.</b> 지적 교류는 풍부하고 감정적 요구가 적어 회피형이 부담 없이 유지할 수 있는 관계예요.', tags:['지적 교류','감정 요구 적음','부담 없음'] },
+    ISTP: { score:'good', desc:'<b>둘 다 독립성을 중시해 표면적으로 편해요.</b> 깊은 감정 공유는 없지만 서로 간섭하지 않는 안정적인 관계예요.', tags:['독립','간섭 없음','평화로움'] },
+    ESTP: { score:'good', desc:'ESTP도 감정보다 행동 중심이라 <b>회피형에게 감정적 압박을 주지 않아요.</b> 가볍고 활동적인 관계를 유지할 수 있어요.', tags:['감정 압박 없음','활동적','가벼움'] },
+    ISTJ: { score:'good', desc:'<b>ISTJ는 회피형의 패턴을 이해하고 기다려줄 수 있어요.</b> 감정 표현을 강요하지 않고 신뢰로 관계를 유지하는 유형이에요.', tags:['기다림','신뢰','강요 없음'] },
+    ESTJ: { score:'good', desc:'ESTJ는 <b>명확한 역할과 기대치로 관계를 유지해요.</b> 감정적 요구가 비교적 적어 회피형이 예측 가능한 범위 안에서 편안함을 느껴요.', tags:['명확함','예측 가능','감정 요구 적음'] },
+    INFJ: { score:'caution', desc:'INFJ는 깊은 연결을 원해요. <b>회피형이 거리를 두면 INFJ는 문을 닫아버릴 수 있어요.</b> 서로의 깊이 욕구가 충돌할 수 있어요.', tags:['깊이 욕구 충돌','문 닫기 위험','노력 필요'] },
+    ISFJ: { score:'caution', desc:'ISFJ의 헌신이 회피형에게 <b>부담으로 느껴질 수 있어요.</b> ISFJ가 상처받을 가능성이 높은 조합이에요.', tags:['헌신 부담','상처 위험','불균형'] },
+    INFP: { score:'caution', desc:'INFP는 <b>감정적 연결을 깊이 원해요.</b> 회피형이 거리를 두면 INFP는 이상화 후 실망하는 패턴으로 흐를 수 있어요.', tags:['감정 충돌','이상화 위험','거리감'] },
+    ISFP: { score:'caution', desc:'<b>둘 다 표현이 적어 관계가 발전하지 못할 수 있어요.</b> 서로 기다리다 자연스럽게 흐지부지되는 패턴이 생겨요.', tags:['표현 부족','발전 느림','흐지부지'] },
+    ENFJ: { score:'worst', desc:'<b>최악의 조합이에요.</b> ENFJ는 적극적으로 연결하려 하는데 회피형은 그게 부담스러워 더 도망쳐요. ENFJ가 깊이 상처받는 구조예요.', tags:['최악 궁합','질식감','ENFJ 상처'] },
+    ESFJ: { score:'worst', desc:'ESFJ의 헌신과 기대가 <b>회피형에게 가장 무거운 부담이에요.</b> 회피형이 도망칠수록 ESFJ는 더 달려드는 악순환이 생겨요.', tags:['기대 부담','달려들기','악순환'] },
+    ESFP: { score:'worst', desc:'ESFP는 <b>스킨십과 함께하는 시간을 매우 중요시해요.</b> 회피형이 원하는 거리감과 정반대라 충돌이 잦아요.', tags:['스킨십 충돌','거리감 충돌','불일치'] },
+    ENTJ: { score:'caution', desc:'ENTJ의 주도적 성향이 <b>회피형에게 통제받는 느낌을 줄 수 있어요.</b> 서로 독립적이긴 하지만 ENTJ의 요구가 부담될 수 있어요.', tags:['통제감','주도권 충돌','부담'] },
+  },
+  fear: {
+    // 공포회피형은 안정적 F형 최고, 불안형 최악, 공포회피형끼리도 교착
+    INFJ: { score:'best', desc:'<b>공포회피형이 도망쳐도 흔들리지 않고 기다려줄 수 있는 유일한 유형이에요.</b> 판단 없이 이해하는 INFJ의 방식이 공포회피형의 패턴을 서서히 바꿔줄 수 있어요.', tags:['판단 없음','기다림','치유적'] },
+    ISFJ: { score:'best', desc:'<b>ISFJ의 일관된 헌신이 공포회피형에게 "관계가 안전할 수 있다"는 경험을 처음 만들어줘요.</b> 도망쳐도 여전히 있어주는 유형이에요.', tags:['일관성','안전감','새로운 경험'] },
+    ENFJ: { score:'best', desc:'<b>ENFJ는 공포회피형의 복잡한 내면을 이해하려 적극적으로 노력해요.</b> 공포회피형이 도망치지 않고 머물 수 있는 환경을 만들어줘요.', tags:['이해','적극적','머무를 수 있음'] },
+    ESFJ: { score:'good', desc:'ESFJ의 <b>따뜻한 헌신이 공포회피형에게 안전감을 줘요.</b> 단, 공포회피형이 계속 도망치면 ESFJ도 결국 지칠 수 있어요.', tags:['안전감','헌신','ESFJ 소진 주의'] },
+    INFP: { score:'good', desc:'INFP의 <b>비판단적 태도가 공포회피형이 편하게 느끼는 조건이에요.</b> 단, INFP도 이상화 후 실망할 수 있어 서로 주의가 필요해요.', tags:['비판단적','편안함','이상화 주의'] },
+    ISFP: { score:'good', desc:'<b>ISFP의 조용하고 강요 없는 방식이 공포회피형에게 부담을 줄여줘요.</b> 자연스럽게 가까워질 수 있는 관계예요.', tags:['강요 없음','자연스러움','부담 감소'] },
+    INTJ: { score:'caution', desc:'<b>둘 다 친밀감이 불편해 관계가 얕게 유지돼요.</b> 어느 쪽도 먼저 깊어지려 하지 않아 자연스럽게 흐지부지될 수 있어요.', tags:['친밀감 회피','얕은 관계','교착'] },
+    INTP: { score:'caution', desc:'서로 감정 표현이 적어 <b>관계가 지적 교류에만 머무는 경우가 많아요.</b> 깊은 연결은 둘 다 피하게 돼요.', tags:['지적 교류만','깊이 없음','회피'] },
+    ENTP: { score:'caution', desc:'ENTP의 자극적인 에너지가 공포회피형을 끌리게 하지만 <b>막상 가까워지면 공포회피형이 도망쳐요.</b>', tags:['끌림','도망','반복'] },
+    ENTJ: { score:'caution', desc:'ENTJ의 주도적 방식이 <b>공포회피형에게 통제받는 느낌을 줄 수 있어요.</b> 밀당 끝에 공포회피형이 완전히 철수하는 패턴이 생겨요.', tags:['통제감','철수','소모적'] },
+    ESTP: { score:'caution', desc:'<b>둘 다 즉흥적이고 깊은 감정 대화를 피해요.</b> 재밌는 관계이지만 깊어지지 않고 표면적으로 유지될 가능성이 높아요.', tags:['표면적','깊이 없음','즉흥적'] },
+    ESTJ: { score:'caution', desc:'ESTJ의 명확한 기대와 원칙이 <b>공포회피형에게 부담으로 느껴질 수 있어요.</b> 공포회피형이 기대를 못 맞추면 갈등이 생겨요.', tags:['기대 부담','원칙 충돌','압박'] },
+    ENFP: { score:'worst', desc:'<b>공포회피형이 도망치면 불안형 ENFP는 더 달려들어요.</b> 서로의 상처가 정면으로 충돌하는 가장 고통스러운 조합이에요.', tags:['최악 궁합','상처 충돌','고통'] },
+    ESFP: { score:'worst', desc:'ESFP의 <b>적극적인 스킨십과 함께 있고 싶어하는 욕구가 공포회피형의 도망 패턴을 폭발적으로 자극해요.</b>', tags:['도망 자극','최악','소진'] },
+    ISTJ: { score:'caution', desc:'ISTJ의 일관성이 안정적이지만 <b>감정 표현이 없어 공포회피형이 "이 관계가 맞는지" 더 혼란스러울 수 있어요.</b>', tags:['감정 공백','혼란','불확실'] },
+    ISTP: { score:'worst', desc:'<b>둘 다 가까워지면 도망치는 구조예요.</b> 서로 끌리지만 아무도 먼저 취약해지지 않아 영원히 교착 상태가 됩니다.', tags:['교착 상태','밀당','앞으로 못 감'] },
+  },
+};
+
+// 점수별 라벨
+const SCORE_DATA = {
+  best:    { label:'✨ 잘 맞아요',   color:'var(--gold)',  bg:'#fdf8ec', border:'#c5a84a30' },
+  good:    { label:'👍 괜찮아요',    color:'var(--sec)',   bg:'#edf7f3', border:'#2d7a5f30' },
+  caution: { label:'⚠️ 주의 필요',  color:'var(--fear)',  bg:'#fdf5ec', border:'#c47a3030' },
+  worst:   { label:'💔 어려운 조합', color:'var(--rose)',  bg:'#fdf2f2', border:'#c4505030' },
+};
+
+function startTest() {
+  const nameEl = document.getElementById('user-name');
+  const name = nameEl ? nameEl.value.trim() : '';
+  if (name) localStorage.setItem('compat_user_name', name);
+  goPage('p-attach');
+}
+
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // 페이지 진입 시 카드 opacity 초기화
+  document.querySelectorAll('.attach-card').forEach(card => {
+    card.style.opacity = '1';
+    card.style.transform = '';
+  });
+  window.scrollTo(0,0);
+}
+
+function selectAttach(type, el) {
+  document.querySelectorAll('.attach-card').forEach(c => {
+    c.style.opacity = '0.45';
+    c.style.transform = '';
+  });
+  el.style.opacity = '1';
+  el.style.transform = 'translateY(-3px)';
+  myAttach = type;
+  document.getElementById('btn-next-attach').classList.add('active');
+}
+
+function selectMbti(mbti, el) {
+  document.querySelectorAll('.mbti-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  myMbti = mbti;
+  document.getElementById('btn-next-mbti').classList.add('active');
+}
+
+function selectAttach2(type, el) {
+  document.querySelectorAll('#attach2-grid .attach-card').forEach(card => {
+    card.style.opacity = '0.45';
+    card.style.transform = '';
+  });
+  el.style.opacity = '1';
+  el.style.transform = 'translateY(-3px)';
+  theirAttach = type;
+  document.getElementById('btn-next-attach2').classList.add('active');
+}
+
+function selectMbti2(mbti, el) {
+  document.querySelectorAll('.mbti-btn2').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  theirMbti = mbti;
+  document.getElementById('btn-next-mbti2').classList.add('active');
+}
+
+function showResult() {
+  if (!myAttach || !myMbti || !theirAttach || !theirMbti) return;
+  goPage('p-result');
+  incrementCount('attachment_mbti_compat');
+
+  const myAt = ATTACH[myAttach];
+  const thAt = ATTACH[theirAttach];
+  const myMb = MBTI_INFO[myMbti];
+  const thMb = MBTI_INFO[theirMbti];
+
+  // 내 기준 상대 궁합
+  const myResult = RESULT[myAttach][theirMbti];
+  // 상대 기준 나의 궁합
+  const thResult = RESULT[theirAttach][myMbti];
+
+  // 종합 점수 계산
+  const scoreVal = { best:4, good:3, caution:2, worst:1 };
+  const avg = (scoreVal[myResult.score] + scoreVal[thResult.score]) / 2;
+  const finalScore = avg >= 3.5 ? 'best' : avg >= 2.5 ? 'good' : avg >= 1.5 ? 'caution' : 'worst';
+  const sd = SCORE_DATA[finalScore];
+
+  const summaryMap = {
+    best:    '두 조합을 종합하면 꽤 잘 맞는 편이에요.',
+    good:    '서로 노력하면 충분히 좋은 관계가 될 수 있어요.',
+    caution: '서로 이해하고 맞춰가는 노력이 필요한 조합이에요.',
+    worst:   '솔직히 쉽지 않은 조합이에요. 서로의 차이를 인식하는 게 중요해요.',
+  };
+
+  const userName = localStorage.getItem('compat_user_name');
+
+  document.getElementById('p-result').innerHTML = `
+    <div class="result-wrap">
+
+      <!-- 헤더 배너 -->
+      <div style="
+        background: linear-gradient(135deg, ${myAt.color}18, ${thAt.color}18);
+        border-radius: 20px;
+        padding: 28px 24px;
+        text-align: center;
+        margin-bottom: 24px;
+        border: 1px solid ${myAt.color}25;
+      ">
+        <!-- 조합 칩 -->
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+          <span style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:100px;font-size:12px;font-weight:700;color:${myAt.color};background:white;border:1.5px solid ${myAt.color}40">${myAt.emoji} ${myAt.label}</span>
+          <span style="padding:5px 10px;border-radius:100px;font-size:12px;font-weight:700;color:var(--gold);background:white;border:1.5px solid #c5a84a40">${myMbti}</span>
+          <span style="font-size:16px;color:var(--dim);font-weight:300">×</span>
+          <span style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:100px;font-size:12px;font-weight:700;color:${thAt.color};background:white;border:1.5px solid ${thAt.color}40">${thAt.emoji} ${thAt.label}</span>
+          <span style="padding:5px 10px;border-radius:100px;font-size:12px;font-weight:700;color:var(--gold);background:white;border:1.5px solid #c5a84a40">${theirMbti}</span>
+        </div>
+
+        <!-- 종합 점수 -->
+        <div style="font-size:26px;font-weight:800;color:var(--ink);letter-spacing:-0.5px;margin-bottom:6px">
+          ${userName ? userName + '의 조합' : '우리 조합'}
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:6px;padding:7px 18px;border-radius:100px;background:white;border:1.5px solid ${sd.color}40;margin-bottom:10px">
+          <span style="font-size:15px;font-weight:700;color:${sd.color}">${sd.label}</span>
+        </div>
+        <div style="font-size:13px;color:var(--slate);line-height:1.6">${summaryMap[finalScore]}</div>
+      </div>
+
+      <!-- 내 시각 -->
+      <div style="margin-bottom:10px">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:8px">
+          나의 시각
+          <span style="flex:1;height:1px;background:var(--border);display:block"></span>
+        </div>
+        <div style="background:${SCORE_DATA[myResult.score].bg};border:1.5px solid ${SCORE_DATA[myResult.score].border};border-radius:16px;padding:18px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div style="font-size:11px;color:var(--muted);font-weight:500">${myAt.emoji} ${myAt.label} → ${theirMbti} · ${thMb.keyword}</div>
+            <span style="font-size:10px;padding:3px 10px;border-radius:100px;font-weight:600;color:${SCORE_DATA[myResult.score].color};border:1.5px solid ${SCORE_DATA[myResult.score].border};background:white">${SCORE_DATA[myResult.score].label}</span>
+          </div>
+          <div style="font-size:13px;color:var(--slate);line-height:1.85;margin-bottom:12px">${myResult.desc}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px">${myResult.tags.map(t=>`<span style="font-size:10px;padding:3px 10px;border-radius:100px;border:1px solid var(--border2);color:var(--slate);background:var(--bg)">${t}</span>`).join('')}</div>
+        </div>
+      </div>
+
+      <!-- 상대방 시각 -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:8px">
+          상대방 시각
+          <span style="flex:1;height:1px;background:var(--border);display:block"></span>
+        </div>
+        <div style="background:${SCORE_DATA[thResult.score].bg};border:1.5px solid ${SCORE_DATA[thResult.score].border};border-radius:16px;padding:18px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+            <div style="font-size:11px;color:var(--muted);font-weight:500">${thAt.emoji} ${thAt.label} → ${myMbti} · ${myMb.keyword}</div>
+            <span style="font-size:10px;padding:3px 10px;border-radius:100px;font-weight:600;color:${SCORE_DATA[thResult.score].color};border:1.5px solid ${SCORE_DATA[thResult.score].border};background:white">${SCORE_DATA[thResult.score].label}</span>
+          </div>
+          <div style="font-size:13px;color:var(--slate);line-height:1.85;margin-bottom:12px">${thResult.desc}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px">${thResult.tags.map(t=>`<span style="font-size:10px;padding:3px 10px;border-radius:100px;border:1px solid var(--border2);color:var(--slate);background:var(--bg)">${t}</span>`).join('')}</div>
+        </div>
+      </div>
+
+      <!-- 연애 패턴 -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">이 조합의 연애 패턴</div>
+        <div style="font-size:13px;color:var(--slate);line-height:1.9">${getPattern(myAttach, theirMbti)}</div>
+      </div>
+
+      <button class="btn-restart" onclick="location.reload()">↩ 다시 선택하기</button>
+    </div>
+  `;
+}
+
+function getPattern(attach, mbti) {
+  const m = MBTI_INFO[mbti];
+  const patterns = {
+    sec: {
+      IT: `안정형인 당신은 ${mbti}의 건조한 표현 방식을 이해하려 할 거예요. <b>${mbti}는 말보다 행동으로 사랑을 표현하는 유형이에요.</b> 감정 표현이 적어도 신뢰로 이어지는 관계가 돼요.`,
+      ET: `안정형인 당신과 ${mbti}는 <b>서로 강한 개성이 부딪히지 않고 자극을 주는 관계예요.</b> ${mbti}의 추진력을 당신이 부드럽게 받아줄 수 있어요.`,
+      IF: `<b>안정형과 ${mbti}는 깊이 있는 연결을 함께 원하는 유형이에요.</b> 서로의 감정을 편하게 나누고 오래 지속되는 관계를 만들 수 있어요.`,
+      EF: `안정형과 ${mbti}는 <b>감정 표현이 자연스러운 조합이에요.</b> ${mbti}의 활발한 에너지를 안정형이 받아주며 균형 잡힌 관계가 만들어져요.`,
+    },
+    anx: {
+      IT: `불안형인 당신에게 ${mbti}는 <b>가장 힘든 유형 중 하나예요.</b> ${mbti}는 감정 표현이 거의 없고 독립을 중시해서, 불안형의 확인 욕구가 계속 충족되지 않는 구조예요. 관계가 고통스러워질 수 있어요.`,
+      ET: `${mbti}는 활동적이지만 <b>감정 공유보다 성취와 행동을 우선해요.</b> 불안형이 원하는 따뜻한 확인보다 실용적인 반응이 돌아오는 경우가 많아요.`,
+      IF: `${mbti}는 감수성이 깊어 불안형을 이해할 수 있어요. <b>단, ${mbti}도 에너지가 고갈되면 혼자만의 시간이 필요한 유형이라</b> 그 순간 불안형이 흔들릴 수 있어요.`,
+      EF: `<b>${mbti}는 감정 표현이 풍부하고 상대를 잘 챙겨요.</b> 불안형에게 자연스러운 안정감을 주는 최고의 유형 중 하나예요.`,
+    },
+    avd: {
+      IT: `<b>회피형인 당신에게 ${mbti}는 가장 편한 유형이에요.</b> 서로 공간을 중요시하고 감정 요구가 적어 부담 없이 유지할 수 있는 관계예요.`,
+      ET: `${mbti}는 에너지가 넘치지만 <b>독립적이고 달라붙지 않아요.</b> 회피형이 공간이 필요할 때 자연스럽게 이해하는 유형이에요.`,
+      IF: `${mbti}는 깊은 연결을 원해요. <b>회피형이 거리를 두면 ${mbti}는 상처받거나 문을 닫아버릴 수 있어요.</b> 서로의 욕구가 충돌하는 지점이 생겨요.`,
+      EF: `${mbti}는 적극적으로 연결하려 해요. <b>회피형에게 이 에너지가 부담이나 질식감으로 느껴질 수 있어요.</b> 회피형이 도망치고 ${mbti}가 상처받는 패턴이 반복돼요.`,
+    },
+    fear: {
+      IT: `<b>둘 다 친밀감을 불편해하는 구조예요.</b> 표면적으로는 편하지만 깊어지지 않고 교착 상태에 머물 가능성이 높아요.`,
+      ET: `${mbti}의 자극적인 에너지가 공포회피형을 끌리게 해요. <b>근데 막상 가까워지면 공포회피형이 도망치는 패턴이 반복돼요.</b>`,
+      IF: `<b>${mbti}의 비판단적이고 기다려주는 방식이 공포회피형에게 안전한 환경을 만들어줘요.</b> 공포회피형이 도망쳐도 여전히 있어주는 유형이에요.`,
+      EF: `${mbti}가 적극적으로 연결하려 할수록 공포회피형은 도망쳐요. <b>근데 멀어지면 또 그리워하는 공포회피형의 패턴이 ${mbti}를 지치게 해요.</b>`,
+    },
+  };
+
+  return patterns[attach][m.type] || '이 조합의 연애 패턴은 개인차가 크지만, 서로의 차이를 이해하는 것이 핵심이에요.';
+}
+
+function getBestTypes(attach) {
+  const best = {
+    sec:  'ENFJ, INFJ, ISFJ, ESFJ — 감정 공유가 자연스럽고 깊이 있는 연결을 함께 원하는 유형들이에요.',
+    anx:  'ISFJ, ESFJ, ENFJ — 일관된 헌신과 적극적인 감정 표현으로 불안형의 확인 욕구를 자연스럽게 채워주는 유형들이에요.',
+    avd:  'ENTP, ENFP, INTJ, INTP — 공간을 자연스럽게 주면서도 지적 자극이 있는 유형들이에요. 회피형이 스스로 다가오게 만드는 조합이에요.',
+    fear: 'INFJ, ISFJ, ENFJ — 판단 없이 기다려주고 일관된 안전감을 주는 유형들이에요. 공포회피형의 패턴을 서서히 바꿔줄 수 있어요.',
+  };
+  return best[attach];
+}
+
+
+const SUPA_URL = 'https://dleoheiqaardmpyoklmt.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRsZW9oZWlxYWFyZG1weW9rbG10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MzUzNzMsImV4cCI6MjA5NDIxMTM3M30.yVmdhisxmC1KB3Ku1ZapF_CtTqEacqw8BWt32n30-Lc';
+
+async function incrementCount(testName) {
+  const res = await fetch(`${SUPA_URL}/rest/v1/test_counts?test_name=eq.${testName}&select=count`, {
+    headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+  });
+  const data = await res.json();
+  if (data.length === 0) {
+    await fetch(`${SUPA_URL}/rest/v1/test_counts`, {
+      method: 'POST',
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ test_name: testName, count: 1 })
+    });
+  } else {
+    await fetch(`${SUPA_URL}/rest/v1/test_counts?test_name=eq.${testName}`, {
+      method: 'PATCH',
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ count: data[0].count + 1 })
+    });
+  }
+}
+
+</script>
+
+  <!-- werit 홈 버튼 -->
+  <style>
+    .werit-home-btn{position:fixed;top:16px;left:16px;z-index:9999;background:#fff;border:1.5px solid #e5e5e5;border-radius:99px;padding:8px 16px;font-size:12px;font-weight:700;color:#111;text-decoration:none;font-family:'Noto Sans KR',sans-serif;box-shadow:0 2px 12px rgba(0,0,0,0.08);transition:all 0.2s ease;display:flex;align-items:center;gap:6px}
+    .werit-home-btn:hover{border-color:#111;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+    .werit-home-btn .dot{color:#fb923c;font-size:14px;font-weight:900}
+  </style>
+  <a href="index.html" class="werit-home-btn"><span>←</span><span>werit<span class="dot">.</span></span></a>
+
+</body>
+</html>

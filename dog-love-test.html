@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6BLYMZQJXV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6BLYMZQJXV');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나의 연애 성향과 닮은 강아지는?</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8YB45RTMMS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8YB45RTMMS');
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0e0e0e;font-family:'Noto Sans KR',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-12px)}}
+@keyframes popIn{0%{transform:scale(0.94);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes wiggle{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+.screen{max-width:460px;width:100%;animation:fadeUp 0.5s ease}
+.screen.quiz{max-width:480px}
+.screen.out{animation:fadeOut 0.3s ease forwards}
+.label{font-size:11px;letter-spacing:4px;color:#666;text-transform:uppercase;margin-bottom:10px;font-weight:700}
+.card-box{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 18px;margin-bottom:24px;text-align:left}
+.card-row{font-size:13px;color:#bbb;padding:3px 0;display:flex;gap:10px}
+.card-row span{color:#444}
+.btn-primary{background:#fff;color:#0e0e0e;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:900;cursor:pointer;width:100%;letter-spacing:1px;font-family:'Noto Sans KR',sans-serif;transition:all 0.2s ease}
+.btn-primary:hover{opacity:0.85;transform:translateY(-1px)}
+.btn-primary.disabled{background:rgba(255,255,255,0.1);color:#444;cursor:default}
+.btn-primary.disabled:hover{opacity:1;transform:none}
+.btn-restart{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:14px;color:#bbb;font-size:14px;font-weight:700;cursor:pointer;width:100%;font-family:'Noto Sans KR',sans-serif;transition:all 0.2s ease}
+.btn-restart:hover{opacity:0.85;transform:translateY(-1px)}
+.input-label{font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;font-weight:700;display:block;margin-bottom:8px}
+input[type=text]{width:100%;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 16px;color:#fff;font-size:14px;font-family:'Noto Sans KR',sans-serif;transition:border 0.2s;outline:none}
+input[type=text]:focus{border-color:rgba(255,255,255,0.45)}
+input[type=text]::placeholder{color:#444}
+.progress-wrap{margin-bottom:20px}
+.progress-top{display:flex;justify-content:space-between;font-size:11px;color:#444;margin-bottom:8px;font-weight:700;letter-spacing:1px}
+.progress-top .left{color:#666}
+.progress-bar{height:3px;background:rgba(255,255,255,0.07);border-radius:99px}
+.progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#fff 0%,#888 100%);transition:width 0.5s ease}
+.section-divider{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.section-divider .line{flex:1;height:1px;background:rgba(255,255,255,0.07)}
+.section-divider .text{font-size:11px;color:#555;font-weight:700;letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.q-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:20px;margin-bottom:16px}
+.q-text{font-size:16px;color:#f0f0f0;line-height:1.75;font-weight:400}
+.opt-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.opt-btn{background:rgba(255,255,255,0.03);border:1.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px 18px;color:#e0e0e0;font-size:14px;cursor:pointer;text-align:left;line-height:1.65;font-family:'Noto Sans KR',sans-serif;display:flex;align-items:center;gap:14px;transition:all 0.2s ease;width:100%}
+.opt-btn:hover{border-color:rgba(255,255,255,0.4);transform:translateY(-2px);background:rgba(255,255,255,0.09)}
+.opt-btn.active{background:rgba(255,255,255,0.11);border-color:rgba(255,255,255,0.5)}
+.opt-btn.dim{opacity:0.38;color:rgba(255,255,255,0.22)}
+.opt-badge{min-width:26px;height:26px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#555}
+.opt-btn.active .opt-badge{background:#fff;color:#0e0e0e}
+.next-wrap{animation:popIn 0.22s ease}
+/* result */
+.result-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px 24px;margin-bottom:12px;text-align:center}
+.result-label{font-size:11px;letter-spacing:3px;color:#555;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+.result-who{font-size:15px;color:#777;margin-bottom:6px}
+.result-who strong{color:#fff;font-weight:900}
+.result-mbti{font-size:42px;font-weight:900;letter-spacing:5px;margin-bottom:8px}
+.result-dog-name{font-size:20px;font-weight:900;color:#fff;margin-bottom:4px}
+.result-title{font-size:13px;color:#666;margin-bottom:20px}
+.result-desc{font-size:13px;color:#999;line-height:1.85;background:rgba(255,255,255,0.04);border-radius:12px;padding:14px 16px;text-align:left;margin-bottom:24px}
+.compat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.compat-box{border-radius:12px;padding:14px 12px;text-align:left}
+.compat-good{background:rgba(74,222,128,0.05);border:1px solid rgba(74,222,128,0.18)}
+.compat-bad{background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.18)}
+.compat-label{font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:8px}
+.compat-good .compat-label{color:#4ade80}
+.compat-bad .compat-label{color:#f87171}
+.compat-badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700}
+.badge-good{background:rgba(74,222,128,0.12);color:#4ade80;border:1px solid rgba(74,222,128,0.25)}
+.badge-bad{background:rgba(248,113,113,0.12);color:#f87171;border:1px solid rgba(248,113,113,0.25)}
+.compat-desc{font-size:11px;color:#666;line-height:1.6}
+.share-note{text-align:center;font-size:11px;color:#333}
+/* SVG dog */
+.dog-svg-wrap{margin:0 auto 12px;animation:wiggle 1s ease 0.6s}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ── 데이터 ──────────────────────────────────────────────────────
+const questions=[
+  {id:1,situation:"연애할 때 연락 스타일은?",options:[{text:"수시로 카톡하고 통화도 자주 해야 해. 연락이 곧 애정이야",axes:{E:1}},{text:"하루 한두 번 안부면 충분해. 자주 안 해도 믿으니까",axes:{I:1}}]},
+  {id:2,situation:"주말에 애인이랑 뭐 하고 싶어?",options:[{text:"친구들이랑 같이 어울리거나 새로운 곳에 나가고 싶어",axes:{E:1}},{text:"둘이서만 집에서 조용히 있거나 드라이브 가고 싶어",axes:{I:1}}]},
+  {id:3,situation:"애인이 서운하게 했을 때 나는?",options:[{text:"바로 그 자리에서 말해. 쌓아두면 더 힘드니까",axes:{E:1}},{text:"혼자 좀 삭히다가 감정이 가라앉으면 조용히 말해",axes:{I:1}}]},
+  {id:4,situation:"애인이 \"오늘 좀 피곤해 보여\"라고 하면?",options:[{text:"\"응, 어제 잠을 못 잤어\" 사실 그대로 말해",axes:{S:1}},{text:"\"혹시 나한테 하고 싶은 말 있어?\" 숨은 의미를 찾아봐",axes:{N:1}}]},
+  {id:5,situation:"데이트할 때 더 끌리는 건?",options:[{text:"맛집, 핫플 등 실제로 즐길 수 있는 구체적인 계획",axes:{S:1}},{text:"테마나 분위기가 있는 색다르고 새로운 경험",axes:{N:1}}]},
+  {id:6,situation:"연애 초반에 더 설레는 순간은?",options:[{text:"같이 밥 먹고, 손 잡고, 일상을 나누는 소소한 순간들",axes:{S:1}},{text:"이 사람이랑 앞으로 어떤 삶을 만들어갈지 상상하는 것",axes:{N:1}}]},
+  {id:7,situation:"애인이 힘든 상황을 털어놓을 때 나는?",options:[{text:"문제를 같이 분석하고 해결 방법을 찾아줘. 그게 진짜 도움이라고 생각해",axes:{T:1}},{text:"일단 공감해주고 함께 있어줘. 위로가 먼저야",axes:{F:1}}]},
+  {id:8,situation:"애인이랑 의견이 다를 때 나는?",options:[{text:"논리적으로 왜 내 생각이 맞는지 설명하고 싶어",axes:{T:1}},{text:"상대 감정이 상하지 않게 최대한 맞춰주면서 풀고 싶어",axes:{F:1}}]},
+  {id:9,situation:"기념일에 애인이 준 선물이 마음에 안 들어. 어떻게 해?",options:[{text:"솔직하게 다음엔 이런 게 더 좋겠다고 말해. 알아야 다음에 잘 해주지",axes:{T:1}},{text:"선물보다 마음이 중요하니까 기쁘게 받아. 괜히 상처 주고 싶지 않아",axes:{F:1}}]},
+  {id:10,situation:"데이트 계획을 짤 때 나는?",options:[{text:"미리 동선, 식당, 시간 다 짜놔야 안심돼. 즉흥은 좀 불안해",axes:{J:1}},{text:"대충 방향만 잡고 그날 기분대로 움직이는 게 더 재밌어",axes:{P:1}}]},
+  {id:11,situation:"연애할 때 미래 얘기는?",options:[{text:"구체적으로 그려보는 게 좋아. 언제 결혼, 어디 살지 얘기하는 게 설레",axes:{J:1}},{text:"지금 행복하면 됐지. 너무 앞날 생각하면 오히려 부담스러워",axes:{P:1}}]},
+  {id:12,situation:"갑자기 애인이 \"오늘 즉흥으로 여행 갈래?\" 하면?",options:[{text:"좋긴 한데... 준비도 없이? 최소한 뭐라도 챙겨야 해",axes:{J:1}},{text:"대박, 바로 가자! 이런 즉흥이 제일 재밌어",axes:{P:1}}]},
+];
+const sectionLabels={1:"연애 스타일",4:"연애 감각",7:"연애 방식",10:"연애 계획"};
+const mbtiResults={
+  ENFJ:{title:"따뜻한 리더형 연인",desc:"상대를 깊이 이해하고 이끌어주는 스타일이에요. 감정 표현이 풍부하고 관계에 진심이라 상대방이 항상 사랑받는 느낌을 받아요.",dog:"골든리트리버",best:["INFP","ISFP"],bestDesc:"INFP·ISFP의 감성을 자연스럽게 끌어내줘요.",worst:["ISTP","ESTP"],worstDesc:"감정 표현이 적은 유형과는 온도 차가 날 수 있어요.",color:"#f472b6"},
+  ENFP:{title:"열정 폭발 자유영혼 연인",desc:"상대에게 설레는 감정을 가득 주는 스타일이에요. 즉흥적이고 애정 표현이 넘쳐서 같이 있으면 매일이 새로워요.",dog:"포메라니안",best:["INTJ","INFJ"],bestDesc:"INTJ·INFJ의 깊이 있는 세계관이 ENFP의 호기심과 최강 시너지예요.",worst:["ISTJ","ESTJ"],worstDesc:"계획적이고 현실적인 유형과는 생활 방식 차이가 클 수 있어요.",color:"#fb923c"},
+  ENTJ:{title:"주도적인 비전형 연인",desc:"연애도 이끌어가는 스타일이에요. 미래 계획을 함께 그리고 실행하는 걸 좋아하며 상대를 성장시켜주고 싶어 해요.",dog:"도베르만",best:["INTP","INFP"],bestDesc:"INTP의 논리적 깊이, INFP의 가치관이 ENTJ의 추진력과 균형을 이뤄요.",worst:["ISFP","ISFJ"],worstDesc:"감성적이고 조화를 추구하는 유형과는 스타일 차이가 있어요.",color:"#e11d48"},
+  ENTP:{title:"지적 자극 추구형 연인",desc:"대화가 통하는 상대를 원해요. 토론하고 아이디어 나누는 걸 즐기며 연애도 지적 교류의 연장이에요.",dog:"비글",best:["INFJ","INTJ"],bestDesc:"깊이 있는 대화 상대인 INFJ·INTJ와 만나면 감정도 지성도 채워져요.",worst:["ISFJ","ESFJ"],worstDesc:"안정과 조화를 중시하는 유형과는 자극 수준이 달라요.",color:"#7c3aed"},
+  INFJ:{title:"깊은 연결을 원하는 연인",desc:"표면적 관계보다 영혼까지 통하는 깊은 연결을 원해요. 상대의 감정을 잘 읽고 진심으로 대하는 관계에서 빛나요.",dog:"시바이누",best:["ENFP","ENTP"],bestDesc:"에너지 넘치는 ENFP·ENTP와 만나면 INFJ의 세계가 활짝 열려요.",worst:["ESTP","ESFP"],worstDesc:"자극을 즐기는 외향형과는 에너지 속도가 달라 지칠 수 있어요.",color:"#6366f1"},
+  INFP:{title:"로맨틱 이상주의 연인",desc:"진짜 감정, 진짜 연결을 원해요. 상대방이 나를 있는 그대로 받아들여주길 바라고 감성적인 교류에서 행복을 느껴요.",dog:"말티즈",best:["ENFJ","ENTJ"],bestDesc:"ENFJ의 따뜻함, ENTJ의 추진력이 INFP를 세상 밖으로 이끌어줘요.",worst:["ESTJ","ESTP"],worstDesc:"현실적이고 직설적인 유형과는 상처받는 일이 생길 수 있어요.",color:"#a78bfa"},
+  INTJ:{title:"독립적인 전략가형 연인",desc:"감정 표현은 적지만 행동으로 보여줘요. 깊이 신뢰하는 상대에게만 마음을 열고 함께 성장하는 관계를 원해요.",dog:"차우차우",best:["ENFP","ENTP"],bestDesc:"ENFP·ENTP의 따뜻한 에너지가 INTJ의 닫힌 문을 살살 열어줘요.",worst:["ESFP","ESFJ"],worstDesc:"감정 중심의 외향적 유형과는 깊이 연결되기 어려울 수 있어요.",color:"#0ea5e9"},
+  INTP:{title:"논리적 탐구형 연인",desc:"지적으로 통하는 상대를 원해요. 겉으론 쿨해 보이지만 신뢰하는 상대에게는 의외로 섬세하게 챙겨요.",dog:"바센지",best:["ENTJ","ENFJ"],bestDesc:"ENTJ의 방향성, ENFJ의 따뜻함이 INTP에게 안정감을 줘요.",worst:["ESFJ","ESTJ"],worstDesc:"감정과 형식을 중시하는 유형과는 답답함을 느낄 수 있어요.",color:"#14b8a6"},
+  ISFJ:{title:"헌신적인 돌봄형 연인",desc:"상대를 세심하게 챙기고 안정적인 관계를 만들어가요. 사소한 것도 다 기억하고 챙겨주는 스타일이에요.",dog:"라브라도",best:["ESFP","ESTP"],bestDesc:"활발한 유형이 ISFJ의 일상에 활기를 불어넣어 줘요.",worst:["ENTP","ENTJ"],worstDesc:"변화와 자극을 즐기는 유형과는 안정 욕구 차이가 있어요.",color:"#84cc16"},
+  ISFP:{title:"감성 충만 자유로운 연인",desc:"말보다 행동으로 애정을 표현해요. 조용하지만 깊이 있고 상대방이 편안함을 느낄 수 있는 분위기를 만들어요.",dog:"웰시코기",best:["ENFJ","ESFJ"],bestDesc:"ENFJ·ESFJ의 따뜻한 리드 덕분에 ISFP가 자연스럽게 마음을 열어요.",worst:["ENTJ","ESTJ"],worstDesc:"주도적이고 직선적인 유형과는 위축될 수 있어요.",color:"#f59e0b"},
+  ISTJ:{title:"믿음직한 성실형 연인",desc:"말보다 행동으로 증명하는 스타일이에요. 약속을 잘 지키고 안정적이고 신뢰할 수 있는 관계를 만들어줘요.",dog:"저먼셰퍼드",best:["ESFP","ESTP"],bestDesc:"활발한 유형이 ISTJ의 일상에 즐거움을 더해줘요.",worst:["ENFP","ENTP"],worstDesc:"즉흥적이고 자유로운 유형과는 생활 방식 차이가 클 수 있어요.",color:"#64748b"},
+  ISTP:{title:"쿨한 독립형 연인",desc:"감정 표현은 적지만 실질적으로 챙겨줘요. 상대의 공간을 존중하고 군더더기 없는 현실적인 연애를 해요.",dog:"허스키",best:["ESFJ","ESTJ"],bestDesc:"ESFJ·ESTJ의 따뜻한 감정 표현이 ISTP의 무표정을 녹여줘요.",worst:["ENFJ","INFJ"],worstDesc:"감정 교류를 중시하는 유형과는 온도 차이가 날 수 있어요.",color:"#94a3b8"},
+  ESFJ:{title:"관계 중심 따뜻한 연인",desc:"주변 모두에게 친절하고 상대방을 편하게 해주는 스타일이에요. 기념일 챙기는 건 기본, 세심한 배려가 강점이에요.",dog:"비숑프리제",best:["ISFP","ISTP"],bestDesc:"조용한 유형이 ESFJ의 따뜻함에 마음을 열고 깊어져요.",worst:["INTP","INTJ"],worstDesc:"감정 표현이 적은 분석형과는 서운함이 쌓일 수 있어요.",color:"#f9a8d4"},
+  ESFP:{title:"흥 넘치는 분위기 메이커 연인",desc:"함께 있으면 항상 즐거운 스타일이에요. 현재에 충실하고 감정 표현이 풍부해서 상대방이 매력을 느껴요.",dog:"달마시안",best:["ISFJ","ISTJ"],bestDesc:"안정적인 유형이 ESFP의 에너지를 받쳐줘서 균형이 맞아요.",worst:["INTJ","INFJ"],worstDesc:"깊이 있는 내면을 중시하는 유형과는 속도가 안 맞을 수 있어요.",color:"#fcd34d"},
+  ESTJ:{title:"책임감 넘치는 든든한 연인",desc:"연애도 체계적으로 해요. 계획 세우고 지키고 상대방이 기댈 수 있는 든든한 버팀목 역할을 해요.",dog:"보더콜리",best:["ISFP","ISTP"],bestDesc:"자유로운 유형이 ESTJ의 틀 안에서 안정감을 느껴요.",worst:["INFP","ENFP"],worstDesc:"감성적이고 즉흥적인 유형과는 가치관 충돌이 있을 수 있어요.",color:"#2dd4bf"},
+  ESTP:{title:"즉흥적인 모험형 연인",desc:"지금 이 순간에 집중하는 연애를 해요. 행동파라 말보다 먼저 움직이고 함께 있으면 매번 새로운 경험이 생겨요.",dog:"잭러셀테리어",best:["ISFJ","ISTJ"],bestDesc:"안정적인 유형이 ESTP에게 편안한 기반이 되어줘요.",worst:["INFJ","INTJ"],worstDesc:"깊이 있는 내면 교류를 원하는 유형과는 표면적 차이가 커요.",color:"#f97316"},
+};
+
+// ── SVG 강아지 일러스트 ───────────────────────────────────────────
+const dogSVGs={
+  // 골든리트리버 - ENFJ
+  "골든리트리버":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="75" rx="35" ry="28" fill="#D4A843"/>
+    <ellipse cx="60" cy="48" rx="26" ry="24" fill="#E8BE5A"/>
+    <ellipse cx="45" cy="52" rx="10" ry="14" fill="#C9973A"/>
+    <ellipse cx="75" cy="52" rx="10" ry="14" fill="#C9973A"/>
+    <ellipse cx="60" cy="62" rx="14" ry="10" fill="#E8BE5A"/>
+    <circle cx="52" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="68" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="53" cy="43" r="1.5" fill="white"/>
+    <circle cx="69" cy="43" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="54" rx="5" ry="3" fill="#C9973A"/>
+    <ellipse cx="60" cy="55" rx="3" ry="2" fill="#E8657A"/>
+    <path d="M54 60 Q60 65 66 60" stroke="#C9973A" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="95" rx="8" ry="5" fill="#C9973A"/>
+    <ellipse cx="38" cy="88" rx="7" ry="4" fill="#C9973A"/>
+    <ellipse cx="82" cy="88" rx="7" ry="4" fill="#C9973A"/>
+  </svg>`,
+
+  // 포메라니안 - ENFP
+  "포메라니안":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="75" rx="32" ry="26" fill="#F5C842"/>
+    <circle cx="60" cy="46" r="28" fill="#F9D85A"/>
+    <circle cx="60" cy="46" r="22" fill="#FBE87A"/>
+    <ellipse cx="44" cy="38" rx="9" ry="12" fill="#F5C842"/>
+    <ellipse cx="76" cy="38" rx="9" ry="12" fill="#F5C842"/>
+    <circle cx="52" cy="43" r="4" fill="#2C1810"/>
+    <circle cx="68" cy="43" r="4" fill="#2C1810"/>
+    <circle cx="53" cy="42" r="1.5" fill="white"/>
+    <circle cx="69" cy="42" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="52" rx="5" ry="3.5" fill="#F5A83C"/>
+    <ellipse cx="60" cy="54" rx="3" ry="2" fill="#E8657A"/>
+    <path d="M54 60 Q60 66 66 60" stroke="#F5A83C" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="95" rx="7" ry="4" fill="#F5C842"/>
+    <ellipse cx="40" cy="88" rx="6" ry="4" fill="#F5C842"/>
+    <ellipse cx="80" cy="88" rx="6" ry="4" fill="#F5C842"/>
+  </svg>`,
+
+  // 도베르만 - ENTJ
+  "도베르만":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="76" rx="30" ry="24" fill="#3D2B1F"/>
+    <ellipse cx="60" cy="47" rx="24" ry="22" fill="#3D2B1F"/>
+    <ellipse cx="48" cy="32" rx="7" ry="12" fill="#3D2B1F"/>
+    <ellipse cx="72" cy="32" rx="7" ry="12" fill="#3D2B1F"/>
+    <ellipse cx="60" cy="58" rx="12" ry="8" fill="#8B5E3C"/>
+    <circle cx="52" cy="44" r="4" fill="#1A0F08"/>
+    <circle cx="68" cy="44" r="4" fill="#1A0F08"/>
+    <circle cx="53" cy="43" r="1.5" fill="white"/>
+    <circle cx="69" cy="43" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="53" rx="4" ry="3" fill="#8B5E3C"/>
+    <ellipse cx="60" cy="54.5" rx="2.5" ry="1.5" fill="#E8657A"/>
+    <path d="M55 59 Q60 63 65 59" stroke="#6B4226" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="94" rx="7" ry="4" fill="#3D2B1F"/>
+    <ellipse cx="40" cy="87" rx="6" ry="3.5" fill="#3D2B1F"/>
+    <ellipse cx="80" cy="87" rx="6" ry="3.5" fill="#3D2B1F"/>
+  </svg>`,
+
+  // 비글 - ENTP
+  "비글":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="76" rx="32" ry="25" fill="#C4924A"/>
+    <ellipse cx="60" cy="48" rx="25" ry="23" fill="#D9A85C"/>
+    <ellipse cx="43" cy="56" rx="11" ry="7" fill="#6B3E1A"/>
+    <ellipse cx="77" cy="56" rx="11" ry="7" fill="#6B3E1A"/>
+    <ellipse cx="60" cy="60" rx="13" ry="9" fill="#D9A85C"/>
+    <circle cx="52" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="68" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="53" cy="43" r="1.5" fill="white"/>
+    <circle cx="69" cy="43" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="54" rx="5" ry="3.5" fill="#C4924A"/>
+    <ellipse cx="60" cy="55.5" rx="3" ry="2" fill="#E8657A"/>
+    <path d="M54 61 Q60 67 66 61" stroke="#A0724A" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="95" rx="8" ry="4.5" fill="#6B3E1A"/>
+    <ellipse cx="39" cy="88" rx="7" ry="4" fill="#6B3E1A"/>
+    <ellipse cx="81" cy="88" rx="7" ry="4" fill="#6B3E1A"/>
+  </svg>`,
+
+  // 시바이누 - INFJ
+  "시바이누":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="76" rx="30" ry="24" fill="#D4682A"/>
+    <ellipse cx="60" cy="48" rx="24" ry="22" fill="#E07A38"/>
+    <ellipse cx="47" cy="34" rx="8" ry="11" fill="#D4682A"/>
+    <ellipse cx="73" cy="34" rx="8" ry="11" fill="#D4682A"/>
+    <ellipse cx="60" cy="58" rx="14" ry="9" fill="#F5D5B0"/>
+    <circle cx="52" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="68" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="53" cy="43" r="1.5" fill="white"/>
+    <circle cx="69" cy="43" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="53" rx="5" ry="3.5" fill="#C9603A"/>
+    <ellipse cx="60" cy="54.5" rx="3" ry="2" fill="#E8657A"/>
+    <path d="M54 60 Q60 65 66 60" stroke="#C9603A" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="94" rx="7" ry="4" fill="#D4682A"/>
+    <ellipse cx="40" cy="87" rx="6" ry="3.5" fill="#D4682A"/>
+    <ellipse cx="80" cy="87" rx="6" ry="3.5" fill="#D4682A"/>
+  </svg>`,
+
+  // 말티즈 - INFP
+  "말티즈":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="76" rx="34" ry="26" fill="#F0EDE8"/>
+    <circle cx="60" cy="48" r="27" fill="#F5F3EF"/>
+    <ellipse cx="44" cy="42" rx="10" ry="14" fill="#EAE7E0"/>
+    <ellipse cx="76" cy="42" rx="10" ry="14" fill="#EAE7E0"/>
+    <circle cx="52" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="68" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="53" cy="43" r="1.5" fill="white"/>
+    <circle cx="69" cy="43" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="53" rx="5" ry="3.5" fill="#D4C8B8"/>
+    <ellipse cx="60" cy="54.5" rx="3" ry="2" fill="#E8657A"/>
+    <path d="M54 60 Q60 66 66 60" stroke="#D4C8B8" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="95" rx="8" ry="5" fill="#EAE7E0"/>
+    <ellipse cx="38" cy="88" rx="7" ry="4" fill="#EAE7E0"/>
+    <ellipse cx="82" cy="88" rx="7" ry="4" fill="#EAE7E0"/>
+  </svg>`,
+
+  // 차우차우 - INTJ
+  "차우차우":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="76" rx="36" ry="28" fill="#B87A4A"/>
+    <circle cx="60" cy="46" r="30" fill="#C98A5A"/>
+    <ellipse cx="44" cy="40" rx="10" ry="13" fill="#B87A4A"/>
+    <ellipse cx="76" cy="40" rx="10" ry="13" fill="#B87A4A"/>
+    <ellipse cx="60" cy="58" rx="16" ry="10" fill="#D4A070"/>
+    <circle cx="52" cy="43" r="4.5" fill="#2C1810"/>
+    <circle cx="68" cy="43" r="4.5" fill="#2C1810"/>
+    <circle cx="53" cy="42" r="1.5" fill="white"/>
+    <circle cx="69" cy="42" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="54" rx="5" ry="3.5" fill="#A06040"/>
+    <ellipse cx="60" cy="55" rx="3.5" ry="2.5" fill="#4A1A2A"/>
+    <path d="M54 60 Q60 64 66 60" stroke="#A06040" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="96" rx="9" ry="5" fill="#B87A4A"/>
+    <ellipse cx="37" cy="89" rx="8" ry="5" fill="#B87A4A"/>
+    <ellipse cx="83" cy="89" rx="8" ry="5" fill="#B87A4A"/>
+  </svg>`,
+
+  // 바센지 - INTP
+  "바센지":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="77" rx="28" ry="23" fill="#C4884A"/>
+    <ellipse cx="60" cy="48" rx="22" ry="21" fill="#D4986A"/>
+    <ellipse cx="47" cy="35" rx="7" ry="10" fill="#C4884A"/>
+    <ellipse cx="73" cy="35" rx="7" ry="10" fill="#C4884A"/>
+    <ellipse cx="60" cy="58" rx="11" ry="8" fill="#E8C09A"/>
+    <circle cx="52" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="68" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="53" cy="43" r="1.5" fill="white"/>
+    <circle cx="69" cy="43" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="53" rx="4.5" ry="3" fill="#B87840"/>
+    <ellipse cx="60" cy="54.5" rx="2.5" ry="1.8" fill="#E8657A"/>
+    <path d="M55 59 Q60 63 65 59" stroke="#B87840" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="94" rx="7" ry="4" fill="#C4884A"/>
+    <ellipse cx="41" cy="87" rx="6" ry="3.5" fill="#C4884A"/>
+    <ellipse cx="79" cy="87" rx="6" ry="3.5" fill="#C4884A"/>
+  </svg>`,
+
+  // 라브라도 - ISFJ
+  "라브라도":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="76" rx="33" ry="26" fill="#D4A850"/>
+    <ellipse cx="60" cy="48" rx="26" ry="24" fill="#E4BC6A"/>
+    <ellipse cx="43" cy="55" rx="11" ry="7" fill="#C49840"/>
+    <ellipse cx="77" cy="55" rx="11" ry="7" fill="#C49840"/>
+    <ellipse cx="60" cy="62" rx="14" ry="9" fill="#EAC878"/>
+    <circle cx="52" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="68" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="53" cy="43" r="1.5" fill="white"/>
+    <circle cx="69" cy="43" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="54" rx="5" ry="3.5" fill="#C49840"/>
+    <ellipse cx="60" cy="55.5" rx="3" ry="2" fill="#E8657A"/>
+    <path d="M54 61 Q60 67 66 61" stroke="#B88830" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="95" rx="8" ry="5" fill="#C49840"/>
+    <ellipse cx="38" cy="88" rx="7" ry="4" fill="#C49840"/>
+    <ellipse cx="82" cy="88" rx="7" ry="4" fill="#C49840"/>
+  </svg>`,
+
+  // 웰시코기 - ISFP
+  "웰시코기":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="78" rx="36" ry="22" fill="#D4884A"/>
+    <ellipse cx="60" cy="50" rx="26" ry="22" fill="#E49A5A"/>
+    <ellipse cx="43" cy="35" rx="9" ry="14" fill="#D4884A"/>
+    <ellipse cx="77" cy="35" rx="9" ry="14" fill="#D4884A"/>
+    <ellipse cx="60" cy="62" rx="15" ry="9" fill="#F5D5B0"/>
+    <circle cx="51" cy="46" r="4" fill="#2C1810"/>
+    <circle cx="69" cy="46" r="4" fill="#2C1810"/>
+    <circle cx="52" cy="45" r="1.5" fill="white"/>
+    <circle cx="70" cy="45" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="55" rx="5" ry="3.5" fill="#C47840"/>
+    <ellipse cx="60" cy="56.5" rx="3" ry="2" fill="#E8657A"/>
+    <path d="M54 62 Q60 68 66 62" stroke="#C47840" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="95" rx="9" ry="4" fill="#D4884A"/>
+    <ellipse cx="36" cy="89" rx="7" ry="3.5" fill="#D4884A"/>
+    <ellipse cx="84" cy="89" rx="7" ry="3.5" fill="#D4884A"/>
+  </svg>`,
+
+  // 저먼셰퍼드 - ISTJ
+  "저먼셰퍼드":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="76" rx="30" ry="24" fill="#4A3520"/>
+    <ellipse cx="60" cy="47" rx="24" ry="23" fill="#5A4530"/>
+    <ellipse cx="46" cy="32" rx="8" ry="13" fill="#4A3520"/>
+    <ellipse cx="74" cy="32" rx="8" ry="13" fill="#4A3520"/>
+    <ellipse cx="60" cy="58" rx="13" ry="9" fill="#C4904A"/>
+    <circle cx="52" cy="43" r="4" fill="#1A0F08"/>
+    <circle cx="68" cy="43" r="4" fill="#1A0F08"/>
+    <circle cx="53" cy="42" r="1.5" fill="white"/>
+    <circle cx="69" cy="42" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="53" rx="4.5" ry="3" fill="#8A6030"/>
+    <ellipse cx="60" cy="54.5" rx="2.5" ry="1.8" fill="#E8657A"/>
+    <path d="M55 59 Q60 64 65 59" stroke="#8A6030" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="94" rx="7" ry="4" fill="#4A3520"/>
+    <ellipse cx="40" cy="87" rx="6" ry="3.5" fill="#4A3520"/>
+    <ellipse cx="80" cy="87" rx="6" ry="3.5" fill="#4A3520"/>
+  </svg>`,
+
+  // 허스키 - ISTP
+  "허스키":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="76" rx="32" ry="25" fill="#8090A8"/>
+    <ellipse cx="60" cy="47" rx="26" ry="24" fill="#9AAAC0"/>
+    <ellipse cx="45" cy="33" rx="9" ry="13" fill="#6A7A90"/>
+    <ellipse cx="75" cy="33" rx="9" ry="13" fill="#6A7A90"/>
+    <ellipse cx="60" cy="58" rx="14" ry="9" fill="#E8E4E0"/>
+    <circle cx="52" cy="43" r="4.5" fill="#3A5080"/>
+    <circle cx="68" cy="43" r="4.5" fill="#3A5080"/>
+    <circle cx="53" cy="42" r="1.8" fill="white"/>
+    <circle cx="69" cy="42" r="1.8" fill="white"/>
+    <ellipse cx="60" cy="53" rx="5" ry="3.5" fill="#7A8A9A"/>
+    <ellipse cx="60" cy="54.5" rx="3" ry="2" fill="#E8657A"/>
+    <path d="M54 60 Q60 66 66 60" stroke="#7A8A9A" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="95" rx="8" ry="5" fill="#6A7A90"/>
+    <ellipse cx="38" cy="88" rx="7" ry="4" fill="#6A7A90"/>
+    <ellipse cx="82" cy="88" rx="7" ry="4" fill="#6A7A90"/>
+  </svg>`,
+
+  // 비숑프리제 - ESFJ
+  "비숑프리제":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="76" rx="36" ry="27" fill="#F5F2EE"/>
+    <circle cx="60" cy="46" r="30" fill="#FAFAF8"/>
+    <circle cx="43" cy="36" r="14" fill="#F5F2EE"/>
+    <circle cx="77" cy="36" r="14" fill="#F5F2EE"/>
+    <circle cx="60" cy="28" r="12" fill="#F5F2EE"/>
+    <circle cx="52" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="68" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="53" cy="43" r="1.5" fill="white"/>
+    <circle cx="69" cy="43" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="54" rx="5" ry="3.5" fill="#D4C8B8"/>
+    <ellipse cx="60" cy="55.5" rx="3" ry="2" fill="#E8657A"/>
+    <path d="M54 61 Q60 67 66 61" stroke="#D4C8B8" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="96" rx="9" ry="5" fill="#EAE7E0"/>
+    <ellipse cx="37" cy="89" rx="8" ry="5" fill="#EAE7E0"/>
+    <ellipse cx="83" cy="89" rx="8" ry="5" fill="#EAE7E0"/>
+  </svg>`,
+
+  // 달마시안 - ESFP
+  "달마시안":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="76" rx="33" ry="25" fill="#F5F2EE"/>
+    <ellipse cx="60" cy="47" rx="26" ry="24" fill="#FAFAF8"/>
+    <ellipse cx="43" cy="55" rx="12" ry="7" fill="#E8E4E0"/>
+    <ellipse cx="77" cy="55" rx="12" ry="7" fill="#E8E4E0"/>
+    <ellipse cx="60" cy="62" rx="14" ry="9" fill="#FAFAF8"/>
+    <circle cx="52" cy="43" r="4" fill="#1A1A1A"/>
+    <circle cx="68" cy="43" r="4" fill="#1A1A1A"/>
+    <circle cx="53" cy="42" r="1.5" fill="white"/>
+    <circle cx="69" cy="42" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="53" rx="5" ry="3.5" fill="#D4C8B8"/>
+    <ellipse cx="60" cy="54.5" rx="3" ry="2" fill="#E8657A"/>
+    <path d="M54 60 Q60 66 66 60" stroke="#D4C8B8" stroke-width="1.5" fill="none"/>
+    <circle cx="50" cy="70" r="3" fill="#1A1A1A"/>
+    <circle cx="68" cy="68" r="2.5" fill="#1A1A1A"/>
+    <circle cx="54" cy="80" r="2" fill="#1A1A1A"/>
+    <circle cx="72" cy="78" r="3" fill="#1A1A1A"/>
+    <circle cx="44" cy="60" r="2" fill="#1A1A1A"/>
+    <circle cx="76" cy="62" r="2.5" fill="#1A1A1A"/>
+    <ellipse cx="60" cy="95" rx="8" ry="5" fill="#E8E4E0"/>
+    <ellipse cx="38" cy="88" rx="7" ry="4" fill="#E8E4E0"/>
+    <ellipse cx="82" cy="88" rx="7" ry="4" fill="#E8E4E0"/>
+  </svg>`,
+
+  // 보더콜리 - ESTJ
+  "보더콜리":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="76" rx="32" ry="25" fill="#2A2A2A"/>
+    <ellipse cx="60" cy="47" rx="26" ry="24" fill="#333333"/>
+    <ellipse cx="43" cy="55" rx="12" ry="7" fill="#1A1A1A"/>
+    <ellipse cx="77" cy="55" rx="12" ry="7" fill="#1A1A1A"/>
+    <ellipse cx="60" cy="62" rx="14" ry="9" fill="#F5F2EE"/>
+    <ellipse cx="60" cy="40" rx="12" ry="8" fill="#F5F2EE"/>
+    <circle cx="52" cy="44" r="4.5" fill="#3A5080"/>
+    <circle cx="68" cy="44" r="4.5" fill="#3A5080"/>
+    <circle cx="53" cy="43" r="1.8" fill="white"/>
+    <circle cx="69" cy="43" r="1.8" fill="white"/>
+    <ellipse cx="60" cy="54" rx="5" ry="3.5" fill="#1A1A1A"/>
+    <ellipse cx="60" cy="55.5" rx="3" ry="2" fill="#E8657A"/>
+    <path d="M54 61 Q60 67 66 61" stroke="#1A1A1A" stroke-width="1.5" fill="none"/>
+    <ellipse cx="60" cy="95" rx="8" ry="5" fill="#1A1A1A"/>
+    <ellipse cx="38" cy="88" rx="7" ry="4" fill="#1A1A1A"/>
+    <ellipse cx="82" cy="88" rx="7" ry="4" fill="#1A1A1A"/>
+  </svg>`,
+
+  // 잭러셀테리어 - ESTP
+  "잭러셀테리어":`<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="76" rx="30" ry="24" fill="#F5F2EE"/>
+    <ellipse cx="60" cy="47" rx="24" ry="22" fill="#FAFAF8"/>
+    <ellipse cx="45" cy="38" rx="8" ry="11" fill="#C4884A"/>
+    <ellipse cx="75" cy="38" rx="8" ry="11" fill="#C4884A"/>
+    <ellipse cx="60" cy="60" rx="13" ry="9" fill="#FAFAF8"/>
+    <circle cx="52" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="68" cy="44" r="4" fill="#2C1810"/>
+    <circle cx="53" cy="43" r="1.5" fill="white"/>
+    <circle cx="69" cy="43" r="1.5" fill="white"/>
+    <ellipse cx="60" cy="54" rx="4.5" ry="3" fill="#D4C8B8"/>
+    <ellipse cx="60" cy="55" rx="2.8" ry="1.8" fill="#E8657A"/>
+    <path d="M55 60 Q60 65 65 60" stroke="#D4C8B8" stroke-width="1.5" fill="none"/>
+    <circle cx="48" cy="55" r="5" fill="#C4884A"/>
+    <circle cx="72" cy="58" r="4" fill="#C4884A"/>
+    <ellipse cx="60" cy="94" rx="7" ry="4" fill="#D4C8B8"/>
+    <ellipse cx="40" cy="87" rx="6" ry="3.5" fill="#D4C8B8"/>
+    <ellipse cx="80" cy="87" rx="6" ry="3.5" fill="#D4C8B8"/>
+  </svg>`,
+};
+
+// ── 상태 ──────────────────────────────────────────────────────────
+let phase="intro",nickname="",scores={E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0},current=0,selected=null,transitioning=false,mbtiResult=null;
+
+function calcMbti(s){
+  return (s.E>=s.I?"E":"I")+(s.S>=s.N?"S":"N")+(s.T>=s.F?"T":"F")+(s.J>=s.P?"J":"P");
+}
+
+function render(){
+  const app=document.getElementById("app");
+  if(phase==="intro") renderIntro(app);
+  else if(phase==="quiz") renderQuiz(app);
+  else if(phase==="result") renderResult(app);
+}
+
+function renderIntro(app){
+  app.innerHTML=`
+  <div class="screen" style="text-align:center">
+    <div style="font-size:52px;margin-bottom:16px">🐾</div>
+    <div class="label">Love Style × MBTI</div>
+    <h1 style="font-size:24px;font-weight:900;color:#fff;line-height:1.35;margin:0 0 12px">나의 연애 성향과<br>닮은 강아지는?</h1>
+    <p style="font-size:14px;color:#777;line-height:1.8;margin:0 0 24px">12가지 연애 질문으로<br>내 MBTI 연애 유형과 닮은 강아지 종을 찾아줘요.</p>
+    <div class="card-box">
+      <div class="card-row"><span>—</span> 총 12문항 · 2지선다</div>
+      <div class="card-row"><span>—</span> 외향/내향, 현실/직관, 이성/감성, 계획/즉흥 측정</div>
+      <div class="card-row"><span>—</span> 닉네임 + MBTI + 닮은 강아지 SVG 일러스트 공개</div>
+    </div>
+    <div style="margin-bottom:14px;text-align:left">
+      <label class="input-label">이름 또는 닉네임 <span style="font-weight:400;color:#666">(선택)</span></label>
+      <input type="text" id="nick-input" placeholder="예) 해리쉬, 햄진이" maxlength="10" value="${nickname}">
+    </div>
+    <button class="btn-primary ${nickname.trim()?'':'disabled'}" id="start-btn">시작하기 →</button>
+  </div>`;
+  const inp=document.getElementById("nick-input");
+  const btn=document.getElementById("start-btn");
+  inp.addEventListener("input",e=>{
+    nickname=e.target.value;
+    btn.className="btn-primary "+(nickname.trim()?"":"disabled");
+  });
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter"){phase="quiz";render();}});
+  btn.addEventListener("click",()=>{phase="quiz";render();});
+}
+
+function renderQuiz(app){
+  const q=questions[current];
+  const progress=Math.round((current/questions.length)*100);
+  const sLabel={1:"연애 스타일",4:"연애 감각",7:"연애 방식",10:"연애 계획"}[q.id];
+  app.innerHTML=`
+  <div class="screen quiz ${transitioning?'out':''}">
+    <div class="progress-wrap">
+      <div class="progress-top"><span class="left">Q ${current+1} / ${questions.length}</span><span>${progress}%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
+    </div>
+    ${sLabel?`<div class="section-divider"><div class="line"></div><span class="text">${sLabel}</span><div class="line"></div></div>`:""}
+    <div class="q-card"><p class="q-text">${q.situation}</p></div>
+    <div class="opt-list">
+      ${q.options.map((opt,idx)=>`
+        <button class="opt-btn ${selected===idx?'active':''} ${selected!==null&&selected!==idx?'dim':''}" data-idx="${idx}">
+          <span class="opt-badge">${idx===0?"A":"B"}</span>
+          <span>${opt.text}</span>
+        </button>`).join("")}
+    </div>
+    ${selected!==null?`<div class="next-wrap"><button class="btn-primary" id="next-btn">${current+1>=questions.length?"결과 보기 →":"다음 →"}</button></div>`:""}
+  </div>`;
+  document.querySelectorAll(".opt-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      if(transitioning)return;
+      const idx=parseInt(btn.dataset.idx);
+      selected=selected===idx?null:idx;
+      render();
+    });
+  });
+  const nb=document.getElementById("next-btn");
+  if(nb) nb.addEventListener("click",()=>{
+    if(selected===null||transitioning)return;
+    transitioning=true;
+    const axes=q.options[selected].axes;
+    Object.entries(axes).forEach(([k,v])=>{scores[k]=(scores[k]||0)+v;});
+    setTimeout(()=>{
+      if(current+1>=questions.length){mbtiResult=calcMbti(scores);phase="result";}
+      else{current++;selected=null;}
+      transitioning=false;render();
+    },350);
+  });
+}
+
+// ── Supabase 카운트 ──
+const SUPABASE_URL="https://dleoheiqaardmpyoklmt.supabase.co";
+const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRsZW9oZWlxYWFyZG1weW9rbG10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MzUzNzMsImV4cCI6MjA5NDIxMTM3M30.yVmdhisxmC1KB3Ku1ZapF_CtTqEacqw8BWt32n30-Lc";
+const TEST_NAME="dog-love-test";
+let countedThisSession=false;
+async function incrementCount(){
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/test_counts?test_name=eq.${TEST_NAME}&select=count`,{headers:{"apikey":SUPABASE_KEY,"Authorization":`Bearer ${SUPABASE_KEY}`}});
+    const data=await res.json();
+    if(data&&data.length>0){
+      const cur=data[0].count||0;
+      await fetch(`${SUPABASE_URL}/rest/v1/test_counts?test_name=eq.${TEST_NAME}`,{method:"PATCH",headers:{"apikey":SUPABASE_KEY,"Authorization":`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json"},body:JSON.stringify({count:cur+1})});
+    } else {
+      await fetch(`${SUPABASE_URL}/rest/v1/test_counts`,{method:"POST",headers:{"apikey":SUPABASE_KEY,"Authorization":`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json"},body:JSON.stringify({test_name:TEST_NAME,count:1})});
+    }
+  }catch(e){console.log("count error",e);}
+}
+
+function renderResult(app){
+  if(!countedThisSession){countedThisSession=true;incrementCount();}
+  const r=mbtiResults[mbtiResult];
+  const svg=dogSVGs[r.dog]||"";
+  app.innerHTML=`
+  <div class="screen">
+    <div class="result-card">
+      <div class="result-label">결과</div>
+      <div class="result-who"><strong>${nickname}</strong>의 연애 유형은</div>
+      <div class="result-mbti" style="color:${r.color};text-shadow:0 0 30px ${r.color}50">${mbtiResult}</div>
+      <div class="dog-svg-wrap">${svg}</div>
+      <div class="result-dog-name">${r.dog}</div>
+      <div class="result-title">${r.title}</div>
+      <div class="result-desc">${r.desc}</div>
+      <div class="compat-grid">
+        <div class="compat-box compat-good">
+          <div class="compat-label">💚 찰떡 궁합</div>
+          <div class="compat-badges">${r.best.map(m=>`<span class="badge badge-good">${m}</span>`).join("")}</div>
+          <div class="compat-desc">${r.bestDesc}</div>
+        </div>
+        <div class="compat-box compat-bad">
+          <div class="compat-label">⚠️ 주의 궁합</div>
+          <div class="compat-badges">${r.worst.map(m=>`<span class="badge badge-bad">${m}</span>`).join("")}</div>
+          <div class="compat-desc">${r.worstDesc}</div>
+        </div>
+      </div>
+      <button class="btn-restart" id="restart-btn">다시 테스트하기 🔄</button>
+    </div>
+    <p class="share-note">친구한테도 공유해봐 👀</p>
+  </div>`;
+  document.getElementById("restart-btn").addEventListener("click",()=>{
+    phase="intro";nickname="";scores={E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};current=0;selected=null;transitioning=false;mbtiResult=null;
+    render();
+  });
+}
+
+render();
+</script>
+</body>
+  <!-- werit 홈 버튼 -->
+  <style>
+    .werit-home-btn{position:fixed;top:16px;left:16px;z-index:9999;background:#fff;border:1.5px solid #e5e5e5;border-radius:99px;padding:8px 16px;font-size:12px;font-weight:700;color:#111;text-decoration:none;font-family:'Noto Sans KR',sans-serif;box-shadow:0 2px 12px rgba(0,0,0,0.08);transition:all 0.2s ease;display:flex;align-items:center;gap:6px}
+    .werit-home-btn:hover{border-color:#111;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+    .werit-home-btn .dot{color:#fb923c;font-size:14px;font-weight:900}
+  </style>
+  <a href="index.html" class="werit-home-btn"><span>←</span><span>werit<span class="dot">.</span></span></a>
+</body>
+</html>

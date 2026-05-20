@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6BLYMZQJXV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6BLYMZQJXV');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나는 똥차 판별을 잘할까?</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden}
+  body{background:#0e0e0e;font-family:'Noto Sans KR',sans-serif;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
+  #app-wrapper{width:100%;max-width:480px;height:100vh;overflow-y:auto;overflow-x:hidden;padding:40px 20px;box-sizing:border-box;display:flex;flex-direction:column;align-items:stretch}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-10px)}}
+  @keyframes popIn{0%{transform:scale(0.95);opacity:0}100%{transform:scale(1);opacity:1}}
+  .screen{width:100%;animation:fadeUp 0.45s ease}
+  .screen.out{animation:fadeOut 0.35s ease forwards}
+  .tag-pill{display:inline-block;background:rgba(255,255,255,0.08);color:#ccc;font-size:12px;font-weight:700;padding:5px 12px;border-radius:99px;margin-bottom:14px;letter-spacing:0.5px}
+  .progress-bar{height:3px;background:rgba(255,255,255,0.08);border-radius:99px}
+  .progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#fff 0%,#aaa 100%);transition:width 0.5s ease}
+  .situation-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:22px 20px;margin-bottom:18px}
+  .situation-text{font-size:16px;color:#f0f0f0;line-height:1.75;margin:0;white-space:pre-line;font-weight:400}
+  .opt-btn{width:100%;background:rgba(255,255,255,0.03);border:1.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 16px;color:#e8e8e8;font-size:14px;cursor:pointer;text-align:left;line-height:1.6;font-family:'Noto Sans KR',sans-serif;display:flex;gap:12px;align-items:flex-start;transition:all 0.25s ease}
+  .opt-btn:hover:not([disabled]){border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.07)}
+  .opt-btn.selected{border-color:rgba(255,255,255,0.5)!important;background:rgba(255,255,255,0.1)!important}
+  .opt-btn.dimmed{opacity:0.3}
+  .opt-btn[disabled]{cursor:default}
+  .opt-badge{min-width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#666;margin-top:1px;flex-shrink:0}
+  .opt-btn.selected .opt-badge{background:rgba(255,255,255,0.9);color:#0e0e0e}
+  .next-btn{background:#fff;color:#0e0e0e;border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:900;cursor:pointer;width:100%;letter-spacing:1px;font-family:'Noto Sans KR',sans-serif;transition:all 0.2s ease;animation:popIn 0.22s ease}
+  .next-btn:hover{opacity:0.85;transform:translateY(-1px)}
+  .next-btn.disabled{background:rgba(255,255,255,0.08);color:#444;cursor:default}
+  .next-btn.disabled:hover{opacity:1;transform:none}
+  .sec-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px;color:#ccc;font-size:14px;font-weight:700;cursor:pointer;width:100%;font-family:'Noto Sans KR',sans-serif;transition:all 0.2s ease}
+  .sec-btn:hover{background:rgba(255,255,255,0.13)}
+  .result-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px 24px;text-align:center;margin-bottom:12px}
+  .score-bar-track{height:6px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden}
+  .score-bar-fill{height:100%;border-radius:99px;transition:width 1s ease 0.3s}
+  .review-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px;margin-bottom:10px}
+  .review-tag{font-size:11px;color:#555;font-weight:700;letter-spacing:1px;margin-bottom:6px}
+  .review-situation{font-size:13px;color:#777;line-height:1.6;margin-bottom:10px}
+  .label-chip{display:inline-block;font-size:10px;font-weight:900;padding:2px 8px;border-radius:99px;flex-shrink:0;margin-top:2px;letter-spacing:0.5px}
+</style>
+</head>
+<body>
+<div id="app-wrapper"><div id="app"></div></div>
+<script>
+// b=0점, s=1점, y=2점, p=3점 — 높을수록 잘 거름
+const scoreMap={b:0,s:1,y:2,p:3};
+
+const scenarios=[
+  {
+    tag:"🚨 통제 시그널",
+    situation:"사귄 지 얼마 안 된 남자친구가 \"그 옷 좀 그렇다. 남자들이 쳐다보잖아\"라고 한다.",
+    options:[
+      {text:"\"아 그래? 그럼 이제 안 입을게\" 하고 바로 받아들인다",type:"b"},
+      {text:"찜찜하긴 한데 초반이라 그냥 웃으며 넘어간다",type:"s"},
+      {text:"\"어? 이게 어때서~ 나는 예쁜데?\" 하고 씩 웃으며 흘려버린다",type:"y"},
+      {text:"\"내 옷에 왜 참견해?\" 하고 바로 짚는다",type:"p"},
+    ],
+    feedback:{
+      b:"잠깐, 사귄 지 얼마나 됐다고 옷을 바꾸고 있어? 처음에 이런 말 들었을 때 그냥 넘어가면 상대는 '이래도 되는구나' 학습해. 다음엔 화장, 그 다음엔 친구, 그 다음엔 생활 전체야. 지금 이 순간이 시작이야.",
+      s:"그 찜찜한 느낌 맞아. 근데 왜 넘겼어. 초반이라서 오히려 더 짚어야 해. 나중에 익숙해지면 더 말하기 어려워져.",
+      y:"이게 딱이야. 웃으면서 흘리면 상대가 할 말이 없어짐. 기분 나쁘지도 않고 선도 그어진 거야 👍",
+      p:"할 말 한 거야. 처음부터 이런 말 하는 사람한테 선 안 그으면 계속 들어와 👍",
+    },
+  },
+  {
+    tag:"🔒 고립 시도",
+    situation:"사귄 지 2주 된 남자친구가 \"남사친 만나지마\"라고 한다.",
+    options:[
+      {text:"\"우리가 그만큼 진지하다는 거잖아\" 하고 남사친 연락을 줄인다",type:"b"},
+      {text:"싫긴 한데 싸우기 싫어서 \"알겠어...\" 하고 넘긴다",type:"s"},
+      {text:"\"어~ 1:1로는 안 만날게😊\" 하고 웃으며 대답한다",type:"y"},
+      {text:"\"2주 됐는데 벌써 이래? 내 친구 관계는 내가 정해\" 하고 바로 말한다",type:"p"},
+    ],
+    feedback:{
+      b:"2주야. 14일. 근데 벌써 친구 관계를 통제하고 있어. 이게 사랑이 아니라 통제야. 나중엔 친구도 없어지고 가족도 멀어지고 결국 그 사람만 남게 돼.",
+      s:"싫다는 감각은 있는데 결국 맞춰줬잖아. 상대는 '이 사람은 싫어도 참는구나'를 학습했어. 다음엔 더 들어와.",
+      y:"우문현답이야. 어차피 남사친이랑 1:1로 만날 일 없잖아. 상대는 통했다고 생각하겠지만 넌 아무것도 잃지 않은 거야 👍",
+      p:"맞아. 2주에 이러는 사람 바로 짚어야 해. 이때 선 안 그으면 나중에 더 말하기 어려워져 👍",
+    },
+  },
+  {
+    tag:"😮 약속 펑크",
+    situation:"약속 시간이 다 됐는데 \"미안 좀 늦을 것 같아\"라는 연락이 왔다. 이번이 세 번째다.",
+    options:[
+      {text:"말해야지 생각하다가 결국 \"어 알겠어~ 기다릴게\"라고 한다",type:"b"},
+      {text:"짜증나지만 그냥 \"빨리 와\" 하고 기다린다",type:"s"},
+      {text:"\"어~ 알겠어. 근데 이번이 세 번째야, 나 기다리는 거 좀 힘들더라\"라고 말한다",type:"y"},
+      {text:"\"지금 상황이 재밌어? 세 번째인데 또 이러네\"라고 바로 짚는다",type:"p"},
+    ],
+    feedback:{
+      b:"말하려다 또 참았지? 기다려줄 때마다 상대는 '이래도 되는구나' 학습해. 세 번째야. 이게 습관이 된 거야. 근데 넌 아직도 기다리고 있어.",
+      s:"짜증난다는 건 알고 있는 거야. 근데 '빨리 와'만 하면 상대 입장에선 '좀 짜증내네' 하고 끝이야. 반복될 수밖에 없어.",
+      y:"화내는 것도 아니고 사실만 말한 거야. 이게 제일 현명해. 감정 실으면 싸움 되는데 이렇게 말하면 상대가 할 말이 없어짐 👍",
+      p:"세 번이면 충분히 말할 타이밍이야. 직접적으로 짚는 게 맞아 👍",
+    },
+  },
+  {
+    tag:"💔 이별 시그널",
+    situation:"1년 사귄 남자친구가 기념일 당일 저녁에 카톡으로 \"나 요즘 우리 잘 모르겠어\"라고 한다.",
+    options:[
+      {text:"\"우리 만나서 얘기하자\" 하고 붙잡으려 한다",type:"b"},
+      {text:"충격받아서 아무 말도 못하고 답장을 안 한다",type:"s"},
+      {text:"\"어 나도 사실 그랬어. 우리 여기서 끝내자\" 하고 먼저 정리한다",type:"y"},
+      {text:"\"기념일에 이런 말 하는 거야?\" 하고 바로 되묻는다",type:"p"},
+    ],
+    feedback:{
+      b:"붙잡고 싶은 마음 이해해. 근데 이미 마음 떠난 사람 잡아봤자 며칠 버티다 또 같은 말 들어. 기념일에 카톡으로 이러는 사람이 어떤 사람인지 이미 보여준 거잖아.",
+      s:"충격받는 건 당연해. 근데 답장 안 하면 흐지부지되고 결국 네가 더 힘들어져. 명확하게 끝내는 게 나중에 덜 아파.",
+      y:"먼저 끊는 게 제일 깔끔해. 기념일에 카톡으로 이러는 사람한테 더 줄 감정 없어. 잘한 거야 👍",
+      p:"그 한 마디면 상대가 할 말이 없어짐. 기념일에 이러는 게 말이 되냐고 👍",
+    },
+  },
+  {
+    tag:"🤡 어이없는 연락",
+    situation:"바람펴서 헤어진 전 남친이 갑자기 \"oo아 잘 지내?\"라고 카톡을 보내왔다.",
+    options:[
+      {text:"\"어... 잘 지내. 너는?\" 하고 답장을 보낸다",type:"b"},
+      {text:"답장은 안 하지만 스토리에 뭔가 올리고 감정 소모한다",type:"s"},
+      {text:"읽고 그냥 카톡창 닫는다. 답장 없음",type:"y"},
+      {text:"\"외로워서 연락하는거야?\" 하고 바로 되묻는다",type:"p"},
+    ],
+    feedback:{
+      b:"바람핀 사람이야. 그 사람이 바뀐 게 아니라 네가 외로운 거야. 답장 보내는 순간 다시 그 사이클 시작이야.",
+      s:"스토리 올리는 것도 결국 그 사람 의식하는 거야. 바람핀 사람한테 에너지 쓰지 마.",
+      y:"읽씹이 제일 강한 답변이야. 아무 말도 안 하는 게 제일 많은 말을 하는 거야 👍",
+      p:"맞는 말이야. 바람피고 연락하는 게 말이 되냐고. 상대가 할 말이 없어짐 👍",
+    },
+  },
+  {
+    tag:"🔎 민낯 체크",
+    situation:"사귀는 남자친구가 식당에서 직원한테 반말에 무례하게 구는 걸 목격했다. 나한테는 엄청 다정하다.",
+    options:[
+      {text:"\"나한테는 잘 해주니까 괜찮아\" 하고 넘긴다",type:"b"},
+      {text:"불편하긴 한데 \"원래 좀 그런 스타일인가봐\" 하고 넘긴다",type:"s"},
+      {text:"티 안 내고 속으로 \"나한테도 저럴 수 있겠다\" 싶어서 마음속으로 정리한다",type:"y"},
+      {text:"\"저 사람한테 왜 그렇게 말해?\" 하고 바로 짚는다",type:"p"},
+    ],
+    feedback:{
+      b:"나한테 잘 해주는 건 아직 얻기 전이라서야. 사귀고 나면, 익숙해지면 저 모습이 나와. 이미 민낯 본 거잖아. 못 본 척하면 나중에 네가 그 대우 받아.",
+      s:"불편한 느낌이 정확한 데이터야. '스타일'로 포장하는 순간 넘어가게 돼. 약자한테 어떻게 대하는지가 그 사람의 진짜 모습이야.",
+      y:"굳이 그 자리에서 싸울 필요 없어. 티 안 내고 마음속으로 정리하는 것도 충분히 맞아. 그 느낌 놓치지 마 👍",
+      p:"할 말 한 거야. 이런 사람 옆에 계속 두면 언젠가 나도 그 대우 받아 👍",
+    },
+  },
+  {
+    tag:"😵 감정 후려치기",
+    situation:"싸우고 나서 \"너 왜 이렇게 예민해? 내가 뭘 잘못했는데?\"라고 한다. 이런 패턴이 반복된다.",
+    options:[
+      {text:"\"내가 예민한 건가...\" 내 감정을 의심하고 결국 내가 사과한다",type:"b"},
+      {text:"억울하지만 싸우기 싫어서 \"됐어\" 하고 넘긴다",type:"s"},
+      {text:"\"예민한 게 아니라~ 내 감정이 그렇다는 거야😊\" 하고 차분하게 되돌려준다",type:"y"},
+      {text:"\"예민한 게 아니야. 네가 잘못한 거 맞아\" 하고 끝까지 짚는다",type:"p"},
+    ],
+    feedback:{
+      b:"상대가 원하는 결과가 딱 이거야. 네가 사과하고 흐지부지되는 것. 이게 반복되면 네 감각이 무뎌져. 나중엔 정말 내가 예민한 건지 모르게 돼. 네 감정 맞아, 의심하지 마.",
+      s:"억울한 거 알아. 근데 '됐어' 하고 넘기면 상대는 이 방법이 통한다고 학습해. 다음에 또 써먹어. 반복될 수밖에 없어.",
+      y:"차분하게 웃으면서 되돌려주면 상대가 더 할 말이 없어짐. 감정 안 실으면 싸움도 안 되고 내 말은 남아 👍",
+      p:"내 감정 의심하지 말고 끝까지 짚는 게 맞아. 예민한 게 아니라 잘못한 거 맞잖아 👍",
+    },
+  },
+  {
+    tag:"🗣️ 말따로 행동따로",
+    situation:"말로는 \"너만 있으면 돼, 뭐든 다 해줄게\" 하지만 실제 행동은 항상 자기 편의 위주다.",
+    options:[
+      {text:"\"언젠간 달라지겠지\" 하고 계속 기다린다",type:"b"},
+      {text:"불만이 쌓이지만 \"연애가 다 이렇지 뭐\" 하고 참는다",type:"s"},
+      {text:"\"어~ 그럼 이번엔 내가 원하는 거 해줄 수 있어?\" 하고 딱 한 번 테스트해본다",type:"y"},
+      {text:"\"말이랑 행동이 왜 달라? 뭐든 다 해준다며\" 하고 바로 따진다",type:"p"},
+    ],
+    feedback:{
+      b:"'언젠간'을 기다리다 몇 년이 지나. 사람은 안 바뀌어, 특히 바꿔야 한다는 걸 모르는 사람은. 지금 이 패턴이 그 사람이야. 기다리는 건 네 시간만 가는 거야.",
+      s:"연애가 다 이렇지 않아. 기준 낮추지 마. 이걸 당연하게 받아들이는 순간 더 낮아져.",
+      y:"테스트 한 번이면 충분해. 말이랑 행동이 다른지 바로 보여. 못 해준다면 그게 답인 거야 👍",
+      p:"맞는 말이야. 말로만 하는 사람인지 행동으로 보여달라는 거잖아. 할 말 한 거야 👍",
+    },
+  },
+];
+
+// 총 최대 점수: 8문항 × 3점 = 24점
+const results=[
+  {min:0,  max:5,  emoji:"😇", grade:"넌 호구야",
+   color:"#f87171", bg:"rgba(248,113,113,0.1)",
+   title:"지금 누군가한테 당하고 있을 확률 99%",
+   desc:"솔직히 말할게. 지금 이 순간에도 누군가한테 이용당하고 있거나, 이용당한 적 있을 가능성 거의 확실해. 상대 말 하나하나에 흔들리고, 내 감정보다 상대 기분 먼저 챙기는 타입이야. 나쁜 사람은 이런 사람 귀신같이 찾아내거든.",
+   tip:"당장 오늘부터 딱 하나만. 찜찜하면 찜찜하다고 말해봐. 그 한 마디가 시작이야."},
+  {min:6,  max:10, emoji:"🫠", grade:"반쯤 당하는 중",
+   color:"#fb923c", bg:"rgba(251,146,60,0.1)",
+   title:"알면서도 넘어가는 게 더 문제야",
+   desc:"느끼긴 해. 뭔가 이상하다는 거. 근데 갈등이 무서워서, 아니면 '내가 너무 예민한 건가' 싶어서 그냥 넘기는 경우가 많지? 그게 더 위험한 거야. 알면서도 넘어가면 상대는 '이 사람은 참는구나' 학습하거든.",
+   tip:"그 찜찜한 느낌, 한 번만 믿어봐. 틀린 거 아니야."},
+  {min:11, max:15, emoji:"😤", grade:"가끔 흔들림",
+   color:"#facc15", bg:"rgba(250,204,21,0.1)",
+   title:"외로울 때 기준이 무너지는 타입",
+   desc:"웬만한 건 걸러. 근데 마음이 생기거나 외로울 때 기준이 확 낮아지는 순간이 있어. 그 순간을 노리는 사람들이 있거든. '지금 나 좀 외롭지 않나?' 싶을 때가 제일 위험한 타이밍이야.",
+   tip:"외로울 때일수록 결정 미뤄봐. 그 감정이 가라앉고 나서 판단해."},
+  {min:16, max:20, emoji:"😎", grade:"꽤 잘 거르는 편",
+   color:"#34d399", bg:"rgba(52,211,153,0.1)",
+   title:"눈은 있어. 근데 가끔 망설여",
+   desc:"레드플래그 보는 눈은 있어. 근데 막상 그 상황이 되면 '이 사람이 나쁜 건지 내가 예민한 건지' 헷갈릴 때가 있지? 그 망설임 때 상대한테 당해. 느낀 거 믿어도 돼, 대부분 맞아.",
+   tip:"느낀 순간 한 박자만 빠르게 행동해봐. 망설이는 그 타이밍이 핵심이야."},
+  {min:21, max:24, emoji:"👑", grade:"똥차 감지 만렙",
+   color:"#4ade80", bg:"rgba(74,222,128,0.1)",
+   title:"이미 많이 겪어봤거나 진짜 눈 밝은 거임",
+   desc:"레드플래그 캐치 빠르고, 내 감정 신뢰하고, 필요하면 단호하게 끊을 줄 알아. 이 눈은 그냥 생기는 게 아니야. 많이 겪고 많이 아팠거나, 아니면 진짜 자기 자신을 잘 아는 거야. 이 기준 절대 낮추지 마.",
+   tip:"이 기준 유지하는 게 쉽지 않아. 근데 넌 할 수 있어. 이미 증명했잖아."},
+];
+
+const labelColors={b:"#f87171",s:"#fb923c",y:"#a78bfa",p:"#34d399"};
+const labelText={b:"🐣 호구",s:"🍠 참음",y:"🦊 여우",p:"👊 팩폭"};
+
+// ── Supabase ──
+const SUPABASE_URL="https://dleoheiqaardmpyoklmt.supabase.co";
+const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRsZW9oZWlxYWFyZG1weW9rbG10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MzUzNzMsImV4cCI6MjA5NDIxMTM3M30.yVmdhisxmC1KB3Ku1ZapF_CtTqEacqw8BWt32n30-Lc";
+const TEST_NAME="ddongcha-filter-test";
+async function incrementCount(){
+  try{
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/test_counts?test_name=eq.${TEST_NAME}&select=count`,{headers:{"apikey":SUPABASE_KEY,"Authorization":`Bearer ${SUPABASE_KEY}`}});
+    const data=await res.json();
+    if(data&&data.length>0){
+      await fetch(`${SUPABASE_URL}/rest/v1/test_counts?test_name=eq.${TEST_NAME}`,{method:"PATCH",headers:{"apikey":SUPABASE_KEY,"Authorization":`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify({count:(data[0].count||0)+1})});
+    }else{
+      await fetch(`${SUPABASE_URL}/rest/v1/test_counts`,{method:"POST",headers:{"apikey":SUPABASE_KEY,"Authorization":`Bearer ${SUPABASE_KEY}`,"Content-Type":"application/json","Prefer":"return=minimal"},body:JSON.stringify({test_name:TEST_NAME,count:1})});
+    }
+  }catch(e){console.warn("Supabase error:",e);}
+}
+
+// ── state ──
+let phase="intro",current=0,totalScore=0,answers=[],transitioning=false,countedThisSession=false,nickname="";
+
+function getResult(){
+  return results.find(r=>totalScore>=r.min&&totalScore<=r.max)||results[0];
+}
+
+function render(){
+  const app=document.getElementById("app");
+  if(phase==="intro") renderIntro(app);
+  else if(phase==="quiz") renderQuiz(app);
+  else if(phase==="result") renderResult(app);
+  else if(phase==="review") renderReview(app);
+}
+
+function renderIntro(app){
+  app.innerHTML=`
+  <div class="screen">
+    <div style="text-align:center">
+      <div style="font-size:52px;margin-bottom:16px">🚗</div>
+      <div style="font-size:11px;letter-spacing:4px;color:#555;text-transform:uppercase;margin-bottom:10px;font-weight:700">RED FLAG FILTER</div>
+      <h1 style="font-size:24px;font-weight:900;color:#fff;line-height:1.35;margin:0 0 12px">나는 똥차 판별을<br>잘할까?</h1>
+      <p style="font-size:14px;color:#666;line-height:1.8;margin:0 0 24px">8가지 실제 상황으로 알아보는<br>나의 레드플래그 감지 능력</p>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 18px;margin-bottom:28px;text-align:left">
+        <div style="font-size:13px;color:#666;padding:3px 0;display:flex;gap:10px"><span style="color:#333">—</span> 총 8문항 · 4지선다</div>
+        <div style="font-size:13px;color:#666;padding:3px 0;display:flex;gap:10px"><span style="color:#333">—</span> 결과 확인 후 답안지 볼 수 있어요</div>
+        <div style="font-size:13px;color:#666;padding:3px 0;display:flex;gap:10px"><span style="color:#333">—</span> 솔직하게 골라야 의미 있어요</div>
+      </div>
+      <div style="margin-bottom:14px;text-align:left">
+        <label style="font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;font-weight:700;display:block;margin-bottom:8px">이름 또는 닉네임 (선택)</label>
+        <input type="text" id="nickname-input" placeholder="예) 해리쉬, 햄진이" maxlength="10" value="${nickname}"
+          style="width:100%;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 16px;color:#fff;font-size:14px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border 0.2s">
+      </div>
+      <button class="next-btn" id="start-btn">시작하기 →</button>
+    </div>
+  </div>`;
+  const input=document.getElementById("nickname-input");
+  input.addEventListener("focus",()=>{input.style.borderColor="rgba(255,255,255,0.45)";});
+  input.addEventListener("blur", ()=>{input.style.borderColor="rgba(255,255,255,0.1)";});
+  input.addEventListener("input",()=>{nickname=input.value;});
+  input.addEventListener("keydown",e=>{if(e.key==="Enter"){phase="quiz";render();}});
+  document.getElementById("start-btn").addEventListener("click",()=>{phase="quiz";render();});
+}
+
+function renderQuiz(app){
+  const q=scenarios[current];
+  const progress=(current/scenarios.length)*100;
+  const selectedIdx=answers[current]!==undefined?answers[current].optionIdx:null;
+
+  app.innerHTML=`
+  <div class="screen ${transitioning?'out':''}">
+    <div style="margin-bottom:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:10px">
+          ${current>0?`<button id="prev-btn" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:99px;padding:4px 12px;font-size:12px;color:#aaa;cursor:pointer;font-family:'Noto Sans KR',sans-serif">← 이전</button>`:''}
+          <span style="font-size:11px;color:#888;font-weight:700;letter-spacing:1px">SITUATION ${current+1} / ${scenarios.length}</span>
+        </div>
+        <span style="font-size:11px;color:#555;font-weight:700">${Math.round(progress)}%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
+    </div>
+    <div class="tag-pill">${q.tag}</div>
+    <div class="situation-card">
+      <p class="situation-text">${q.situation}</p>
+    </div>
+    <p style="font-size:11px;color:#555;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;font-weight:700">나라면?</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      ${q.options.map((opt,idx)=>`
+        <button class="opt-btn ${selectedIdx===idx?'selected':selectedIdx!==null?'dimmed':''}"
+          data-idx="${idx}" ${selectedIdx!==null?'disabled':''}>
+          <span class="opt-badge">${idx+1}</span>
+          <span>${opt.text}</span>
+        </button>`).join('')}
+    </div>
+    ${selectedIdx!==null?`
+      <button class="next-btn" id="next-btn">
+        ${current+1>=scenarios.length?'결과 보기 →':'다음 →'}
+      </button>`:`
+      <button class="next-btn disabled" disabled>선택해줘</button>`}
+  </div>`;
+
+  document.querySelectorAll(".opt-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      if(answers[current]!==undefined||transitioning)return;
+      const idx=parseInt(btn.dataset.idx);
+      answers[current]={optionIdx:idx, type:q.options[idx].type, score:scoreMap[q.options[idx].type]};
+      render();
+    });
+  });
+  const prev=document.getElementById("prev-btn");
+  if(prev) prev.addEventListener("click",()=>{
+    if(current>0){
+      totalScore-=(answers[current-1]?answers[current-1].score:0);
+      delete answers[current];
+      current--;
+      render();
+    }
+  });
+  const nxt=document.getElementById("next-btn");
+  if(nxt) nxt.addEventListener("click",()=>{
+    if(transitioning)return;
+    transitioning=true;
+    totalScore+=answers[current].score;
+    setTimeout(()=>{
+      if(current+1>=scenarios.length){
+        phase="result";
+        if(!countedThisSession){countedThisSession=true;incrementCount();}
+      } else {
+        current++;
+      }
+      transitioning=false;render();
+    },320);
+  });
+}
+
+function renderResult(app){
+  const r=getResult();
+  const pct=Math.round((totalScore/24)*100);
+  app.innerHTML=`
+  <div class="screen">
+    <div class="result-card">
+      <div style="font-size:56px;margin-bottom:12px">${r.emoji}</div>
+      <div style="font-size:11px;letter-spacing:3px;color:#555;text-transform:uppercase;margin-bottom:8px;font-weight:700">결과</div>
+      <div style="font-size:15px;color:#666;margin-bottom:6px">
+        ${nickname.trim()?`<span style="color:#fff;font-weight:900">${nickname}</span>의 똥차 감지 레벨은`:`나의 똥차 감지 레벨은`}
+      </div>
+      <div style="font-size:28px;font-weight:900;color:${r.color};margin-bottom:8px">${r.grade}</div>
+      <div style="font-size:17px;font-weight:700;color:#fff;margin-bottom:20px">${r.title}</div>
+      <p style="font-size:14px;color:#999;line-height:1.9;margin-bottom:20px;background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;text-align:left">${r.desc}</p>
+      <div style="background:rgba(255,255,255,0.04);border-radius:12px;padding:14px 16px;margin-bottom:24px;text-align:left">
+        <div style="font-size:11px;color:#555;font-weight:700;letter-spacing:1px;margin-bottom:8px">💬 그래서 앞으론</div>
+        <div style="font-size:13px;color:#888;line-height:1.8">${r.tip}</div>
+      </div>
+      <div style="margin-bottom:24px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:#555;margin-bottom:8px">
+          <span>호구</span>
+          <span style="color:${r.color};font-weight:700">${totalScore} / 24점</span>
+          <span>만렙</span>
+        </div>
+        <div class="score-bar-track">
+          <div class="score-bar-fill" id="score-fill" style="width:0%;background:${r.color};box-shadow:0 0 10px ${r.color}80"></div>
+        </div>
+      </div>
+      <button class="next-btn" id="review-btn" style="margin-bottom:10px">답안지 확인하기 📋</button>
+      <button class="sec-btn" id="restart-btn">다시 테스트하기 🔄</button>
+    </div>
+    <p style="text-align:center;margin-top:12px;font-size:11px;color:#444;padding-bottom:20px">친구한테도 해보라고 해봐 👀</p>
+  </div>`;
+
+  setTimeout(()=>{
+    const fill=document.getElementById("score-fill");
+    if(fill) fill.style.width=pct+"%";
+  },100);
+
+  document.getElementById("review-btn").addEventListener("click",()=>{phase="review";render();});
+  document.getElementById("restart-btn").addEventListener("click",()=>{
+    phase="intro";current=0;totalScore=0;answers=[];
+    transitioning=false;countedThisSession=false;nickname="";render();
+  });
+}
+
+function renderReview(app){
+  app.innerHTML=`
+  <div class="screen">
+    <div style="margin-bottom:20px">
+      <div style="font-size:11px;letter-spacing:3px;color:#555;text-transform:uppercase;font-weight:700;margin-bottom:8px">답안지</div>
+      <div style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">내가 고른 것들</div>
+      <p style="font-size:13px;color:#555;margin:0 0 20px">각 상황에서 네가 선택한 반응이야</p>
+    </div>
+    ${scenarios.map((q,i)=>{
+      const ans=answers[i];
+      const opt=q.options[ans.optionIdx];
+      const color=labelColors[ans.type]||"#888";
+      return `
+      <div class="review-item">
+        <div class="review-tag">${q.tag}</div>
+        <div class="review-situation">${q.situation}</div>
+        <div style="display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border-radius:8px;background:${color}10;border:1px solid ${color}25;margin-bottom:8px">
+          <span class="label-chip" style="background:${color}20;color:${color}">${labelText[ans.type]}</span>
+          <span style="font-size:13px;color:#ddd;line-height:1.6">${opt.text}</span>
+        </div>
+        <div style="font-size:12px;color:#888;line-height:1.65;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,0.03)">
+          ${q.feedback[ans.type]}
+        </div>
+      </div>`;
+    }).join('')}
+    <div style="margin-top:8px;padding-bottom:20px">
+      <button class="sec-btn" id="back-btn">← 결과로 돌아가기</button>
+    </div>
+  </div>`;
+  document.getElementById("back-btn").addEventListener("click",()=>{phase="result";render();});
+}
+
+render();
+</script>
+<style>
+  .werit-home-btn{position:fixed;top:16px;left:16px;z-index:9999;background:#fff;border:1.5px solid #e5e5e5;border-radius:99px;padding:8px 16px;font-size:12px;font-weight:700;color:#111;text-decoration:none;font-family:'Noto Sans KR',sans-serif;box-shadow:0 2px 12px rgba(0,0,0,0.08);transition:all 0.2s ease;display:flex;align-items:center;gap:6px}
+  .werit-home-btn:hover{border-color:#111;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+  .werit-home-btn .dot{color:#fb923c;font-size:14px;font-weight:900}
+</style>
+<a href="index.html" class="werit-home-btn"><span>←</span><span>werit<span class="dot">.</span></span></a>
+</body>
+</html>
