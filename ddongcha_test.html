@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>똥차 만남 정도 테스트 🚗💨</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --card: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --muted: #888;
+    --accent: #ff4757;
+    --accent2: #ffa502;
+    --accent3: #2ed573;
+    --selected: #ff4757;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* INTRO SCREEN */
+  #intro {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    text-align: center;
+    position: relative;
+    background: #0f0f0f;
+  }
+
+  .bg-emoji {
+    position: absolute;
+    font-size: 100px;
+    opacity: 0.05;
+    pointer-events: none;
+    animation: float 6s ease-in-out infinite;
+    z-index: 0;
+  }
+
+  .bg-emoji:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+  .bg-emoji:nth-child(2) { top: 60%; right: 5%; animation-delay: 2s; }
+  .bg-emoji:nth-child(3) { bottom: 15%; left: 20%; animation-delay: 4s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+  }
+
+  .intro-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .intro-title {
+    font-size: clamp(36px, 10vw, 60px);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .intro-title .highlight {
+    color: var(--accent);
+    position: relative;
+    display: inline-block;
+  }
+
+  .intro-title .highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent);
+    opacity: 0.3;
+  }
+
+  .intro-sub {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  .intro-sub strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .start-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 18px 48px;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    border-radius: 100px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    transition: all 0.2s;
+    box-shadow: 0 8px 30px rgba(255,71,87,0.4);
+  }
+
+  .start-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255,71,87,0.5); }
+  .start-btn:active { transform: translateY(0); }
+
+  .warning-text {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #555;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* QUIZ SCREEN */
+  #quiz {
+    display: none;
+    min-height: 100vh;
+    padding: 0 0 60px;
+    background: #0f0f0f;
+    color: #f0f0f0;
+  }
+
+  .progress-bar-wrap {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 16px 24px;
+    z-index: 10;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .progress-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 100px;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .question-wrap {
+    padding: 36px 24px 0;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .q-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .q-emoji {
+    font-size: 40px;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .q-text {
+    font-size: clamp(18px, 5vw, 22px);
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .q-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option-btn {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 20px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Noto Sans KR', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .option-btn:hover {
+    border-color: var(--accent);
+    background: #1f1f1f;
+    transform: translateX(4px);
+  }
+
+  .option-btn.selected {
+    border-color: var(--accent);
+    background: rgba(255,71,87,0.1);
+  }
+
+  .option-btn.selected::before {
+    content: '✓';
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .opt-main {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.5;
+    padding-right: 30px;
+  }
+
+  .opt-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .next-btn {
+    display: block;
+    margin: 28px auto 0;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+  }
+
+  .next-btn.visible {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+
+  .next-btn:hover { transform: translateY(-2px); }
+
+  /* RESULT SCREEN */
+  #result {
+    display: none;
+    min-height: 100vh;
+    padding: 0 24px 80px;
+    max-width: 540px;
+    margin: 0 auto;
+    background: #0f0f0f;
+    color: #f0f0f0;
+  }
+
+  .result-header {
+    padding: 50px 0 32px;
+    text-align: center;
+  }
+
+  .result-emoji {
+    font-size: 72px;
+    margin-bottom: 16px;
+    display: block;
+    animation: bounceIn 0.6s cubic-bezier(0.68,-0.55,0.27,1.55);
+  }
+
+  @keyframes bounceIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .result-level {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .result-title {
+    font-size: clamp(26px, 7vw, 36px);
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 14px;
+  }
+
+  .result-title .color-accent { color: var(--accent); }
+  .result-title .color-orange { color: var(--accent2); }
+  .result-title .color-green { color: var(--accent3); }
+
+  .result-score-bar {
+    background: var(--border);
+    height: 10px;
+    border-radius: 100px;
+    overflow: hidden;
+    margin: 20px 0;
+    position: relative;
+  }
+
+  .score-fill {
+    height: 100%;
+    border-radius: 100px;
+    transition: width 1.2s cubic-bezier(0.4,0,0.2,1) 0.3s;
+  }
+
+  .score-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .result-desc-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    margin: 24px 0;
+  }
+
+  .result-desc-card p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #ddd;
+  }
+
+  .result-desc-card p + p {
+    margin-top: 12px;
+  }
+
+  .keyword-wrap {
+    margin: 24px 0;
+  }
+
+  .keyword-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .keyword {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .tips-card {
+    background: rgba(255,71,87,0.06);
+    border: 1.5px solid rgba(255,71,87,0.2);
+    border-radius: 20px;
+    padding: 24px;
+    margin: 24px 0;
+  }
+
+  .tips-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 14px;
+    letter-spacing: 0.05em;
+  }
+
+  .tip-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #ccc;
+  }
+
+  .tip-item:last-child { margin-bottom: 0; }
+
+  .tip-dot {
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .retry-btn {
+    display: block;
+    width: 100%;
+    background: transparent;
+    color: var(--muted);
+    border: 1.5px solid var(--border);
+    padding: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Noto Sans KR', sans-serif;
+    border-radius: 100px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: all 0.2s;
+  }
+
+  .retry-btn:hover { border-color: var(--text); color: var(--text); }
+
+  .share-note {
+    text-align: center;
+    font-size: 12px;
+    color: #444;
+    margin-top: 20px;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-in {
+    animation: slideUp 0.4s ease both;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-emoji">🚗</div>
+<div class="bg-emoji">💀</div>
+<div class="bg-emoji">🚨</div>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="intro-badge">⚠️ 당신의 연애 패턴 진단</div>
+  <h1 class="intro-title">
+    나는 얼마나<br>
+    <span class="highlight">똥차를</span><br>
+    잘 만나는가
+  </h1>
+  <p class="intro-sub" style="margin-top: 16px;">
+    <strong>"나는 괜찮은 사람만 만나는 것 같은데"</strong><br>
+    근데 왜 매번 이렇게 되는 거야?<br>
+    10문항으로 알아보는 당신의 똥차 인력 🧲
+  </p>
+  <button class="start-btn" onclick="startQuiz()">테스트 시작하기 →</button>
+  <p class="warning-text">※ 결과가 마음에 안 들어도 저한테 화내지 마세요</p>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz">
+  <div class="progress-bar-wrap">
+    <div class="progress-info">
+      <span id="q-counter">1 / 10</span>
+      <span id="q-label">잠깐, 솔직하게 해</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width: 10%"></div>
+    </div>
+  </div>
+
+  <div class="question-wrap">
+    <div class="q-num" id="q-num">Q 01</div>
+    <span class="q-emoji" id="q-emoji">🤔</span>
+    <div class="q-text" id="q-text">질문 로딩 중...</div>
+    <div class="q-sub" id="q-sub"></div>
+    <div class="options" id="options"></div>
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">다음 →</button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="result">
+  <div class="result-header">
+    <span class="result-emoji" id="result-emoji">🚗</span>
+    <div class="result-level" id="result-level">LEVEL 3</div>
+    <div class="result-title" id="result-title">결과 제목</div>
+  </div>
+
+  <div class="result-score-bar">
+    <div class="score-fill" id="score-fill" style="width: 0%"></div>
+  </div>
+  <div class="score-label">
+    <span>🟢 똥차 안 옴</span>
+    <span>🔴 똥차 단골 VIP</span>
+  </div>
+
+  <div class="result-desc-card" id="result-desc"></div>
+
+  <div class="keyword-wrap">
+    <div class="keyword-title">이 유형의 키워드</div>
+    <div class="keywords" id="result-keywords"></div>
+  </div>
+
+  <div class="tips-card" id="result-tips"></div>
+
+  <button class="retry-btn" onclick="resetQuiz()">🔄 다시 하기</button>
+  <p class="share-note">결과 캡쳐해서 스토리에 올려봐 👀</p>
+</div>
+
+<script>
+const questions = [
+  {
+    emoji: "💬",
+    text: "처음 만난 사람이 \"나 원래 이런 사람 아닌데 너한테만 이러는 거야\" 라고 함",
+    sub: "자, 이 상황에서 솔직히 어떤 생각이 드냐",
+    options: [
+      { text: "설레는데? 뭔가 특별한 거 아님?", sub: "심장이 두근두근", score: 3 },
+      { text: "흠... 좀 더 두고 봐야지", sub: "반신반의", score: 1 },
+      { text: "전형적인 멘트인데 ㅋㅋ", sub: "이미 면역 있음", score: 0 },
+    ]
+  },
+  {
+    emoji: "📱",
+    text: "연락이 며칠째 뜸한데 갑자기 새벽 2시에 \"자?\"라고 옴",
+    sub: "이 연락, 너는 어떻게 함",
+    options: [
+      { text: "일단 답장부터 함. 깨어있었거든", sub: "나 여기 있어~", score: 3 },
+      { text: "읽고 다음날 아침에 답장", sub: "새벽 답장은 선 안 넘어", score: 1 },
+      { text: "읽씹. 새벽 연락 차단 대상", sub: "이런 거 안 받아줌", score: 0 },
+    ]
+  },
+  {
+    emoji: "🎭",
+    text: "\"나 사실 좀 복잡한 사람이야\" 라고 하는 사람",
+    sub: "이 말을 들으면 어떤 느낌",
+    options: [
+      { text: "오히려 매력있어 보임. 뭔가 있는 사람 같아서", sub: "미스터리 = 매력", score: 3 },
+      { text: "한 귀로 듣고 한 귀로 흘림", sub: "그냥 그러려니", score: 1 },
+      { text: "이미 적신호 뜸. 본인도 아는 거잖아", sub: "말해줘서 고마워 근데 패스", score: 0 },
+    ]
+  },
+  {
+    emoji: "😤",
+    text: "상대가 약속을 또 취소함. 세 번째임",
+    sub: "이번에도 \"미안해 다음에 꼭\" 이라고 함",
+    options: [
+      { text: "\"괜찮아~\" 하고 다음 약속 잡음", sub: "그래도 좋은 사람일 수 있잖아", score: 3 },
+      { text: "한 번만 더 봐주고 그다음엔 정리", sub: "기회는 주되 무제한은 아님", score: 1 },
+      { text: "이미 두 번째에 정리했음", sub: "세 번은 애초에 없는 일", score: 0 },
+    ]
+  },
+  {
+    emoji: "🫠",
+    text: "좋아하는 사람이 생겼는데 주변에서 \"그 사람 좀 그렇다더라\"고 함",
+    sub: "근데 나한테는 진짜 잘해줌",
+    options: [
+      { text: "나한테 잘하면 됐지. 내가 직접 판단할게", sub: "나만 다를 수도 있잖아", score: 3 },
+      { text: "좀 더 지켜보기로 함. 반반이야", sub: "정보 수집 중", score: 2 },
+      { text: "주변 평판도 중요한 데이터임. 거리 둠", sub: "연기는 없는 곳에서 안 남", score: 0 },
+    ]
+  },
+  {
+    emoji: "💔",
+    text: "헤어지고 한 달 뒤에 \"나 요즘 많이 힘들어\" 라고 연락 옴",
+    sub: "우리 사이가 나쁘게 끝나진 않았음",
+    options: [
+      { text: "무슨 일인지 물어봄. 걱정되는 건 어쩔 수 없잖아", sub: "감정이 남아있나 봐", score: 3 },
+      { text: "\"그래? 힘내\" 한 마디 하고 끝냄", sub: "선 지키면서", score: 1 },
+      { text: "읽씹 또는 차단", sub: "왜 연락해", score: 0 },
+    ]
+  },
+  {
+    emoji: "🤯",
+    text: "상대가 전 연인 얘기를 자꾸 꺼냄. \"그 사람이 너무 나빴어\"라고",
+    sub: "근데 이 얘기 벌써 다섯 번째 들음",
+    options: [
+      { text: "많이 힘들었구나 싶어서 더 들어줌. 상처받은 거잖아", sub: "공감이 먼저지", score: 3 },
+      { text: "\"이제 그 얘기는 그만해도 될 것 같아\"라고 말함", sub: "선 긋기", score: 1 },
+      { text: "전 연인 얘기 많이 하는 사람 = 자동 필터링", sub: "아직 정리 안 된 거임", score: 0 },
+    ]
+  },
+  {
+    emoji: "🔥",
+    text: "싸우면 연락 두절이 되는 스타일임. 하루 이상",
+    sub: "근데 평소엔 진짜 좋은 사람이야",
+    options: [
+      { text: "나쁜 사람 아니니까. 그냥 그 스타일인가보다", sub: "기다려줌", score: 3 },
+      { text: "참다가 어느 순간 대화 요구함", sub: "이건 좀 바꿔야 해", score: 2 },
+      { text: "회피형이랑은 애초에 안 맞음. 연애 스타일 문제임", sub: "감정노동 사절", score: 0 },
+    ]
+  },
+  {
+    emoji: "😶",
+    text: "\"나는 연애를 잘 못해\" 라고 미리 말하는 사람",
+    sub: "근데 나한테는 뭔가 특별한 것처럼 행동함",
+    options: [
+      { text: "내가 달라지게 해줄 수 있을 것 같은데", sub: "나는 특별한 사람이니까", score: 3 },
+      { text: "그 말 그대로 믿고 기대치를 낮춤", sub: "말해줬으면 그 말이 맞겠지", score: 1 },
+      { text: "\"나도 그렇게 됩니다~\" 하고 빠짐", sub: "예고편이 결말임", score: 0 },
+    ]
+  },
+  {
+    emoji: "🧲",
+    text: "솔직히 말해봐. 연애할 때 나는",
+    sub: "본인이 제일 잘 알잖아",
+    options: [
+      { text: "상대한테 맞추는 편. 내가 좀 더 노력하면 되지", sub: "이 관계 내가 지키겠다는 마음", score: 3 },
+      { text: "맞추다가 안 되면 말함. 반반이야", sub: "노력은 하되 한계는 있음", score: 1 },
+      { text: "나한테 맞추는 사람 만남. 아니면 안 함", sub: "기준이 있음", score: 0 },
+    ]
+  }
+];
+
+const results = [
+  {
+    min: 0, max: 6,
+    emoji: "🛡️",
+    level: "LEVEL 1 · 똥차 방어막 장착",
+    titleHtml: `똥차가 감히<br><span class="color-green">접근을 못 함</span>`,
+    scoreColor: "#2ed573",
+    scorePercent: 12,
+    desc: [
+      "어떻게 이렇게 됐어? 진심으로 물어보는 거임. 주변에서 「얘는 왜 저래」 소리 들을 정도로 기준이 명확함.",
+      "감언이설 안 먹히고, 새벽 연락 안 받아주고, 전 연인 얘기 많이 하면 이미 필터링. 근데 이게 나쁜 게 아님. 자기 자신을 잘 알고 있는 거거든.",
+      "솔직히 이 정도면 똥차가 올 틈이 없음. 오면 걸러지는 구조야."
+    ],
+    keywords: ["기준 명확", "자기 보호 잘함", "감언이설 면역", "No = No"],
+    tipsTitle: "⚠️ 근데 이것만 조심해",
+    tips: [
+      "기준이 너무 높으면 진짜 괜찮은 사람도 못 들어오는 경우 있음. 모든 사람이 완벽하진 않으니까.",
+      "방어막이 너무 두꺼우면 나도 지치고 상대도 지침. 가끔은 느슨하게 가도 됨.",
+    ]
+  },
+  {
+    min: 7, max: 14,
+    emoji: "🤔",
+    level: "LEVEL 2 · 어느 정도는 알아봄",
+    titleHtml: `한 번쯤은<br><span class="color-accent2">타봤을 수도</span>`,
+    scoreColor: "#ffa502",
+    scorePercent: 45,
+    desc: [
+      "완전 무방비는 아닌데, 가끔 \"이 사람은 다를 것 같아\"에 낚이는 편. 경험치가 쌓이면서 점점 나아지고 있는 유형이야.",
+      "기준이 있긴 한데 좋아지면 그 기준이 슬금슬금 낮아지는 게 문제. 근데 인간이라면 다 그렇잖아.",
+      "지금까지 만난 사람 중에 한 명쯤은 \"그때 왜 만났지\" 싶은 사람 있을 거임. 근데 그게 다 배움이야."
+    ],
+    keywords: ["경험치 쌓이는 중", "좋아지면 기준이 흔들림", "반반 인간", "성장형"],
+    tipsTitle: "🔍 이것만 기억해",
+    tips: [
+      "\"나한테만 잘해줘\" 같은 말에 특히 취약함. 그 말이 사실인지 아닌지는 시간이 지나야 알게 됨.",
+      "기준이 흔들리는 순간을 스스로 알아챌 수 있으면 됨. 그게 포인트야.",
+    ]
+  },
+  {
+    min: 15, max: 22,
+    emoji: "🚨",
+    level: "LEVEL 3 · 똥차 VIP 고객",
+    titleHtml: `자꾸 비슷한 사람만<br><span class="color-accent">만나고 있잖아</span>`,
+    scoreColor: "#ff4757",
+    scorePercent: 78,
+    desc: [
+      "솔직히 말할게. 똥차가 오는 게 아니라 네가 고르는 거야. 무의식적으로 \"좀 문제있는 사람\"한테 더 끌리는 패턴이 있음.",
+      "\"내가 달라지게 해줄 수 있어\" \"나한테만 잘하면 나쁜 사람 아니잖아\" — 이런 생각 자주 하잖아. 근데 그게 함정이거든.",
+      "나쁜 사람이어서 만나는 게 아님. 근데 결과적으로 비슷한 상황이 반복된다면 패턴을 봐야 할 때야."
+    ],
+    keywords: ["구원자 심리", "미스터리한 사람에 끌림", "기회를 너무 많이 줌", "패턴 반복 중"],
+    tipsTitle: "💡 진심으로 해주는 말",
+    tips: [
+      "\"복잡한 사람\"이 매력적으로 보이는 이유가 있음. 그게 뭔지 한번 생각해봐.",
+      "약속 취소 세 번째에도 기회 주고 있다면, 그건 상대 문제가 아니라 내 기준 문제임.",
+      "\"나한테는 달라\" — 이 말이 기대가 아니라 확인이 됐을 때 믿어도 늦지 않아.",
+    ]
+  },
+  {
+    min: 23, max: 30,
+    emoji: "💀",
+    level: "LEVEL 4 · 전설의 인력 보유",
+    titleHtml: `똥차가 너를<br><span class="color-accent">찾아서 옴</span>`,
+    scoreColor: "#ff4757",
+    scorePercent: 98,
+    desc: [
+      "야 이건 좀 심각하다. 농담이 아니라 진심으로. 새벽 연락 받아주고, 세 번씩 취소해도 기다려주고, \"나는 연애 못해\"라는 말에도 \"내가 달라지게 할 수 있어\" 생각함.",
+      "근데 이게 네가 나쁜 사람이어서가 아님. 오히려 너무 따뜻하고 상대를 믿어주고 싶은 마음이 큰 거야. 그게 이용당하고 있는 거지.",
+      "지금 당장 뭔가 바꾸려 하기보다 — 왜 이런 패턴이 생겼는지 한번 들여다봐. 거기서부터 시작이야."
+    ],
+    keywords: ["무한 기회 제공", "구원자 모드 ON", "경계선 흐릿함", "따뜻함이 역이용됨"],
+    tipsTitle: "❤️ 그래도 이것만은",
+    tips: [
+      "다시 한번 말하는데, 네가 나쁜 게 아님. 근데 이 패턴은 너를 계속 지치게 할 거야.",
+      "\"이 사람은 다를 것 같아\"라는 느낌이 들 때가 오히려 조심해야 할 순간일 수 있어.",
+      "경계를 긋는 게 차갑게 구는 게 아님. 나를 지키는 거야.",
+    ]
+  }
+];
+
+let currentQ = 0;
+let totalScore = 0;
+let answered = false;
+
+function startQuiz() {
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  answered = false;
+
+  document.getElementById('q-counter').textContent = `${currentQ + 1} / ${questions.length}`;
+  document.getElementById('q-num').textContent = `Q ${String(currentQ + 1).padStart(2, '0')}`;
+  document.getElementById('q-emoji').textContent = q.emoji;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-sub').textContent = q.sub;
+
+  const pct = ((currentQ + 1) / questions.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const labels = ['잠깐, 솔직하게 해', '계속 해봐', '거의 다 왔어', '마지막이야'];
+  const labelIdx = Math.floor((currentQ / questions.length) * labels.length);
+  document.getElementById('q-label').textContent = labels[Math.min(labelIdx, labels.length - 1)];
+
+  const optionsEl = document.getElementById('options');
+  optionsEl.innerHTML = '';
+
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn animate-in';
+    btn.style.animationDelay = (i * 0.08) + 's';
+    btn.innerHTML = `<div class="opt-main">${opt.text}</div><div class="opt-sub">${opt.sub}</div>`;
+    btn.onclick = () => selectOption(btn, opt.score);
+    optionsEl.appendChild(btn);
+  });
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.className = 'next-btn';
+  nextBtn.textContent = currentQ === questions.length - 1 ? '결과 보기 →' : '다음 →';
+}
+
+function selectOption(btn, score) {
+  if (answered) return;
+
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  btn.dataset.score = score;
+
+  answered = true;
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.classList.add('visible');
+  nextBtn.dataset.pendingScore = score;
+}
+
+function nextQuestion() {
+  const pendingScore = parseInt(document.getElementById('next-btn').dataset.pendingScore || 0);
+  totalScore += pendingScore;
+  currentQ++;
+
+  if (currentQ >= questions.length) {
+    showResult();
+  } else {
+    renderQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('result').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  const res = results.find(r => totalScore >= r.min && totalScore <= r.max) || results[results.length - 1];
+
+  document.getElementById('result-emoji').textContent = res.emoji;
+  document.getElementById('result-level').textContent = res.level;
+  document.getElementById('result-title').innerHTML = res.titleHtml;
+
+  const fill = document.getElementById('score-fill');
+  fill.style.background = res.scoreColor;
+  setTimeout(() => { fill.style.width = res.scorePercent + '%'; }, 100);
+
+  const descCard = document.getElementById('result-desc');
+  descCard.innerHTML = res.desc.map(d => `<p>${d}</p>`).join('');
+
+  const kwEl = document.getElementById('result-keywords');
+  kwEl.innerHTML = res.keywords.map(k => `<span class="keyword">${k}</span>`).join('');
+
+  const tipsEl = document.getElementById('result-tips');
+  tipsEl.innerHTML = `<div class="tips-title">${res.tipsTitle}</div>` +
+    res.tips.map(t => `<div class="tip-item"><span class="tip-dot">→</span><span>${t}</span></div>`).join('');
+}
+
+function resetQuiz() {
+  currentQ = 0;
+  totalScore = 0;
+  answered = false;
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('intro').style.display = 'flex';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

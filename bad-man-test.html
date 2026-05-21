@@ -11,7 +11,7 @@
   gtag('config', 'G-HHMKZ89GJ9');
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>나는 똥차 판별을 잘할까?</title>
+<title>나는 나쁜 남자한테 얼마나 휘둘릴까?</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
@@ -54,14 +54,14 @@
 <div id="app-wrapper"><div id="app"></div></div>
 <script>
 // b=0점, s=1점, y=2점, p=3점 — 높을수록 잘 거름
-const scoreMap={b:0,s:1,y:2,p:3};
+const scoreMap={b:0,s:1,y:3,p:3};
 
 const scenarios=[
   {
     tag:"🚨 통제 시그널",
     situation:"사귄 지 얼마 안 된 남자친구가 \"그 옷 좀 그렇다. 남자들이 쳐다보잖아\"라고 한다.",
     options:[
-      {text:"\"아 그래? 그럼 이제 안 입을게\" 하고 바로 받아들인다",type:"b"},
+      {text:"\"아 그래..? 알겠어\" 하고 그냥 받아들인다",type:"b"},
       {text:"찜찜하긴 한데 초반이라 그냥 웃으며 넘어간다",type:"s"},
       {text:"\"어? 이게 어때서~ 나는 예쁜데?\" 하고 씩 웃으며 흘려버린다",type:"y"},
       {text:"\"내 옷에 왜 참견해?\" 하고 바로 짚는다",type:"p"},
@@ -77,7 +77,7 @@ const scenarios=[
     tag:"🔒 고립 시도",
     situation:"사귄 지 2주 된 남자친구가 \"남사친 만나지마\"라고 한다.",
     options:[
-      {text:"\"우리가 그만큼 진지하다는 거잖아\" 하고 남사친 연락을 줄인다",type:"b"},
+      {text:"\"좋아하니까 그게 맞겠지?\" 하고 수긍하고 연락을 줄인다",type:"b"},
       {text:"싫긴 한데 싸우기 싫어서 \"알겠어...\" 하고 넘긴다",type:"s"},
       {text:"\"어~ 1:1로는 안 만날게😊\" 하고 웃으며 대답한다",type:"y"},
       {text:"\"2주 됐는데 벌써 이래? 내 친구 관계는 내가 정해\" 하고 바로 말한다",type:"p"},
@@ -111,7 +111,7 @@ const scenarios=[
     options:[
       {text:"\"우리 만나서 얘기하자\" 하고 붙잡으려 한다",type:"b"},
       {text:"충격받아서 아무 말도 못하고 답장을 안 한다",type:"s"},
-      {text:"\"어 나도 사실 그랬어. 우리 여기서 끝내자\" 하고 먼저 정리한다",type:"y"},
+      {text:"\"기념일에 카톡으로 이러면 답 나온 거지\" 하고 먼저 끊는다",type:"y"},
       {text:"\"기념일에 이런 말 하는 거야?\" 하고 바로 되묻는다",type:"p"},
     ],
     feedback:{
@@ -126,9 +126,9 @@ const scenarios=[
     situation:"바람펴서 헤어진 전 남친이 갑자기 \"oo아 잘 지내?\"라고 카톡을 보내왔다.",
     options:[
       {text:"\"어... 잘 지내. 너는?\" 하고 답장을 보낸다",type:"b"},
-      {text:"답장은 안 하지만 스토리에 뭔가 올리고 감정 소모한다",type:"s"},
-      {text:"읽고 그냥 카톡창 닫는다. 답장 없음",type:"y"},
-      {text:"\"외로워서 연락하는거야?\" 하고 바로 되묻는다",type:"p"},
+      {text:"답장은 안 하고 친구한테 \"야 이거 봐봐\" 하고 캡처 보낸다",type:"s"},
+      {text:"그냥 읽고 차단한다",type:"y"},
+      {text:"\"너 헤어지고 외로워서 연락하는거지? ㅋㅋ\" 하고 되묻는다",type:"p"},
     ],
     feedback:{
       b:"바람핀 사람이야. 그 사람이 바뀐 게 아니라 네가 외로운 거야. 답장 보내는 순간 다시 그 사이클 시작이야.",
@@ -143,7 +143,7 @@ const scenarios=[
     options:[
       {text:"\"나한테는 잘 해주니까 괜찮아\" 하고 넘긴다",type:"b"},
       {text:"불편하긴 한데 \"원래 좀 그런 스타일인가봐\" 하고 넘긴다",type:"s"},
-      {text:"티 안 내고 속으로 \"나한테도 저럴 수 있겠다\" 싶어서 마음속으로 정리한다",type:"y"},
+      {text:"아무 말 안 하지만 속으로 \"이 사람 저러는구나\" 하고 기억해둔다",type:"y"},
       {text:"\"저 사람한테 왜 그렇게 말해?\" 하고 바로 짚는다",type:"p"},
     ],
     feedback:{
@@ -159,7 +159,7 @@ const scenarios=[
     options:[
       {text:"\"내가 예민한 건가...\" 내 감정을 의심하고 결국 내가 사과한다",type:"b"},
       {text:"억울하지만 싸우기 싫어서 \"됐어\" 하고 넘긴다",type:"s"},
-      {text:"\"예민한 게 아니라~ 내 감정이 그렇다는 거야😊\" 하고 차분하게 되돌려준다",type:"y"},
+      {text:"\"예민한 게 아니라, 내 감정이 그렇다는 거야\" 하고 차분하게 되돌려준다",type:"y"},
       {text:"\"예민한 게 아니야. 네가 잘못한 거 맞아\" 하고 끝까지 짚는다",type:"p"},
     ],
     feedback:{
@@ -175,7 +175,7 @@ const scenarios=[
     options:[
       {text:"\"언젠간 달라지겠지\" 하고 계속 기다린다",type:"b"},
       {text:"불만이 쌓이지만 \"연애가 다 이렇지 뭐\" 하고 참는다",type:"s"},
-      {text:"\"어~ 그럼 이번엔 내가 원하는 거 해줄 수 있어?\" 하고 딱 한 번 테스트해본다",type:"y"},
+      {text:"\"어~ 그럼 이번엔 내가 원하는 거 해줄 수 있어?\" 하고 한 번 물어본다",type:"y"},
       {text:"\"말이랑 행동이 왜 달라? 뭐든 다 해준다며\" 하고 바로 따진다",type:"p"},
     ],
     feedback:{
@@ -185,34 +185,50 @@ const scenarios=[
       p:"맞는 말이야. 말로만 하는 사람인지 행동으로 보여달라는 거잖아. 할 말 한 거야 👍",
     },
   },
+  {
+    tag:"💥 감정 협박",
+    situation:"싸우다가 남자친구가 \"그럼 그냥 헤어지자\"고 한다. 이런 말이 처음이 아니다.",
+    options:[
+      {text:"\"제발 그런 말 하지 마...\" 하고 울면서 붙잡는다",type:"b"},
+      {text:"할 말은 있는데 또 싸우기 싫어서 그냥 삼킨다",type:"s"},
+      {text:"\"나도 이제 못하겠어. 그래, 헤어지자\" 하고 담담하게 끊는다",type:"y"},
+      {text:"\"헤어지자는 말 무기처럼 쓰지 마. 진짜 헤어지고 싶어?\" 하고 바로 짚는다",type:"p"},
+    ],
+    feedback:{
+      b:"붙잡을수록 그 사람은 헤어지자는 말이 통한다는 걸 학습해. 협박처럼 쓰는 거 알면서도 붙잡으면 계속 반복돼.",
+      s:"참으면 해결되는 게 아니야. 이런 패턴은 쌓이면 쌓일수록 더 힘들어져.",
+      y:"이미 느꼈으면 끊는 게 맞아. 헤어지자는 말을 무기로 쓰는 사람이랑은 오래 못 가 👍",
+      p:"그 말 한 마디로 상대가 할 말 없어짐. 감정 협박인지 아닌지 바로 확인하는 거야 👍",
+    },
+  },
 ];
 
-// 총 최대 점수: 8문항 × 3점 = 24점
+// 총 최대 점수: 9문항 × 3점 = 27점
 const results=[
-  {min:0,  max:5,  emoji:"😇", grade:"넌 호구야",
+  {min:0,  max:5,  emoji:"😵", grade:"완전 휘둘리는 타입",
    color:"#f87171", bg:"rgba(248,113,113,0.1)",
-   title:"지금 누군가한테 당하고 있을 확률 99%",
-   desc:"솔직히 말할게. 지금 이 순간에도 누군가한테 이용당하고 있거나, 이용당한 적 있을 가능성 거의 확실해. 상대 말 하나하나에 흔들리고, 내 감정보다 상대 기분 먼저 챙기는 타입이야. 나쁜 사람은 이런 사람 귀신같이 찾아내거든.",
-   tip:"당장 오늘부터 딱 하나만. 찜찜하면 찜찜하다고 말해봐. 그 한 마디가 시작이야."},
-  {min:6,  max:10, emoji:"🫠", grade:"반쯤 당하는 중",
+   title:"나쁜 남자가 제일 좋아하는 타입",
+   desc:"상대 말 하나하나에 흔들리고, 내 감정보다 상대 기분 먼저 챙겨. 나쁜 사람은 이런 타입 귀신같이 찾아내거든. 네 잘못이 아니야. 근데 지금부터는 달라져야 해.",
+   tip:"찜찜하면 찜찜하다고 말해봐. 그 한 마디가 시작이야."},
+  {min:6,  max:10, emoji:"🫠", grade:"알면서도 또 휘둘려",
    color:"#fb923c", bg:"rgba(251,146,60,0.1)",
-   title:"알면서도 넘어가는 게 더 문제야",
-   desc:"느끼긴 해. 뭔가 이상하다는 거. 근데 갈등이 무서워서, 아니면 '내가 너무 예민한 건가' 싶어서 그냥 넘기는 경우가 많지? 그게 더 위험한 거야. 알면서도 넘어가면 상대는 '이 사람은 참는구나' 학습하거든.",
+   title:"이상한 거 알아. 근데 그냥 넘겨",
+   desc:"느끼긴 해. 뭔가 이상하다는 거. 근데 갈등이 무서워서, '내가 너무 예민한 건가' 싶어서 그냥 넘기는 경우가 많지? 알면서도 넘어가면 상대는 '이 사람은 참는구나' 학습해.",
    tip:"그 찜찜한 느낌, 한 번만 믿어봐. 틀린 거 아니야."},
-  {min:11, max:15, emoji:"😤", grade:"가끔 흔들림",
+  {min:11, max:16, emoji:"😤", grade:"가끔 흔들리는 편",
    color:"#facc15", bg:"rgba(250,204,21,0.1)",
-   title:"외로울 때 기준이 무너지는 타입",
+   title:"웬만한 건 거르는데 가끔 한 번씩 당해",
    desc:"웬만한 건 걸러. 근데 마음이 생기거나 외로울 때 기준이 확 낮아지는 순간이 있어. 그 순간을 노리는 사람들이 있거든. '지금 나 좀 외롭지 않나?' 싶을 때가 제일 위험한 타이밍이야.",
    tip:"외로울 때일수록 결정 미뤄봐. 그 감정이 가라앉고 나서 판단해."},
-  {min:16, max:20, emoji:"😎", grade:"꽤 잘 거르는 편",
+  {min:17, max:22, emoji:"😎", grade:"웬만해선 안 휘둘려",
    color:"#34d399", bg:"rgba(52,211,153,0.1)",
    title:"눈은 있어. 근데 가끔 망설여",
-   desc:"레드플래그 보는 눈은 있어. 근데 막상 그 상황이 되면 '이 사람이 나쁜 건지 내가 예민한 건지' 헷갈릴 때가 있지? 그 망설임 때 상대한테 당해. 느낀 거 믿어도 돼, 대부분 맞아.",
+   desc:"레드플래그 보는 눈은 있어. 근데 막상 그 상황이 되면 '이 사람이 나쁜 건지 내가 예민한 건지' 헷갈릴 때가 있지? 그 망설임 때 당해. 느낀 거 믿어도 돼, 대부분 맞아.",
    tip:"느낀 순간 한 박자만 빠르게 행동해봐. 망설이는 그 타이밍이 핵심이야."},
-  {min:21, max:24, emoji:"👑", grade:"똥차 감지 만렙",
+  {min:23, max:27, emoji:"👑", grade:"절대 안 당하는 타입",
    color:"#4ade80", bg:"rgba(74,222,128,0.1)",
-   title:"이미 많이 겪어봤거나 진짜 눈 밝은 거임",
-   desc:"레드플래그 캐치 빠르고, 내 감정 신뢰하고, 필요하면 단호하게 끊을 줄 알아. 이 눈은 그냥 생기는 게 아니야. 많이 겪고 많이 아팠거나, 아니면 진짜 자기 자신을 잘 아는 거야. 이 기준 절대 낮추지 마.",
+   title:"나쁜 남자가 제일 피하고 싶은 타입",
+   desc:"레드플래그 캐치 빠르고, 내 감정 신뢰하고, 필요하면 단호하게 끊을 줄 알아. 이 눈은 그냥 생기는 게 아니야. 많이 겪고 많이 아팠거나, 진짜 자기 자신을 잘 아는 거야. 이 기준 절대 낮추지 마.",
    tip:"이 기준 유지하는 게 쉽지 않아. 근데 넌 할 수 있어. 이미 증명했잖아."},
 ];
 
@@ -254,12 +270,12 @@ function renderIntro(app){
   app.innerHTML=`
   <div class="screen">
     <div style="text-align:center">
-      <div style="font-size:52px;margin-bottom:16px">🚗</div>
+      <div style="font-size:52px;margin-bottom:16px">🧛</div>
       <div style="font-size:11px;letter-spacing:4px;color:#555;text-transform:uppercase;margin-bottom:10px;font-weight:700">RED FLAG FILTER</div>
-      <h1 style="font-size:24px;font-weight:900;color:#fff;line-height:1.35;margin:0 0 12px">나는 똥차 판별을<br>잘할까?</h1>
-      <p style="font-size:14px;color:#666;line-height:1.8;margin:0 0 24px">8가지 실제 상황으로 알아보는<br>나의 레드플래그 감지 능력</p>
+      <h1 style="font-size:24px;font-weight:900;color:#fff;line-height:1.35;margin:0 0 12px">나는 나쁜 남자한테<br>얼마나 휘둘릴까?</h1>
+      <p style="font-size:14px;color:#666;line-height:1.8;margin:0 0 24px">9가지 실제 상황으로 알아보는<br>나는 나쁜 남자한테 얼마나 약한지</p>
       <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 18px;margin-bottom:28px;text-align:left">
-        <div style="font-size:13px;color:#666;padding:3px 0;display:flex;gap:10px"><span style="color:#333">—</span> 총 8문항 · 4지선다</div>
+        <div style="font-size:13px;color:#666;padding:3px 0;display:flex;gap:10px"><span style="color:#333">—</span> 총 9문항 · 4지선다</div>
         <div style="font-size:13px;color:#666;padding:3px 0;display:flex;gap:10px"><span style="color:#333">—</span> 결과 확인 후 답안지 볼 수 있어요</div>
         <div style="font-size:13px;color:#666;padding:3px 0;display:flex;gap:10px"><span style="color:#333">—</span> 솔직하게 골라야 의미 있어요</div>
       </div>
@@ -352,14 +368,14 @@ function renderQuiz(app){
 
 function renderResult(app){
   const r=getResult();
-  const pct=Math.round((totalScore/24)*100);
+  const pct=Math.round((totalScore/27)*100);
   app.innerHTML=`
   <div class="screen">
     <div class="result-card">
       <div style="font-size:56px;margin-bottom:12px">${r.emoji}</div>
       <div style="font-size:11px;letter-spacing:3px;color:#555;text-transform:uppercase;margin-bottom:8px;font-weight:700">결과</div>
       <div style="font-size:15px;color:#666;margin-bottom:6px">
-        ${nickname.trim()?`<span style="color:#fff;font-weight:900">${nickname}</span>의 똥차 감지 레벨은`:`나의 똥차 감지 레벨은`}
+        ${nickname.trim()?`<span style="color:#fff;font-weight:900">${nickname}</span>의 나쁜 남자 감지 레벨은`:`나쁜 남자 감지 레벨은`}
       </div>
       <div style="font-size:28px;font-weight:900;color:${r.color};margin-bottom:8px">${r.grade}</div>
       <div style="font-size:17px;font-weight:700;color:#fff;margin-bottom:20px">${r.title}</div>
@@ -371,7 +387,7 @@ function renderResult(app){
       <div style="margin-bottom:24px">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:#555;margin-bottom:8px">
           <span>호구</span>
-          <span style="color:${r.color};font-weight:700">${totalScore} / 24점</span>
+          <span style="color:${r.color};font-weight:700">${totalScore} / 27점</span>
           <span>만렙</span>
         </div>
         <div class="score-bar-track">

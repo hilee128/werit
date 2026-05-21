@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>더 열받는 남친은? | werit</title>
+<meta name="description" content="월드컵 방식으로 뽑는 최고로 열받는 남친 유형 16강">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HHMKZ89GJ9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HHMKZ89GJ9');
+</script>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --text-m: #888;
+    --accent: #ff4d4d;
+    --accent2: #ff8c42;
+    --gold: #fbbf24;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Noto Sans KR', -apple-system, sans-serif;
+    min-height: 100dvh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .home-btn {
+    position: fixed; top: 16px; left: 16px; z-index: 999;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 99px; padding: 7px 14px;
+    font-size: 11px; font-weight: 700; color: var(--text-m);
+    text-decoration: none; transition: all 0.2s;
+  }
+  .home-btn:hover { border-color: var(--gold); color: var(--text); }
+  .home-btn span { color: var(--accent2); }
+
+  .screen { display: none; width: 100%; max-width: 480px; padding: 28px 20px; }
+  .screen.active { display: flex; flex-direction: column; align-items: center; }
+
+  /* INTRO */
+  .intro-emoji { font-size: 60px; margin-bottom: 20px; }
+  .badge {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 99px; padding: 6px 16px;
+    font-size: 11px; color: var(--text-m); letter-spacing: 1px; margin-bottom: 24px;
+  }
+  .title-main {
+    font-size: 28px; font-weight: 900; text-align: center; line-height: 1.3; margin-bottom: 10px;
+    background: linear-gradient(135deg, #ff4d4d, #ff8c42);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .title-sub { font-size: 14px; color: var(--text-m); text-align: center; line-height: 1.7; margin-bottom: 32px; }
+
+  .round-info {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 20px; margin-bottom: 28px;
+  }
+  .round-info-title { font-size: 11px; color: var(--text-m); margin-bottom: 14px; letter-spacing: 0.5px; }
+  .rounds-list { display: flex; flex-direction: column; gap: 8px; }
+  .round-item { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  .round-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+  .round-dot.on { background: var(--accent); }
+
+  .btn-start {
+    width: 100%; padding: 18px;
+    background: linear-gradient(135deg, #ff4d4d, #ff8c42);
+    border: none; border-radius: 14px;
+    font-size: 16px; font-weight: 800; color: #fff;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-start:active { transform: scale(0.97); }
+
+  /* QUIZ */
+  .round-label { font-size: 11px; color: var(--text-m); letter-spacing: 2px; margin-bottom: 6px; }
+  .match-label {
+    font-size: 24px; font-weight: 900; margin-bottom: 6px;
+    background: linear-gradient(135deg, #ff4d4d, #ff8c42);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .match-sub { font-size: 13px; color: var(--text-m); margin-bottom: 24px; }
+
+  .progress-bar {
+    width: 100%; height: 4px; background: var(--surface2);
+    border-radius: 99px; margin-bottom: 28px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, #ff4d4d, #ff8c42);
+    border-radius: 99px; transition: width 0.4s ease;
+  }
+
+  .vs-container { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+  .vs-divider { text-align: center; font-size: 16px; font-weight: 900; color: var(--text-m); letter-spacing: 4px; }
+  .choice-card {
+    width: 100%; background: var(--surface); border: 2px solid var(--border);
+    border-radius: 18px; padding: 22px 20px; cursor: pointer;
+    transition: all 0.18s; text-align: center;
+    min-height: 88px; display: flex; align-items: center; justify-content: center;
+  }
+  .choice-card:hover { border-color: var(--accent); background: #1a0d0d; }
+  .choice-card:active { transform: scale(0.97); }
+  .choice-card.selected { border-color: var(--accent); background: #1a0d0d; }
+  .choice-text { font-size: 15px; font-weight: 700; line-height: 1.55; }
+
+  /* RESULT */
+  .result-crown { font-size: 64px; margin-bottom: 12px; }
+  .result-badge {
+    background: linear-gradient(135deg, #ff4d4d20, #ff8c4220);
+    border: 1px solid var(--accent); border-radius: 12px;
+    padding: 6px 16px; font-size: 12px; color: var(--accent);
+    font-weight: 700; margin-bottom: 16px; letter-spacing: 1px;
+  }
+  .result-title { font-size: 20px; font-weight: 900; text-align: center; line-height: 1.4; margin-bottom: 20px; }
+  .result-winner {
+    width: 100%; background: var(--surface); border: 2px solid var(--accent);
+    border-radius: 18px; padding: 22px; margin-bottom: 16px; text-align: center;
+  }
+  .result-winner-label { font-size: 11px; color: var(--accent); letter-spacing: 2px; margin-bottom: 10px; font-weight: 700; }
+  .result-winner-text { font-size: 16px; font-weight: 800; line-height: 1.5; }
+  .result-desc { font-size: 14px; color: var(--text-m); text-align: center; line-height: 1.7; margin-bottom: 24px; }
+
+  .bracket-history { width: 100%; margin-bottom: 24px; }
+  .bracket-round-title { font-size: 11px; color: var(--text-m); letter-spacing: 1px; margin: 16px 0 8px; }
+  .bracket-match {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 4px; font-size: 12px; padding: 7px 10px;
+    background: var(--surface); border-radius: 8px;
+  }
+  .bw { color: var(--accent); font-weight: 700; flex: 1; }
+  .bl { color: var(--text-m); text-decoration: line-through; flex: 1; text-align: right; }
+  .bvs { color: var(--border); font-size: 10px; flex-shrink: 0; }
+
+  .btn-share {
+    width: 100%; padding: 16px;
+    background: linear-gradient(135deg, #ff4d4d, #ff8c42);
+    border: none; border-radius: 14px;
+    font-size: 14px; font-weight: 800; color: #fff;
+    cursor: pointer; margin-bottom: 10px; transition: all 0.2s;
+  }
+  .btn-share:active { transform: scale(0.97); opacity: 0.85; }
+
+  /* 공유 카드 (캡처용, 화면 밖에 렌더링) */
+  #share-card {
+    position: fixed; left: -9999px; top: 0;
+    width: 360px; background: #0a0a0a;
+    padding: 40px 32px 32px; display: flex; flex-direction: column;
+    align-items: center; font-family: 'Noto Sans KR', sans-serif;
+  }
+  #share-card .sc-top { font-size: 11px; color: #888; letter-spacing: 2px; margin-bottom: 20px; }
+  #share-card .sc-emoji { font-size: 52px; margin-bottom: 16px; }
+  #share-card .sc-label {
+    background: #1e1e1e; border: 1px solid #ff4d4d;
+    border-radius: 99px; padding: 5px 14px;
+    font-size: 11px; color: #ff4d4d; font-weight: 700;
+    letter-spacing: 1px; margin-bottom: 20px;
+  }
+  #share-card .sc-winner {
+    width: 100%; background: #141414; border: 2px solid #ff4d4d;
+    border-radius: 16px; padding: 20px; text-align: center; margin-bottom: 20px;
+  }
+  #share-card .sc-winner-label { font-size: 10px; color: #ff4d4d; letter-spacing: 2px; margin-bottom: 10px; font-weight: 700; }
+  #share-card .sc-winner-text { font-size: 17px; font-weight: 800; color: #f0f0f0; line-height: 1.5; }
+  #share-card .sc-desc { font-size: 12px; color: #888; text-align: center; line-height: 1.7; margin-bottom: 24px; }
+  #share-card .sc-footer {
+    width: 100%; display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid #2a2a2a; padding-top: 16px;
+  }
+  #share-card .sc-site { font-size: 13px; font-weight: 800; color: #f0f0f0; }
+  #share-card .sc-site span { color: #ff8c42; }
+  #share-card .sc-tag { font-size: 11px; color: #555; }
+  .btn-retry {
+    width: 100%; padding: 16px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 14px; font-size: 14px; font-weight: 700;
+    color: var(--text); cursor: pointer; transition: all 0.2s;
+  }
+  .btn-retry:hover { border-color: var(--gold); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade { animation: fadeUp 0.3s ease both; }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="home-btn">← werit<span>.</span></a>
+
+<!-- INTRO -->
+<div class="screen active" id="s-intro">
+  <div class="intro-emoji">😤</div>
+  <div class="badge">남친 버전 · 16강 월드컵</div>
+  <h1 class="title-main">더 열받는 남친은?</h1>
+  <p class="title-sub">16가지 열받는 상황 중<br>진짜 최고로 열받는 1개를 뽑아봐</p>
+  <div class="round-info">
+    <div class="round-info-title">🏆 토너먼트 구성</div>
+    <div class="rounds-list">
+      <div class="round-item"><div class="round-dot on"></div><span>16강 — 8경기</span></div>
+      <div class="round-item"><div class="round-dot"></div><span>8강 — 4경기</span></div>
+      <div class="round-item"><div class="round-dot"></div><span>4강 — 2경기</span></div>
+      <div class="round-item"><div class="round-dot"></div><span>결승 — 최최최종 우승자 결정!</span></div>
+    </div>
+  </div>
+  <button class="btn-start" onclick="start()">테스트 시작하기 →</button>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="s-quiz">
+  <div class="round-label" id="rlabel"></div>
+  <div class="match-label" id="mlabel"></div>
+  <div class="match-sub" id="msub">더 열받는 남친은?</div>
+  <div class="progress-bar"><div class="progress-fill" id="pfill"></div></div>
+  <div class="vs-container">
+    <div class="choice-card fade" id="ca" onclick="pick(0)"><div class="choice-text" id="ta"></div></div>
+    <div class="vs-divider">VS</div>
+    <div class="choice-card fade" id="cb" onclick="pick(1)"><div class="choice-text" id="tb"></div></div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="screen" id="s-result">
+  <div class="result-crown">🏆</div>
+  <div class="result-badge">최최최종 우승</div>
+  <h2 class="result-title">이게 진짜<br>제일 열받는다</h2>
+  <div class="result-winner">
+    <div class="result-winner-label">🔥 우승</div>
+    <div class="result-winner-text" id="rwinner"></div>
+  </div>
+  <p class="result-desc" id="rdesc"></p>
+  <div class="bracket-history" id="bhistory"></div>
+  <button class="btn-share" onclick="saveImage()">결과 이미지 저장 📸</button>
+  <button class="btn-retry" onclick="restart()">다시 해보기 🔄</button>
+</div>
+
+<!-- 공유 카드 (캡처용) -->
+<div id="share-card">
+  <div class="sc-top">😤 열받는 남친 월드컵</div>
+  <div class="sc-emoji">🏆</div>
+  <div class="sc-label">최최최종 우승</div>
+  <div class="sc-winner">
+    <div class="sc-winner-label">🔥 우승</div>
+    <div class="sc-winner-text" id="sc-winner-text"></div>
+  </div>
+  <div class="sc-desc" id="sc-desc-text"></div>
+  <div class="sc-footer">
+    <div class="sc-site">werit<span>.</span>com</div>
+    <div class="sc-tag">#열받는남친월드컵</div>
+  </div>
+</div>
+
+<script>
+const ITEMS = [
+  "인스타 스토리 올리면서 카톡 읽씹하는 남친",
+  "카톡 씹고 게임 실시간으로 하는 남친",
+  "고기 절대 안 굽고 집어먹기만 하는 남친",
+  "메뉴 안 고르면서 막상 시키면 \"그거 별론데?\" 하는 남친",
+  "약속 시간 다 됐는데 \"미안 지금 일어났어ㅠ\" 하는 남친",
+  "내가 틀리면 바로 지적하면서 자기가 틀리면 끝까지 우기는 남친",
+  "영화관 갔는데 시작한 지 10분 만에 잠자는 남친",
+  "꾸꾸꾸로 갔는데 집 앞 마실룩 입고 나온 남친",
+  "사진 찍어달라고 했더니 개밤티로 찍어주는 남친",
+  "내가 설명하는데 중간에 말 끊고 가르치려 하는 남친",
+  "결정장애 심해서 30분씩 걸리는 남친",
+  "내가 열심히 얘기했는데 딴짓하다가 \"뭐라고?\" 하는 남친",
+  "뭐 시킬 때마다 \"그거 맛있어?\"라며 뺏어먹는 남친",
+  "치킨 닭다리 2개 다 먹는 남친",
+  "내 의견 안 물어보고 맘대로 시키는 남친",
+  "길 잘못 들어왔는데 끝까지 이 길 맞다고 우기는 남친"
+];
+
+const DESCS = {
+  "인스타 스토리 올리면서 카톡 읽씹하는 남친": "스토리 올릴 시간은 있으면서 답장할 시간은 없다고? 말이 돼?",
+  "카톡 씹고 게임 실시간으로 하는 남친": "게임 채팅은 실시간인데 내 카톡은 씹힘. 우선순위가 뭔지 알 것 같다.",
+  "고기 절대 안 굽고 집어먹기만 하는 남친": "같이 왔으면 같이 구워야지. 나 혼자 구우면서 먹는 고기가 맛있겠어?",
+  "메뉴 안 고르면서 막상 시키면 \"그거 별론데?\" 하는 남친": "그럼 처음부터 고르든가!!",
+  "약속 시간 다 됐는데 \"미안 지금 일어났어ㅠ\" 하는 남친": "이미 다 준비하고 나가려던 나는... 다시 앉아야 함.",
+  "내가 틀리면 바로 지적하면서 자기가 틀리면 끝까지 우기는 남친": "이 기준 불공평한 거 본인은 모르는 건지 알면서 그러는 건지.",
+  "영화관 갔는데 시작한 지 10분 만에 잠자는 남친": "티켓값 누가 냈는지 알아? 그리고 나는 혼자 본 거잖아.",
+  "꾸꾸꾸로 갔는데 집 앞 마실룩 입고 나온 남친": "나는 한 시간 준비했는데... 저 옷은 어디서 꺼내온 거야.",
+  "사진 찍어달라고 했더니 개밤티로 찍어주는 남친": "1장에 눈 감겼는데 그냥 줌. 폰 놓기 전에 한 번만 확인해줘.",
+  "내가 설명하는데 중간에 말 끊고 가르치려 하는 남친": "내 말 끝까지 들어본 적 있어? 끊고 가르치려 드는 순간 진짜 할 말 없어짐.",
+  "결정장애 심해서 30분씩 걸리는 남친": "뭐 먹을지 고르는 데 30분... 배고파 죽겠는데.",
+  "내가 열심히 얘기했는데 딴짓하다가 \"뭐라고?\" 하는 남친": "\"뭐라고?\" 이 두 글자가 얼마나 열받는지 알아?",
+  "뭐 시킬 때마다 \"그거 맛있어?\"라며 뺏어먹는 남친": "맛있어 보이면 본인이 시키면 되잖아.",
+  "치킨 닭다리 2개 다 먹는 남친": "닭다리는 1인 1개야. 이건 진리야.",
+  "내 의견 안 물어보고 맘대로 시키는 남친": "나도 먹고 싶은 거 있거든? 같이 먹는 건데 왜 혼자 결정해.",
+  "길 잘못 들어왔는데 끝까지 이 길 맞다고 우기는 남친": "네비가 돌아가라는데 이 길이 맞다고? 우리 지금 어디 가는 거야."
+};
+
+const ROUND_NAMES = ["16강","8강","4강","결승"];
+const MATCH_COUNTS = [8, 4, 2, 1];
+let pool, nextPool, roundIdx, matchIdx, history;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function start() {
+  pool = shuffle(ITEMS);
+  nextPool = []; roundIdx = 0; matchIdx = 0; history = [];
+  show('s-quiz');
+  render();
+}
+
+function totalDone() {
+  let t = 0;
+  for (let r=0; r<roundIdx; r++) t += MATCH_COUNTS[r];
+  return t + matchIdx;
+}
+
+function render() {
+  const a = pool[matchIdx*2], b = pool[matchIdx*2+1];
+  document.getElementById('rlabel').textContent = ROUND_NAMES[roundIdx];
+  document.getElementById('mlabel').textContent = `${matchIdx+1}경기`;
+  document.getElementById('ta').textContent = a;
+  document.getElementById('tb').textContent = b;
+
+  const total = 15, done = totalDone();
+  document.getElementById('pfill').style.width = `${(done/total)*100}%`;
+
+  ['ca','cb'].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('selected','fade');
+    void el.offsetWidth;
+    el.classList.add('fade');
+  });
+}
+
+function pick(idx) {
+  const a = pool[matchIdx*2], b = pool[matchIdx*2+1];
+  const winner = idx===0 ? a : b, loser = idx===0 ? b : a;
+  document.getElementById(idx===0?'ca':'cb').classList.add('selected');
+  history.push({round: roundIdx, winner, loser});
+  nextPool.push(winner);
+  setTimeout(advance, 280);
+}
+
+function advance() {
+  matchIdx++;
+  if (matchIdx >= MATCH_COUNTS[roundIdx]) {
+    pool = [...nextPool]; nextPool = []; matchIdx = 0; roundIdx++;
+    if (roundIdx >= ROUND_NAMES.length) { showResult(pool[0]); return; }
+  }
+  render();
+}
+
+function showResult(champ) {
+  const desc = DESCS[champ] || "이건 진짜 못 참지...";
+  document.getElementById('rwinner').textContent = champ;
+  document.getElementById('rdesc').textContent = desc;
+  document.getElementById('pfill').style.width = '100%';
+  // 공유 카드 채우기
+  document.getElementById('sc-winner-text').textContent = champ;
+  document.getElementById('sc-desc-text').textContent = desc;
+
+  const rn = ["16강","8강","4강","결승"];
+  let html = '', pr = -1;
+  history.forEach(h => {
+    if (h.round !== pr) { html += `<div class="bracket-round-title">${rn[h.round]}</div>`; pr = h.round; }
+    html += `<div class="bracket-match"><span class="bw">${h.winner}</span><span class="bvs">vs</span><span class="bl">${h.loser}</span></div>`;
+  });
+  document.getElementById('bhistory').innerHTML = html;
+  show('s-result');
+}
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function restart() { show('s-intro'); }
+
+async function saveImage() {
+  const btn = document.querySelector('.btn-share');
+  btn.textContent = '저장 중...';
+  btn.disabled = true;
+  try {
+    const card = document.getElementById('share-card');
+    const canvas = await html2canvas(card, {
+      backgroundColor: '#0a0a0a', scale: 2,
+      useCORS: true, logging: false
+    });
+    const link = document.createElement('a');
+    link.download = 'werit-열받는남친.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  } catch(e) {
+    const w = document.getElementById('rwinner').textContent;
+    const text = `😤 열받는 남친 월드컵 결과\n\n🏆 최최최종 우승: ${w}\n\nwerit.com에서 테스트 해보기`;
+    navigator.clipboard.writeText(text).then(()=>alert('이미지 저장 실패 - 텍스트로 복사됐어요!'));
+  }
+  btn.textContent = '결과 이미지 저장 📸';
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>

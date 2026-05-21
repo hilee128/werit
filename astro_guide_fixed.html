@@ -4,14 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>내 차트 보는 법</title>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0EJTVD3H80"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag("js", new Date());
-  gtag("config", "G-0EJTVD3H80");
-</script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -377,29 +369,18 @@ body {
   color: rgba(255,255,255,0.2);
   letter-spacing: 0.15em;
 }
-
-.werit-home-btn {
-  position: fixed;
-  top: 16px;
-  left: 16px;
-  z-index: 9999;
-  background: #fff;
-  border: 1.5px solid #e5e5e5;
-  border-radius: 99px;
-  padding: 8px 16px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #111;
-  text-decoration: none;
-  font-family: 'Noto Sans KR', sans-serif;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.werit-home-btn:hover { border-color: #111; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
-.werit-home-btn .dot { color: #fb923c; font-size: 14px; font-weight: 900; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HHMKZ89GJ9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-HHMKZ89GJ9");
+</script>
+<style>
+.werit-home-btn{position:fixed;top:16px;left:16px;z-index:999;background:#fff;border:1px solid #e0e0e0;border-radius:99px;padding:7px 14px;font-size:11px;font-weight:700;color:#999;text-decoration:none;font-family:'Noto Sans KR',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:6px}
+.werit-home-btn:hover{border-color:#111;color:#111}
+.werit-home-btn .dot{color:#fb923c}
 </style>
 </head>
 <body>
@@ -413,7 +394,7 @@ body {
   </div>
   <div class="cover-bottom">
     <span class="cover-sub">Astrology Basic Guide</span>
-    <span class="cover-sub">해리쉬</span>
+    <span class="cover-sub">werit</span>
   </div>
 </div>
 
@@ -421,8 +402,8 @@ body {
 <div class="section">
   <div class="section-tag">시작하기 전에</div>
   <h2 class="section-title">차트가 뭔지부터</h2>
-  <p class="body">출생 차트는 내가 태어난 순간 하늘의 행성들이 어디에 있었는지를 기록한 지도야<br>장소, 날짜, 시간이 1분만 달라져도 차트가 바뀜</p>
-  <p class="body">태양자리만 아는 건 차트의 10%도 안 봐<br>달, 금성, 상승점(ASC)을 같이 봐야 진짜 보이기 시작해</p>
+  <p class="body">출생 차트는 내가 태어난 순간 하늘의 행성들이 어디에 있었는지를 기록한 지도야. 장소, 날짜, 시간이 1분만 달라져도 차트가 바뀜.</p>
+  <p class="body">태양자리만 아는 건 차트의 10%도 안 봐. 달, 금성, 상승점(ASC)을 같이 봐야 진짜 보이기 시작해.</p>
 
   <div class="callout">
     <div class="callout-text">태양자리는 <em>내가 되고 싶은 것.</em><br>달자리는 <em>내가 이미 느끼는 것.</em></div>
@@ -438,36 +419,36 @@ body {
     <div class="step">
       <div class="step-num">01</div>
       <div class="step-content">
-        <div class="step-title">astro-seek 접속 → Birth Chart</div>
-        <div class="step-body"><a href="https://horoscopes.astro-seek.com/birth-chart-horoscope-online" target="_blank">astro-seek.com</a></div>
+        <div class="step-title">astro-seek.com 접속</div>
+        <div class="step-body"><a href="https://astro-seek.com" target="_blank">astro-seek.com</a> → Birth Chart 클릭. 무료야.</div>
       </div>
     </div>
     <div class="step">
       <div class="step-num">02</div>
       <div class="step-content">
-        <div class="step-title">생년월일 · 시간 · 태어난 곳 입력</div>
-        <div class="step-body">일 → 월 → 연도 순서로 입력. 시간도 넣고, 태어난 곳은 영어로 입력해. 양력 기준이야. 시간을 모르면 <strong>Unknown time</strong>에 체크하고 계산해도 돼. 그 다음 Calculate 클릭.</div>
+        <div class="step-title">생년월일 + 시간 + 장소 입력</div>
+        <div class="step-body">출생 시간이 제일 중요해. 모르면 부모님한테 물어보거나 주민등록 발급 서류에 나오는 경우 있어.</div>
       </div>
     </div>
     <div class="step">
       <div class="step-num">03</div>
       <div class="step-content">
-        <div class="step-title">차트 아래 'GPT data' 클릭 → 전부 복사</div>
-        <div class="step-body">차트 이미지 밑으로 내리면 <strong>GPT data</strong> 버튼이 있어. 클릭하면 텍스트가 펼쳐지는데, 전부 선택해서 복사해.</div>
+        <div class="step-title">Positions 탭 + Aspects 탭 복사</div>
+        <div class="step-body">차트 이미지 캡처 + 텍스트 데이터 둘 다 저장해. 분석할 때 텍스트가 핵심이야.</div>
       </div>
     </div>
     <div class="step">
       <div class="step-num">04</div>
       <div class="step-content">
-        <div class="step-title">Claude 또는 ChatGPT에 붙여넣기</div>
-        <div class="step-body">복사한 데이터 붙여넣고, 아래 프롬프트랑 같이 보내면 돼.</div>
+        <div class="step-title">Claude에 붙여넣기</div>
+        <div class="step-body">이미지 + 텍스트 같이 올리고 분석 요청하면 됨.</div>
       </div>
     </div>
   </div>
 
   <div class="tip-box">
     <div class="tip-label">시간을 모를 때</div>
-    <div class="tip-text">Unknown time 체크하면 정오(12:00) 기준으로 계산돼. 달자리 정도는 확인 가능하지만 ASC(상승점)는 부정확할 수 있어.</div>
+    <div class="tip-text">정오(12:00)로 설정하면 달자리 정도는 확인 가능해. 단, ASC(상승점)는 틀릴 수 있어.</div>
   </div>
 </div>
 
@@ -475,7 +456,7 @@ body {
 <div class="section">
   <div class="section-tag">Step 02</div>
   <h2 class="section-title">행성이 뭘 말하는지</h2>
-  <p class="body">행성마다 담당하는 삶의 영역이 있어<br>사인은 "어떤 스타일로", 하우스는 "어떤 분야에서" 라고 보면 됨</p>
+  <p class="body">행성마다 담당하는 삶의 영역이 있어. 사인은 "어떤 스타일로", 하우스는 "어떤 분야에서" 라고 보면 됨.</p>
 
   <div class="planet-grid">
     <div class="planet-row">
@@ -549,7 +530,7 @@ body {
 <div class="section">
   <div class="section-tag">Step 03</div>
   <h2 class="section-title">하우스가 뭘 말하는지</h2>
-  <p class="body">차트는 12개 구역으로 나뉘어<br>행성이 어느 하우스에 있느냐 = 그 에너지가 삶의 어떤 분야에서 터지는지</p>
+  <p class="body">차트는 12개 구역으로 나뉘어. 행성이 어느 하우스에 있느냐 = 그 에너지가 삶의 어떤 분야에서 터지는지.</p>
 
   <div class="house-section">
     <div class="house-label">12 하우스 요약</div>
@@ -574,7 +555,7 @@ body {
 <div class="section">
   <div class="section-tag">Step 04</div>
   <h2 class="section-title">애스펙트가 뭘 말하는지</h2>
-  <p class="body">행성들이 서로 어떤 각도에 있느냐<br>협력하는 관계인지, 충돌하는 관계인지</p>
+  <p class="body">행성들이 서로 어떤 각도에 있느냐. 협력하는 관계인지, 충돌하는 관계인지.</p>
 
   <div class="aspect-card good">
     <div class="aspect-name">트라인 △ (120도)</div>
@@ -606,21 +587,18 @@ body {
 <!-- 분석 요청법 -->
 <div class="section">
   <div class="section-tag">Step 05</div>
-  <h2 class="section-title">Claude · ChatGPT한테<br>분석 요청하는 법</h2>
-  <p class="body">GPT data 복사한 거 붙여넣고, 아래 프롬프트 3개를 같이 보내면 돼<br>사인이랑 하우스는 본인 차트 기준으로 바꿔서 써</p>
+  <h2 class="section-title">Claude한테<br>분석 요청하는 법</h2>
+  <p class="body">차트 캡처 + Positions/Aspects 텍스트 복사해서 같이 올리고 이 프롬프트 쓰면 돼.</p>
 
   <div class="callout">
-    <div class="callout-text" style="font-size:14px; font-family:'Noto Sans KR', sans-serif; font-weight:300; line-height:2.1;">
-      Q1. 달의 사인 + 하우스 + 루러 상태 + 애스펙트를 교차해서 분석해줘. 이 사람이 감정적으로 마음을 여는 실제 조건이 뭔지 — 어떤 환경에서, 어떤 사람 앞에서, 어떤 상황일 때 열리는지 구체적으로<br><br>
-      Q2. 금성의 사인 + 하우스 + 애스펙트를 교차 분석해줘. 이 사람이 무의식적으로 매력을 느끼는 것들 — 겉으로 말하는 이상형이 아니라 실제로 끌리는 타입과 상황. 로맨틱 필터 없이<br><br>
-      Q3. 달과 금성이 이 차트에서 서로 어떻게 작용하는지 봐줘. 감정(달)과 욕망(금성) 사이에 충돌하는지, 아니면 서로 강화하는지<br><br>
-      말투는 친한 친구한테 설명하듯이
+    <div class="callout-text" style="font-size:15px; font-family:'Noto Sans KR', sans-serif; font-weight:300; line-height:2;">
+      첨부한 차트 데이터 기반으로 분석해줘.<br><br>
+      1. 달이랑 금성 사인/하우스/애스펙트 교차 분석<br>
+      2. 달 → 감정적으로 마음 열리는 실제 조건<br>
+      3. 금성 → 무의식적으로 끌리는 것들. 이상형 말고 진짜로<br>
+      4. 달이랑 금성 충돌하는지 강화하는지<br><br>
+      꾸미지 말고 날카롭게. 말투는 친한 친구한테 설명하듯이.
     </div>
-  </div>
-
-  <div class="tip-box">
-    <div class="tip-label">더 정확하게 받고 싶다면</div>
-    <div class="tip-text">Q1, Q2에서 괄호 안을 본인 차트 정보로 채워서 보내봐. 예) 달의 사인(전갈자리) + 하우스(1하우스) 이런 식으로. 맥락이 구체적일수록 답이 날카로워져.</div>
   </div>
 </div>
 
@@ -632,7 +610,7 @@ body {
     맞다 틀리다가 아니라<br>
     "아 그래서 그랬구나"가 나오면 된 거야.
   </p>
-  <div class="closing-tag">해리쉬 · 2026</div>
+  <div class="closing-tag">werit · 2026</div>
 </div>
 
 </body>

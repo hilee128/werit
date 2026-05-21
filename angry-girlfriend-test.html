@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>더 열받는 여친은? | werit</title>
+<meta name="description" content="월드컵 방식으로 뽑는 최고로 열받는 여친 유형 16강">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HHMKZ89GJ9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HHMKZ89GJ9');
+</script>
+<style>
+  :root {
+    --bg: #0a0d0a;
+    --surface: #111811;
+    --surface2: #1a221a;
+    --border: #2a362a;
+    --text: #e8f0e8;
+    --text-m: #7a9a7a;
+    --accent: #4ade80;
+    --accent2: #86efac;
+    --gold: #fbbf24;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Noto Sans KR', -apple-system, sans-serif;
+    min-height: 100dvh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .home-btn {
+    position: fixed; top: 16px; left: 16px; z-index: 999;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 99px; padding: 7px 14px;
+    font-size: 11px; font-weight: 700; color: var(--text-m);
+    text-decoration: none; transition: all 0.2s;
+  }
+  .home-btn:hover { border-color: var(--gold); color: var(--text); }
+  .home-btn span { color: var(--accent2); }
+  .screen { display: none; width: 100%; max-width: 480px; padding: 28px 20px; }
+  .screen.active { display: flex; flex-direction: column; align-items: center; }
+  .intro-emoji { font-size: 60px; margin-bottom: 20px; }
+  .badge {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 99px; padding: 6px 16px;
+    font-size: 11px; color: var(--text-m); letter-spacing: 1px; margin-bottom: 24px;
+  }
+  .title-main {
+    font-size: 28px; font-weight: 900; text-align: center; line-height: 1.3; margin-bottom: 10px;
+    background: linear-gradient(135deg, #4ade80, #86efac);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .title-sub { font-size: 14px; color: var(--text-m); text-align: center; line-height: 1.7; margin-bottom: 32px; }
+  .round-info {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 20px; margin-bottom: 28px;
+  }
+  .round-info-title { font-size: 11px; color: var(--text-m); margin-bottom: 14px; }
+  .rounds-list { display: flex; flex-direction: column; gap: 8px; }
+  .round-item { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  .round-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+  .round-dot.on { background: var(--accent); }
+  .btn-start {
+    width: 100%; padding: 18px;
+    background: linear-gradient(135deg, #4ade80, #86efac);
+    border: none; border-radius: 14px;
+    font-size: 16px; font-weight: 800; color: #0a0d0a;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-start:active { transform: scale(0.97); }
+  .round-label { font-size: 11px; color: var(--text-m); letter-spacing: 2px; margin-bottom: 6px; }
+  .match-label {
+    font-size: 24px; font-weight: 900; margin-bottom: 6px;
+    background: linear-gradient(135deg, #4ade80, #86efac);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .match-sub { font-size: 13px; color: var(--text-m); margin-bottom: 24px; }
+  .progress-bar {
+    width: 100%; height: 4px; background: var(--surface2);
+    border-radius: 99px; margin-bottom: 28px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, #4ade80, #86efac);
+    border-radius: 99px; transition: width 0.4s ease;
+  }
+  .vs-container { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+  .vs-divider { text-align: center; font-size: 16px; font-weight: 900; color: var(--text-m); letter-spacing: 4px; }
+  .choice-card {
+    width: 100%; background: var(--surface); border: 2px solid var(--border);
+    border-radius: 18px; padding: 22px 20px; cursor: pointer;
+    transition: all 0.18s; text-align: center;
+    min-height: 88px; display: flex; align-items: center; justify-content: center;
+  }
+  .choice-card:hover { border-color: var(--accent); background: #0d160d; }
+  .choice-card:active { transform: scale(0.97); }
+  .choice-card.selected { border-color: var(--accent); background: #0d160d; }
+  .choice-text { font-size: 15px; font-weight: 700; line-height: 1.55; }
+  .result-crown { font-size: 64px; margin-bottom: 12px; }
+  .result-badge {
+    background: linear-gradient(135deg, #4ade8020, #86efac20);
+    border: 1px solid var(--accent); border-radius: 12px;
+    padding: 6px 16px; font-size: 12px; color: var(--accent);
+    font-weight: 700; margin-bottom: 16px; letter-spacing: 1px;
+  }
+  .result-title { font-size: 20px; font-weight: 900; text-align: center; line-height: 1.4; margin-bottom: 20px; }
+  .result-winner {
+    width: 100%; background: var(--surface); border: 2px solid var(--accent);
+    border-radius: 18px; padding: 22px; margin-bottom: 16px; text-align: center;
+  }
+  .result-winner-label { font-size: 11px; color: var(--accent); letter-spacing: 2px; margin-bottom: 10px; font-weight: 700; }
+  .result-winner-text { font-size: 16px; font-weight: 800; line-height: 1.5; }
+  .result-desc { font-size: 14px; color: var(--text-m); text-align: center; line-height: 1.7; margin-bottom: 24px; }
+  .bracket-history { width: 100%; margin-bottom: 24px; }
+  .bracket-round-title { font-size: 11px; color: var(--text-m); letter-spacing: 1px; margin: 16px 0 8px; }
+  .bracket-match {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 4px; font-size: 12px; padding: 7px 10px;
+    background: var(--surface); border-radius: 8px;
+  }
+  .bw { color: var(--accent); font-weight: 700; flex: 1; }
+  .bl { color: var(--text-m); text-decoration: line-through; flex: 1; text-align: right; }
+  .bvs { color: var(--border); font-size: 10px; flex-shrink: 0; }
+  .btn-share {
+    width: 100%; padding: 16px;
+    background: linear-gradient(135deg, #4ade80, #86efac);
+    border: none; border-radius: 14px;
+    font-size: 14px; font-weight: 800; color: #0a0d0a;
+    cursor: pointer; margin-bottom: 10px; transition: all 0.2s;
+  }
+  .btn-share:active { transform: scale(0.97); opacity: 0.85; }
+  .btn-retry {
+    width: 100%; padding: 16px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 14px; font-size: 14px; font-weight: 700;
+    color: var(--text); cursor: pointer; transition: all 0.2s;
+  }
+  .btn-retry:hover { border-color: var(--gold); }
+  #share-card {
+    position: fixed; left: -9999px; top: 0;
+    width: 360px; background: #0a0d0a;
+    padding: 40px 32px 32px; display: flex; flex-direction: column;
+    align-items: center; font-family: 'Noto Sans KR', sans-serif;
+  }
+  #share-card .sc-top { font-size: 11px; color: #7a9a7a; letter-spacing: 2px; margin-bottom: 20px; }
+  #share-card .sc-emoji { font-size: 52px; margin-bottom: 16px; }
+  #share-card .sc-label {
+    background: #1a221a; border: 1px solid #4ade80;
+    border-radius: 99px; padding: 5px 14px;
+    font-size: 11px; color: #4ade80; font-weight: 700;
+    letter-spacing: 1px; margin-bottom: 20px;
+  }
+  #share-card .sc-winner {
+    width: 100%; background: #111811; border: 2px solid #4ade80;
+    border-radius: 16px; padding: 20px; text-align: center; margin-bottom: 20px;
+  }
+  #share-card .sc-winner-label { font-size: 10px; color: #4ade80; letter-spacing: 2px; margin-bottom: 10px; font-weight: 700; }
+  #share-card .sc-winner-text { font-size: 17px; font-weight: 800; color: #e8f0e8; line-height: 1.5; }
+  #share-card .sc-desc { font-size: 12px; color: #7a9a7a; text-align: center; line-height: 1.7; margin-bottom: 24px; }
+  #share-card .sc-footer {
+    width: 100%; display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid #2a362a; padding-top: 16px;
+  }
+  #share-card .sc-site { font-size: 13px; font-weight: 800; color: #e8f0e8; }
+  #share-card .sc-site span { color: #86efac; }
+  #share-card .sc-tag { font-size: 11px; color: #444; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  .fade { animation: fadeUp 0.3s ease both; }
+</style>
+</head>
+<body>
+<a href="index.html" class="home-btn">← werit<span>.</span></a>
+<div class="screen active" id="s-intro">
+  <div class="intro-emoji">😤</div>
+  <div class="badge">여친 버전 · 16강 월드컵</div>
+  <h1 class="title-main">더 열받는 여친은?</h1>
+  <p class="title-sub">16가지 열받는 상황 중<br>진짜 최고로 열받는 1개를 뽑아봐</p>
+  <div class="round-info">
+    <div class="round-info-title">🏆 토너먼트 구성</div>
+    <div class="rounds-list">
+      <div class="round-item"><div class="round-dot on"></div><span>16강 — 8경기</span></div>
+      <div class="round-item"><div class="round-dot"></div><span>8강 — 4경기</span></div>
+      <div class="round-item"><div class="round-dot"></div><span>4강 — 2경기</span></div>
+      <div class="round-item"><div class="round-dot"></div><span>결승 — 최최최종 우승자 결정!</span></div>
+    </div>
+  </div>
+  <button class="btn-start" onclick="start()">테스트 시작하기 →</button>
+</div>
+<div class="screen" id="s-quiz">
+  <div class="round-label" id="rlabel"></div>
+  <div class="match-label" id="mlabel"></div>
+  <div class="match-sub" id="msub">더 열받는 여친은?</div>
+  <div class="progress-bar"><div class="progress-fill" id="pfill"></div></div>
+  <div class="vs-container">
+    <div class="choice-card fade" id="ca" onclick="pick(0)"><div class="choice-text" id="ta"></div></div>
+    <div class="vs-divider">VS</div>
+    <div class="choice-card fade" id="cb" onclick="pick(1)"><div class="choice-text" id="tb"></div></div>
+  </div>
+</div>
+<div class="screen" id="s-result">
+  <div class="result-crown">🏆</div>
+  <div class="result-badge">최최최종 우승</div>
+  <h2 class="result-title">이게 진짜<br>제일 열받는다</h2>
+  <div class="result-winner">
+    <div class="result-winner-label">🔥 우승</div>
+    <div class="result-winner-text" id="rwinner"></div>
+  </div>
+  <p class="result-desc" id="rdesc"></p>
+  <div class="bracket-history" id="bhistory"></div>
+  <button class="btn-share" onclick="saveImage()">결과 이미지 저장 📸</button>
+  <button class="btn-retry" onclick="restart()">다시 해보기 🔄</button>
+</div>
+<div id="share-card">
+  <div class="sc-top">😤 열받는 여친 월드컵</div>
+  <div class="sc-emoji">🏆</div>
+  <div class="sc-label">최최최종 우승</div>
+  <div class="sc-winner">
+    <div class="sc-winner-label">🔥 우승</div>
+    <div class="sc-winner-text" id="sc-winner-text"></div>
+  </div>
+  <div class="sc-desc" id="sc-desc-text"></div>
+  <div class="sc-footer">
+    <div class="sc-site">werit<span>.</span>com</div>
+    <div class="sc-tag">#열받는여친월드컵</div>
+  </div>
+</div>
+<script>
+const ITEMS = [
+  "인스타 스토리 올리면서 카톡 읽씹하는 여친",
+  "갖고 싶은 거 스토리로 계속 보내는 여친",
+  "릴스 하루에 30개씩 보내는 여친",
+  "3박 4일 여행에 캐리어 3개 챙기는 여친",
+  "여행 가서 화장하는 데 3시간 걸리는 여친",
+  "맛집 웨이팅 3시간 고집하는 여친",
+  "옷 입는 데 매번 1시간 걸리는 여친",
+  "뭐 고를 때마다 \"이거 어때?\" 계속 물어보는 여친",
+  "올리브영 1시간 쇼핑하고 하나도 안 사는 여친",
+  "뭐 먹을 때마다 \"한입만\" 하는 여친",
+  "다이어트 중이라 치킨 못 먹는다는 여친",
+  "사진 잘 나올 때까지 계속 찍어달라는 여친",
+  "드라마 보다가 결말 스포 검색하는 여친",
+  "내가 게임할 때 옆에서 말 거는 여친",
+  "치킨 닭다리 2개 다 먹는 여친",
+  "내 의견 안 물어보고 맘대로 시키는 여친"
+];
+const DESCS = {
+  "인스타 스토리 올리면서 카톡 읽씹하는 여친": "스토리 올릴 시간은 있으면서 답장할 시간은 없다고?",
+  "갖고 싶은 거 스토리로 계속 보내는 여친": "하루에 10개... 20개... 이게 힌트야 직접 사달라는 거야?",
+  "릴스 하루에 30개씩 보내는 여친": "알림이 30개. 카톡 열면 릴스 폭탄. 이건 공유가 아니라 테러야.",
+  "3박 4일 여행에 캐리어 3개 챙기는 여친": "3박 4일에 캐리어 3개... 이민 가는 거야?",
+  "여행 가서 화장하는 데 3시간 걸리는 여친": "여행지에서 3시간 대기. 오전이 통째로 날아감.",
+  "맛집 웨이팅 3시간 고집하는 여친": "3시간 웨이팅... 그 시간에 다른 맛집 세 군데는 갔다.",
+  "옷 입는 데 매번 1시간 걸리는 여친": "편의점 가는 것도 1시간. 약속 시간은 항상 내가 대신 늦어짐.",
+  "뭐 고를 때마다 \"이거 어때?\" 계속 물어보는 여친": "내가 고르는 것도 아니고 본인이 고르는데 왜 나한테 물어봐.",
+  "올리브영 1시간 쇼핑하고 하나도 안 사는 여친": "1시간 기다렸는데 빈손. 그냥 구경하러 온 거였어?",
+  "뭐 먹을 때마다 \"한입만\" 하는 여친": "한입만이 세 번이면 내 거 반이 없어진다.",
+  "다이어트 중이라 치킨 못 먹는다는 여친": "치킨 먹고 싶었는데... 나도 같이 못 먹는 거잖아.",
+  "사진 잘 나올 때까지 계속 찍어달라는 여친": "47장째... 이제 팔이 떨어질 것 같아.",
+  "드라마 보다가 결말 스포 검색하는 여친": "같이 보자고 해서 틀었더니 결말을 이미 알고 있음.",
+  "내가 게임할 때 옆에서 말 거는 여친": "지금 한창 게임 중인데... 타이밍이 왜 항상 이래.",
+  "치킨 닭다리 2개 다 먹는 여친": "닭다리는 1인 1개야. 이건 진리야.",
+  "내 의견 안 물어보고 맘대로 시키는 여친": "나도 먹고 싶은 거 있거든? 같이 먹는 건데 왜 혼자 결정해."
+};
+const ROUND_NAMES = ["16강","8강","4강","결승"];
+const MATCH_COUNTS = [8,4,2,1];
+let pool, nextPool, roundIdx, matchIdx, history;
+function shuffle(arr) {
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function start(){pool=shuffle(ITEMS);nextPool=[];roundIdx=0;matchIdx=0;history=[];show('s-quiz');render();}
+function totalDone(){let t=0;for(let r=0;r<roundIdx;r++)t+=MATCH_COUNTS[r];return t+matchIdx;}
+function render(){
+  const a=pool[matchIdx*2],b=pool[matchIdx*2+1];
+  document.getElementById('rlabel').textContent=ROUND_NAMES[roundIdx];
+  document.getElementById('mlabel').textContent=`${matchIdx+1}경기`;
+  document.getElementById('ta').textContent=a;
+  document.getElementById('tb').textContent=b;
+  document.getElementById('pfill').style.width=`${(totalDone()/15)*100}%`;
+  ['ca','cb'].forEach(id=>{const el=document.getElementById(id);el.classList.remove('selected','fade');void el.offsetWidth;el.classList.add('fade');});
+}
+function pick(idx){
+  const a=pool[matchIdx*2],b=pool[matchIdx*2+1];
+  const winner=idx===0?a:b,loser=idx===0?b:a;
+  document.getElementById(idx===0?'ca':'cb').classList.add('selected');
+  history.push({round:roundIdx,winner,loser});
+  nextPool.push(winner);
+  setTimeout(advance,280);
+}
+function advance(){
+  matchIdx++;
+  if(matchIdx>=MATCH_COUNTS[roundIdx]){
+    pool=[...nextPool];nextPool=[];matchIdx=0;roundIdx++;
+    if(roundIdx>=ROUND_NAMES.length){showResult(pool[0]);return;}
+  }
+  render();
+}
+function showResult(champ){
+  const desc=DESCS[champ]||"이건 진짜 못 참지...";
+  document.getElementById('rwinner').textContent=champ;
+  document.getElementById('rdesc').textContent=desc;
+  document.getElementById('pfill').style.width='100%';
+  document.getElementById('sc-winner-text').textContent=champ;
+  document.getElementById('sc-desc-text').textContent=desc;
+  const rn=["16강","8강","4강","결승"];
+  let html='',pr=-1;
+  history.forEach(h=>{
+    if(h.round!==pr){html+=`<div class="bracket-round-title">${rn[h.round]}</div>`;pr=h.round;}
+    html+=`<div class="bracket-match"><span class="bw">${h.winner}</span><span class="bvs">vs</span><span class="bl">${h.loser}</span></div>`;
+  });
+  document.getElementById('bhistory').innerHTML=html;
+  show('s-result');
+}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function restart(){show('s-intro');}
+async function saveImage(){
+  const btn=document.querySelector('.btn-share');
+  btn.textContent='저장 중...';btn.disabled=true;
+  try{
+    const canvas=await html2canvas(document.getElementById('share-card'),{backgroundColor:'#0a0d0a',scale:2,useCORS:true,logging:false});
+    const link=document.createElement('a');
+    link.download='werit-열받는여친.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  }catch(e){
+    const w=document.getElementById('rwinner').textContent;
+    navigator.clipboard.writeText(`😤 열받는 여친 월드컵\n\n🏆 ${w}\n\nwerit.com`).then(()=>alert('텍스트로 복사됐어요!'));
+  }
+  btn.textContent='결과 이미지 저장 📸';btn.disabled=false;
+}
+</script>
+</body>
+</html>
